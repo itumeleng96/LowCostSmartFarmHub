@@ -15,8 +15,7 @@ Smart Farm Hub
 
 
 
-
-Python Boilerplate contains all the boilerplate you need to create a Python package.
+Machine Interface API for a Zigbee Wireless Network and Cloud Based API for a smart farm hub written in Python 
 
 
 * Free software: MIT license
