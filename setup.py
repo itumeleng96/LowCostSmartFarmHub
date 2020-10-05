@@ -43,7 +43,7 @@ setup(
     include_package_data=True,
     keywords='LowCostSmartFarmHub',
     name='LowCostSmartFarmHub',
-    packages=find_packages(include=['LowCostSmartFarmHub', 'LowCostSmartFarmHub.*']),
+    packages=find_packages(include=['LowCostSmartFarmHub','LowCostSmartFarmHub/gateway_api','LowCostSmartFarmHub.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
