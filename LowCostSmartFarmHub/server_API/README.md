@@ -54,10 +54,9 @@ Create data directories, with write access for the Mosquitto and Grafana contain
 Run docker compose:
 
 ```sh
-   cd 00-docker
+   cd docker
    docker-compose up -d
 ```
-
 This starts four containers on your *server*: Mosquitto, InfluxDB, Grafana folder.  You can check that
 they are nicely up and running with
 
