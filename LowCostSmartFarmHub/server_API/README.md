@@ -1,8 +1,10 @@
 This Folder Contains the Docker.yml file and other folders for running the Server Applications
 
--MQTT Server on Port 1883
--Influx DB on Port 8086
--Grafana on Port 3000
+MQTT Server on Port 1883
+
+Influx DB on Port 8086
+
+Grafana on Port 3000
 
 The work is based on [Gautier Mechling](https://github.com/Nilhcem)'s
 [home-monitoring-grafana](https://github.com/Nilhcem/home-monitoring-grafana)
@@ -31,6 +33,20 @@ For Linux (Ubuntu or other Debian based), just use `apt install`:
 
 For anything else, follow the [official instructions](https://docs.docker.com/install/).
 
+### Manage docker as a non-root user
+
+In Linux, if you don't want to use `sudo` in the front of every `docker` or
+`docker-compose` command below, you need to assing yourself to the `docker` group.
+You can follow the [official instructions](https://docs.docker.com/install/linux/linux-postinstall/).
+
+For the Low Cost Smart Farm Hub Ubuntu default VM, just give the following command:
+```sh
+   sudo usermod -aG docker ${user}
+```
+
+Log out from your SSH session (or terminal) and log in again (or open new terminal).
+
+
 ## Running Mosquitto + InfluxDB + Grafana in docker, in your *server*
 
 Set the `DATA_DIR` environment variable to the path where will be stored local data, e.g. `/tmp`
@@ -54,12 +70,10 @@ Create data directories, with write access for the Mosquitto and Grafana contain
 Run docker compose:
 
 ```sh
-   cd 00-docker
+   cd docker
    docker-compose up -d
 ```
-
-This starts four containers on your *server*: Mosquitto, InfluxDB, Grafana, and
-the Mosquitto-to-InfluxDB bridge from the `02-bridge` folder.  You can check that
+This starts four containers on your *server*: Mosquitto, InfluxDB, Grafana folder.  You can check that
 they are nicely up and running with
 
 ```sh
@@ -68,7 +82,7 @@ they are nicely up and running with
 
 You should see all the four containers running continuously, and not restarting.
 If any of them is restarting, you can use `docker logs <container-name>` to see its
-logs, or `docker exec -it <container-name> sh` to run a shell in the container.
+logs, or `docker exec -it <container-name> sh` to run a shell in the conta:wqiner.
 
 To shut down your containers, e.g. if you need to change the settings, run
 ```sh
@@ -78,8 +92,6 @@ To shut down your containers, e.g. if you need to change the settings, run
 You can now test your Granafa at http://<your-server-ip>:3000.  See below how to
 log in to and configure Grafana, and how to get the data flowing.
 
-The Mosquitto username and passwords are `mqttuser` and `mqttpassword`.
-To change these, see the **Optional: Update mosquitto credentials** section below.
 
 ## Grafana setup
 
