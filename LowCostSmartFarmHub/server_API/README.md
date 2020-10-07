@@ -78,8 +78,6 @@ To shut down your containers, e.g. if you need to change the settings, run
 You can now test your Granafa at http://<your-server-ip>:3000.  See below how to
 log in to and configure Grafana, and how to get the data flowing.
 
-The Mosquitto username and passwords are `mqttuser` and `mqttpassword`.
-To change these, see the **Optional: Update mosquitto credentials** section below.
 
 ## Grafana setup
 
