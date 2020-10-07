@@ -1,7 +1,9 @@
 This Folder Contains the Docker.yml file and other folders for running the Server Applications
 
 MQTT Server on Port 1883
+
 Influx DB on Port 8086
+
 Grafana on Port 3000
 
 The work is based on [Gautier Mechling](https://github.com/Nilhcem)'s
