@@ -1,8 +1,8 @@
 This Folder Contains the Docker.yml file and other folders for running the Server Applications
 
--MQTT Server on Port 1883
--Influx DB on Port 8086
--Grafana on Port 3000
+MQTT Server on Port 1883
+Influx DB on Port 8086
+Grafana on Port 3000
 
 The work is based on [Gautier Mechling](https://github.com/Nilhcem)'s
 [home-monitoring-grafana](https://github.com/Nilhcem/home-monitoring-grafana)
@@ -58,8 +58,7 @@ Run docker compose:
    docker-compose up -d
 ```
 
-This starts four containers on your *server*: Mosquitto, InfluxDB, Grafana, and
-the Mosquitto-to-InfluxDB bridge from the `02-bridge` folder.  You can check that
+This starts four containers on your *server*: Mosquitto, InfluxDB, Grafana folder.  You can check that
 they are nicely up and running with
 
 ```sh
@@ -68,7 +67,7 @@ they are nicely up and running with
 
 You should see all the four containers running continuously, and not restarting.
 If any of them is restarting, you can use `docker logs <container-name>` to see its
-logs, or `docker exec -it <container-name> sh` to run a shell in the container.
+logs, or `docker exec -it <container-name> sh` to run a shell in the conta:wqiner.
 
 To shut down your containers, e.g. if you need to change the settings, run
 ```sh
