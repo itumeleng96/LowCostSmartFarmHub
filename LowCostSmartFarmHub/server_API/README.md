@@ -33,6 +33,20 @@ For Linux (Ubuntu or other Debian based), just use `apt install`:
 
 For anything else, follow the [official instructions](https://docs.docker.com/install/).
 
+### Manage docker as a non-root user
+
+In Linux, if you don't want to use `sudo` in the front of every `docker` or
+`docker-compose` command below, you need to assing yourself to the `docker` group.
+You can follow the [official instructions](https://docs.docker.com/install/linux/linux-postinstall/).
+
+For the Low Cost Smart Farm Hub Ubuntu default VM, just give the following command:
+```sh
+   sudo usermod -aG docker ${user}
+```
+
+Log out from your SSH session (or terminal) and log in again (or open new terminal).
+
+
 ## Running Mosquitto + InfluxDB + Grafana in docker, in your *server*
 
 Set the `DATA_DIR` environment variable to the path where will be stored local data, e.g. `/tmp`
