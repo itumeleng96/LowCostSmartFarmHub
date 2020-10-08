@@ -36,20 +36,12 @@ class NodeDevice:
                 self.sensors.remove(sensor)
 
     # Add Actuator to Node Device
-    def addActuator(self,sensor):
-        self.actuators.append(actuators)
+    def addActuator(self,actuator):
+        self.actuators.append(actuator)
         #Trigger some event to read sensor Value and send to Broker
 
     #Remove Sensor from Node Device
-    def removeSensor(self,actuatorID):
-        for actuator in self.actuator:
+    def removeActuator(self,actuatorID):
+        for actuator in self.actuators:
             if actuator.actuatorID==actuatorID:
-                self.actuator.remove(actuator)
-    
-    #Connect Node to UART Stream for Communication with uC or RPI 
-    def connectUARTStream(self,usb_connect,RX_pin,TX_pin):
-        #Trigger Transmission Between Coordinator Node and Gateway
-        #
-        #
-
-        
+                self.actuators.remove(actuator)

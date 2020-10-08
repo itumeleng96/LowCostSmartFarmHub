@@ -1,50 +1,57 @@
 #RPI3B+ Gateway
 
-#Pin connection for sensors,actuators and Coordinator Node
-#Pin 1        : 3.3V <--->Sensor 1,2,3 (VCC)
-#Pin 2	      : 5V   <--->Low Voltage Actuator 
-#Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
-#Pin 9,30     : GND  <--->Sensor and Actuator GND
+'''Pin connection for sensors,actuators and Coordinator Node
+   Pin 1        : 3.3V <--->Sensor 1,2,3 (VCC)
+   Pin 2              : 5V   <--->Low Voltage Actuator
+   Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
+   Pin 9,30     : GND  <--->Sensor and Actuator GND
+'''
 
+import sensor
+import actuator
+import nodeDevice
+from digi.xbee.devices import XBeeDevice
 
 class Gateway:
-	
-	#Initialize Gateway Object
-	def __init__(self,deviceName,sensors,actuators,location,nodeDevices,panID):
-		self.deviceName=deviceName		#Name of the Gateway Device (RPI3b+)
-		self.sensors=sensors			#A List of all the sensors connected directly to Gateway
-		self.actuators=actuators 		#A List of all the actuators connected directly to Gateway
-		self.location=location			#Location of the Gateway
-		self.nodeDevices=nodeDevices 		#A list of all the Node Devices connected to the Network
-		self.panID=panID 			#Every zigbee network has a PAN ID that all devices in the network share
-	
-	
-	def addSensor(self,sensor:Sensor):	
-		self.sensors.append(sensor)
-	def removeSensor(self,sensor.sensorID)
-		
+    
+    '''This class provides functionality for the Gateway Device'''
+    deviceName:str
+    sensors:[]
+    actuators:[]
+    location:str
+    nodeDevices:[]
+    pamID:str
 
-	def addActuator(self,actuator:Actuator):
-		self.actuators.append(actuators)
+    def __init__(self,deviceName,sensors,actuators,location,nodeDevices,panID):
+        self.deviceName=deviceName
+        self.sensors=sensors
+        self.actuators=actuators
+        self.location=location
+        self.nodeDevices=nodeDevices
+        self.panID=panID
 	
-	def removeActuator(self,actuator.actuatorID):
-	
-	
-	def addNewZigbeeDevice(self,nodeDevice:NodeDevice):
-		self.nodeDevices.append(NodeDevice)
-	
-	def searchForZigbeeDevices(self):
-		#Some Code to Send to The coordinator Node to get search for New Devices
-		#
-	def connectNewStreamUART(self):
-		#Some code to allow the RPI3B+ to communicate with Coordinator Through USB-UART	 
-		#Some connection initialization Code
-	def sendDataToBroker(self,topic,payload):
-		#Call MQTT client function to publish Data to Broker
-		#
-	def startMQTTBroker(self):
-		#Some Code to call MQTT paho Client Function to start Connection With Broker
-	def stopMQTTBroker(self):
-		#Some code to stop MQTT Client Connection
-		#
-	
+    def addSensor(self,sensor:sensor):
+        self.sensors.append(sensor)
+    #def    removeSensor(self,sensor.sensorID):
+        #
+
+    def  addActuator(self,actuator:actuator):
+        self.actuators.append(actuator)
+        
+    #def    removeActuator(self,actuator.actuatorID):
+        #
+        
+    def addNewZigbeeDevice(self,nodeDevice:nodeDevice):
+        self.nodeDevices.append(nodeDevice)
+        
+    #def    searchForZigbeeDevices(self):
+        # Some Code to Send to The coordinator Node to get search for New Devices
+    
+    #Connect to Local Zigbee Device (Serial Port)
+    def connectNewStreamUART(self,comPort):
+        # Code to allow the RPI3B+ to communicate with Coordinator Through USB-UART         
+        localXbee=XbeeDevice(comPort,9600)  #With Baudrate:9600
+        localXbee.open() 
+
+    #Update Device Nodes Firmware
+    #Def updateFirmware():
