@@ -26,7 +26,7 @@ Features
 --------
 
 * Add a range of Zigbee Devices or Sensors to a RPI machine interface
-* Connect to the Web API to monitor and control the wireless sensor network remotely
+* Connect to the Web application to monitor and control the wireless sensor network remotely
 
 Credits
 -------
