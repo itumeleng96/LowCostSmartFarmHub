@@ -15,7 +15,7 @@ Smart Farm Hub
 
 
 
-Machine Interface API for a Zigbee Wireless Network and Cloud Based API for a smart farm hub written in Python 
+Gateway API for a Zigbee Wireless Network and Cloud Based API for a smart farm hub written in Python 
 
 
 * Free software: MIT license
@@ -32,6 +32,7 @@ Credits
 -------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+The server Docker container instructions were adopted from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
