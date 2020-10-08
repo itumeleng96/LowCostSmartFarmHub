@@ -5,11 +5,13 @@
    Pin 2              : 5V   <--->Low Voltage Actuator
    Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
    Pin 9,30     : GND  <--->Sensor and Actuator GND
+   USB          : USB  <--->UART Xbee 
 '''
 
 import sensor
 import actuator
 import nodeDevice
+import time
 from digi.xbee.devices import XBeeDevice
 
 class Gateway:
@@ -19,10 +21,11 @@ class Gateway:
     sensors:[]
     actuators:[]
     location:str
-    nodeDevices:[]
-    pamID:str
+    nodeDevices:[]            #All the Node Devices(Xbee) in the Network 
+    panID:str                 #The Unique Zigbee Network Identifier
+    localXBee:XBeeDevice      #The Local Zigbee device used as Coordinator through serial Port
 
-    def __init__(self,deviceName,sensors,actuators,location,nodeDevices,panID):
+    def __init__(self,deviceName,sensors,actuators,location,nodeDevices,panID=None):
         self.deviceName=deviceName
         self.sensors=sensors
         self.actuators=actuators
@@ -44,14 +47,25 @@ class Gateway:
     def addNewZigbeeDevice(self,nodeDevice:nodeDevice):
         self.nodeDevices.append(nodeDevice)
         
-    #def    searchForZigbeeDevices(self):
-        # Some Code to Send to The coordinator Node to get search for New Devices
-    
     #Connect to Local Zigbee Device (Serial Port)
     def connectNewStreamUART(self,comPort):
         # Code to allow the RPI3B+ to communicate with Coordinator Through USB-UART         
-        localXbee=XbeeDevice(comPort,9600)  #With Baudrate:9600
-        localXbee.open() 
+        localXBee=XBeeDevice(comPort,9600)  #With Baudrate:9600
+        localXBee.open()
+        self.panID=localXBee.get_pan_id()   #Set the PanID
+    
+    #Discover Devices on the Network
+    def discoverZigbeeDevices(self):
+        #Get Xbee network object from the Xbee Device
+        xnet=self.localXBee.get_network()
+        #Start the discovery process and wait for it to be over
+        while xnet.is_discovery_running():
+            time.sleep(0.5)
 
+        #Get the List of Devices added to the Network and Add to Node Devices        
+        devices = xnet.get_devices()
+        print(devices)
+        #....
+        
     #Update Device Nodes Firmware
     #Def updateFirmware():
