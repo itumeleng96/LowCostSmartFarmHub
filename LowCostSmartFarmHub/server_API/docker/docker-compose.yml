@@ -32,12 +32,12 @@ services:
     volumes:
       - ${DATA_DIR}/grafana:/var/lib/grafana
     restart: always
-  nginx:
-    image: nginx:latest
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  mqttbridge:
+    build: ../mqtt-influx-bridge
+    image: smart-farm-hub/mqttbridge
+    container_name: mqttbridge
     depends_on:
-      - grafana
+      - mosquitto
+      - influxdb
     restart: always

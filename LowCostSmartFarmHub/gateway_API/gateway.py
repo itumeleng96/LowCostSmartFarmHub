@@ -1,8 +1,8 @@
-#RPI3B+ Gateway
+#RPI:3B+ Gateway
 
 '''Pin connection for sensors,actuators and Coordinator Node
    Pin 1        : 3.3V <--->Sensor 1,2,3 (VCC)
-   Pin 2              : 5V   <--->Low Voltage Actuator
+   Pin 2        : 5V   <--->Low Voltage Actuator
    Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
    Pin 9,30     : GND  <--->Sensor and Actuator GND
    USB          : USB  <--->UART Xbee 
@@ -25,7 +25,7 @@ class Gateway:
     panID:str                 #The Unique Zigbee Network Identifier
     localXBee:XBeeDevice      #The Local Zigbee device used as Coordinator through serial Port
 
-    def __init__(self,deviceName,sensors,actuators,location,nodeDevices,panID=None):
+    def __init__(self,deviceName,sensors=None,actuators=None,location,nodeDevices=None,panID=None):
         self.deviceName=deviceName
         self.sensors=sensors
         self.actuators=actuators
@@ -35,7 +35,7 @@ class Gateway:
 	
     def addSensor(self,sensor:sensor):
         self.sensors.append(sensor)
-    #def    removeSensor(self,sensor.sensorID):
+    #def removeSensor(self,sensor.sensorID):
         #
 
     def  addActuator(self,actuator:actuator):
@@ -66,6 +66,27 @@ class Gateway:
         devices = xnet.get_devices()
         print(devices)
         #....
-        
-    #Update Device Nodes Firmware
-    #Def updateFirmware():
+     
+    #RPI Read Function
+    #def readGPIOPin():
+    
+    #def sendCommandGPIOPin():
+
+    #XBee Read and Send Command Functions
+    #def readLocalXbeeAnalogPin(Xbee3Pin,XbeeLocalObject):
+    #def communicateLocalXbeeDigitalPin(Xbee3Pin,XbeeNodeDevice):
+    #def readRemoteXbeeAnalogPin(Xbee3Pin,XbeeNodeDevice):
+    #def communicateRemoteXbeeDigitalPin(Xbee3Pin,XbeeNodeDevice):
+    
+    #Update Xbee Devices  Firmware
+    #def updateFirmware():
+        #Update Local Xbee Device 
+        #Update Remote Xbee Device
+
+    #Initialize Node Device Pin When Sensor is Added and Ping Sensor
+    #def addSensorToXbee()
+
+    #Initialize RPI Device Pin when sensor is added
+
+    
+    

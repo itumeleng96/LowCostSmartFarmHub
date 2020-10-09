@@ -1,4 +1,4 @@
-#Some of the code was adapted from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana/blob/master/02-bridge/main.py
+#Some of the code was created from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana/blob/master/02-bridge/main.py
 
 #This script will recieve MQTT data and save it to a influx Database
 
@@ -35,12 +35,10 @@ def _init_influxdb_database():
     influxdb_client.switch_database(INFLUXDB_DATABASE)
 
 def main:
-
     time.sleep(10)
     print('Connecting to the database ' + INFLUXDB_DATABASE)
     _init_influxdb_database()
-    
-
+        
 if __name__ == '__main__':
     print('MQTT to InfluxDB bridge')
     main()
