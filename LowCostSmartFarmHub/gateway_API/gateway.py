@@ -67,5 +67,7 @@ class Gateway:
         print(devices)
         #....
         
-    #Update Device Nodes Firmware
-    #Def updateFirmware():
+    #Update Xbee Devices  Firmware
+    #def updateFirmware():
+        #Update Local Xbee Device 
+        #Update Remote Xbee Device
