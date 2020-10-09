@@ -1,4 +1,4 @@
-#Some of the code was adapted from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana/blob/master/02-bridge/main.py
+#Some of the code was created from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana/blob/master/02-bridge/main.py
 
 #This script will recieve MQTT data and save it to a influx Database
 
