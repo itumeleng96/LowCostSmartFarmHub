@@ -32,7 +32,9 @@ Credits
 -------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-The server Docker container instructions were adopted from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+
+The server Docker container instructions were adopted from https://github.com/iothon/docker-compose-mqtt-influxdb-grafana
