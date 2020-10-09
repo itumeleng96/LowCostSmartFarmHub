@@ -35,12 +35,10 @@ def _init_influxdb_database():
     influxdb_client.switch_database(INFLUXDB_DATABASE)
 
 def main:
-
     time.sleep(10)
     print('Connecting to the database ' + INFLUXDB_DATABASE)
     _init_influxdb_database()
-    
-
+        
 if __name__ == '__main__':
     print('MQTT to InfluxDB bridge')
     main()
