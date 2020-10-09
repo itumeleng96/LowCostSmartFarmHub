@@ -50,11 +50,10 @@ class Gateway:
     #Connect to Local Zigbee Device (Serial Port)
     def connectNewStreamUART(self,comPort):
         # Code to allow the RPI3B+ to communicate with Coordinator Through USB-UART         
-        
         localXBee=XBeeDevice(comPort,9600)  #With Baudrate:9600
         localXBee.open()
         self.panID=localXBee.get_pan_id()   #Set the PanID
-        return self.panID
+    
     #Discover Devices on the Network
     def discoverZigbeeDevices(self):
         #Get Xbee network object from the Xbee Device
