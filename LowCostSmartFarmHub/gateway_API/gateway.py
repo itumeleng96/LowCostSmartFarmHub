@@ -2,7 +2,7 @@
 
 '''Pin connection for sensors,actuators and Coordinator Node
    Pin 1        : 3.3V <--->Sensor 1,2,3 (VCC)
-   Pin 2              : 5V   <--->Low Voltage Actuator
+   Pin 2        : 5V   <--->Low Voltage Actuator
    Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
    Pin 9,30     : GND  <--->Sensor and Actuator GND
    USB          : USB  <--->UART Xbee 
