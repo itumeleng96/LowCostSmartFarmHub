@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-  
+from gateway import Gateway
 import time
 
 #The callback for when the client receives a CONNACK response from the server.
@@ -16,13 +16,19 @@ def on_message(client, userdata, msg):
 
 
 def main():
+
+    #Initialize Gateway object from gateway
+    gateway=Gateway("RPI","farm1",[],[],[],"")
+    print("Connecting to Local XBee through UART")
+    gateway.connectNewUARTStream()
     time.sleep(10)
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
+    #Connecting to MQTT Broker
     client.connect("192.168.101.148", 1883, 60)
     client.loop_forever()
-
+    
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')

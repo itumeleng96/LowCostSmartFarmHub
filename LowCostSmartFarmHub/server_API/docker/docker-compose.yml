@@ -32,3 +32,12 @@ services:
     volumes:
       - ${DATA_DIR}/grafana:/var/lib/grafana
     restart: always
+
+  mqttbridge:
+    build: ../mqtt-influx-bridge
+    image: smart-farm-hub/mqttbridge
+    container_name: mqttbridge
+    depends_on:
+      - mosquitto
+      - influxdb
+    restart: always
