@@ -19,18 +19,18 @@ def main():
 
     #Initialize Gateway object from gateway
     gateway=Gateway("RPI","farm1",[],[],[],"")
-    print("Connecting to Local XBee through UART")
-    gateway.connectNewStreamUART("/dev/ttyUSB0")
-    print("Searching for Remote Zigbee Devices")
-    devices=gateway.discoverZigbeeDevices()
-    gateway.control_actuator_on_gateway(12)
+    #print("Connecting to Local XBee through UART")
+    #gateway.connectNewStreamUART("/dev/ttyUSB0")
+    #print("Searching for Remote Zigbee Devices")
+    #devices=gateway.discoverZigbeeDevices()
+    gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)
     #time.sleep(10)
     #print("Connecting To MQTT Broker")
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
+    #client = mqtt.Client()
+    #client.on_connect = on_connect
+    #client.on_message = on_message
    # Connecting to MQTT Broker
    # client.connect("192.168.101.148", 1883, 60)
    # client.loop_forever()
