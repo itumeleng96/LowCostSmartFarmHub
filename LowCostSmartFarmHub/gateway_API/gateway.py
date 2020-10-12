@@ -41,9 +41,11 @@ class Gateway:
 		Returns:
 		    State of the Controlled Device
         """
+        
         light_actuator=Actuator("RGB LED",1,"light-actuator","LED RGB 8X Hat")
         light_actuator.control_ws28x1_light(digital_input_pin)
 
+        
     def addNewZigbeeDevice(self,nodeName,nodeType,xbeeDevice:XBeeDevice):
         """
         Adds the  Zigbee Device to  the Gateway Node Devices
