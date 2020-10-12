@@ -9,8 +9,8 @@
 '''
 
 import  sensor
-from	actuator import  Actuator
-from    nodeDevice import  NodeDevice
+from	actuator    import  Actuator
+from    nodeDevice  import  NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 
@@ -32,16 +32,16 @@ class Gateway:
         self.nodeDevices=nodeDevices
         self.panID=panID
     def control_actuator_on_gateway(self,digital_input_pin,digital_output_pin=None):
-	"""
-	To control the actuator/light through digital communication on specified Pins
+	    """
+	    To control the actuator/light through digital communication on specified Pins
 		Args:
-		digital_input_pin (Integer) : Input Pin number on Gateway Device (RPI)
-		digital_output_pin (Integer): Output Pin Number on Gateway Device 
+		    digital_input_pin (Integer) : Input Pin number on Gateway Device (RPI)
+		    digital_output_pin (Integer): Output Pin Number on Gateway Device 
 
 		Returns:
-		State of the Controlled Device
-	""" 
-        light_actuator=Actuator("RGB LED",1,"light-actuator","This is a 8X4 LED RGB Strip")
+		    State of the Controlled Device
+        """
+        light_actuator=Actuator("RGB LED",1,"light-actuator","LED RGB 8X Hat")
         light_actuator.control_ws28x1_light(digital_input_pin)
 
     def addNewZigbeeDevice(self,nodeName,nodeType,xbeeDevice:XBeeDevice):
