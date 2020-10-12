@@ -9,7 +9,7 @@
 
 #This Class defines the Node Devices on the Network
 
-
+from    digi.xbee.devices   import XBeeDevice
 
 class NodeDevice:
     nodeName:str
@@ -19,10 +19,10 @@ class NodeDevice:
     actuators:[]
     macAddress:str
     batteryLevel:str
-    XbeeObject
+    XbeeObject:XBeeDevice
 
     # Initialize Node Object	
-     def __init__(self,nodeName,nodeType,macAddress,sensors=None,actuators=None,location=None,batteryLevel=None):
+    def __init__(self,nodeName,nodeType,macAddress,sensors=None,actuators=None,location=None,batteryLevel=None):
         self.nodeName=nodeName              #Xbee3 node,zigbee device
         self.nodeType=nodeType              #Coordinator,End-Device,Router
         self.location=location              #Location of node device,e.g Farm1 lat:28298383 lng:937373
