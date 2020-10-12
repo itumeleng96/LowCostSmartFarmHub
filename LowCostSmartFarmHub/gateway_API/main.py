@@ -23,7 +23,7 @@ def main():
     gateway.connectNewStreamUART("/dev/ttyUSB0")
     print("Searching for Remote Zigbee Devices")
     devices=gateway.discoverZigbeeDevices()
-    gateway.control_actuator_on_gateway(32)
+    gateway.control_actuator_on_gateway(12)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)
     #time.sleep(10)

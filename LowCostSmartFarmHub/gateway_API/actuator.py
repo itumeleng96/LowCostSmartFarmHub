@@ -1,5 +1,5 @@
 import time
-from rpi_ws281x import Color, PixelStrip, ws
+from rpi_ws281x import *
 
 class Actuator:
     actuatorName:str
