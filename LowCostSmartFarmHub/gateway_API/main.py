@@ -23,9 +23,11 @@ def main():
     gateway.connectNewStreamUART("/dev/ttyUSB0")
     print("Searching for Remote Zigbee Devices")
     devices=gateway.discoverZigbeeDevices()
-    print(devices)
-    time.sleep(10)
-    print("Connecting To MQTT Broker")
+    gateway.control_actuator_on_gateway(32)
+    #gateway.addNewZigbeeDevice("Xbee3","End-node",)
+    #print(devices)
+    #time.sleep(10)
+    #print("Connecting To MQTT Broker")
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
