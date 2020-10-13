@@ -63,7 +63,7 @@ class NodeDevice:
             sensor (Sensor) : The sensor object
         """
         sensor_value=sensor.read_digital_xbee_sensor(self.XbeeObject,io_digital_pin)
-        print(sensor.sensorName+" value is:"+sensor_value)
+        print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure)
     
     def read_analog_sensor(self,analog_pin,sensor:Sensor):
         """
@@ -74,5 +74,6 @@ class NodeDevice:
             sensor (Sensor): The sensor object
         """
         sensor_value=sensor.read_analog_xbee_sensor(self.XbeeObject,analog_pin)
-        print(sensor_value)
+        print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure)
+
      

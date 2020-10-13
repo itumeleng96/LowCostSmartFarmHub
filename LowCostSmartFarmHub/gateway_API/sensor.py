@@ -8,13 +8,15 @@ class Sensor:
     sensorType:str
     sensorValues:[]
     description:str
+    unit_of_measure:str
     
-    def __init__(self,sensorName,sensorID,sensorType,description,sensorValues=None):
+    def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=None):
         self.sensorName=sensorName      #Every Sensor on the network has a name
         self.sensorID=sensorID          #Every Sensor on the network has a unique ID
         self.sensorType=sensorType      #I2C,ADC,DIO
         self.sensorValues=sensorValues  #[recent sensor values]
         self.description=description    #More information about sensor ,humidity,Temperature
+        self.unit_of_measure=unit_of_measure    #The unit of measure (percentage,degrees,grams of water per unit of air)
         
     def read_analog_xbee_sensor(self,XbeeDevice:XBeeDevice,sensor_analog_pin):
         """
@@ -35,6 +37,10 @@ class Sensor:
        
         XbeeDevice.set_io_configuration(IOLine.DIO0_AD0,IOMode.ADC)
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
+
+        #Convert 10 Bit ADC value to percentage of water content in soil
+        sensor_value=float(sensor_value/1023.0)*100 
+        
         #raise Exception('The selected pin does not support Analog');
         
         return sensor_value
