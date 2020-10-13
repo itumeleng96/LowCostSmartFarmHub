@@ -62,8 +62,9 @@ class Gateway:
 
         print("Adding Zigbee Device to Network")
         print(xbeeDevice.read_device_info())
-	xnet=self.localXBee.get_network()
+        xnet=self.localXBee.get_network()
         xnet.add_remote(xbeeDevice)
+        
         #nodeDevice.macAddress=
         #nodeDevice.XbeeObject=
         #nodeDevice=NodeDevice(nodeName,nodeType)
@@ -104,7 +105,7 @@ class Gateway:
 	    
         #Get the List of Devices added to the Network and Add to Node Devices        
         devices = xnet.get_devices()
-	xnet.add_remotes(devices)
+        xnet.add_remotes(devices)
         return  devices
 
     #def add_sensor_to_gateway(self,sensor:sensor):
