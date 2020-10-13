@@ -31,8 +31,12 @@ def main():
     node_device.read_analog_sensor(0,sensor)
     print("Searching for Remote Zigbee Devices")
     devices=gateway.discoverZigbeeDevices()
-    print(devices)
+    #Remote Node Device
     print("Testing digital sensor on Remote Node")
+    sensor1=Sensor("DHT1","XCVE","Temperature and Humidity","This sensor measures humidity and temperature","Degrees and Humid")
+    node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
+    node_device_1.XbeeObject=devices[0]
+    node_device_1.read_digital_sensor(0,sensor1)
     #gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)

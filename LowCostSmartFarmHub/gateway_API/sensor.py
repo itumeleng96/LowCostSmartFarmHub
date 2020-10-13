@@ -39,11 +39,11 @@ class Sensor:
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
 
         #Convert 10 Bit ADC value to percentage of water content in soil
-        sensor_value=round(float(sensor_value/1023.0)*100,2) 
-        
+        sensor_value=float(sensor_value/1023.0)*100 
+
         #raise Exception('The selected pin does not support Analog');
         
-        return str(sensor_value)
+        return sensor_value
 
     
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
@@ -55,7 +55,21 @@ class Sensor:
             xbee_device (XBee Device): The Xbee module object that represents the XBee module 3 in the network
             io_digital_pin (Integer) : The digital IO pin that the sensor is connected to
         """
-        temperature_value = 0          #In degrees celcius
-        humidity_value=0               #In relative humidity
+        #temperature_value = 0          #In degrees celcius
+        #humidity_value=0               #In relative humidity
+        
+        #Use the DHT11 Guideline to communicate with sensor
+        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_HIGH)
+        #Send Low Signal To sensor to start reading
+        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_LOW)
+        #Sleep for 18 milliseconds to trigger sensor communicatation
+        time.sleep(0.018) 
+        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_HIGH)
+        #Set to input and read values
+        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_IN)
+        #Set Get 5 data segments from sensor 
+        value=xbee_device.get_dio_value(IOLine.DIO0_AD0)
+        print(value)
+        
         
                           
