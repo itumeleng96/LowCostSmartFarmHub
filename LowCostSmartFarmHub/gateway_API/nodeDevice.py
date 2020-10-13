@@ -10,6 +10,7 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
+from    sensor  import Sensor
 
 class NodeDevice:
     nodeName:str
@@ -52,3 +53,26 @@ class NodeDevice:
         for actuator in self.actuators:
             if actuator.actuatorID==actuatorID:
                 self.actuators.remove(actuator)
+
+    def read_digital_sensor(self,io_digital_pin:int,sensor:Sensor):
+        """
+        This provides functionality for getting sensor values from a digital pin on Xbee3 Module
+
+        Args:
+            io_digital_pin (Integer): The digital pin that sensor is connected to
+            sensor (Sensor) : The sensor object
+        """
+        sensor_value=sensor.read_digital_xbee_sensor(self.XbeeObject,io_digital_pin)
+        print(sensor_value)
+    
+    def read_analog_sensor(self,analog_pin,sensor:Sensor):
+        """
+        This provides functionality for getting sensor value from analog Pin on this Node
+
+        Args:
+            analog_pin (Integer): The analog pin that sensor is connected to
+            sensor (Sensor): The sensor object
+        """
+        sensor_value=sensor.read_analog_xbee_sensor(self.XbeeObject,analog_pin)
+        print(sensor_value)
+     

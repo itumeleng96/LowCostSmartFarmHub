@@ -81,7 +81,7 @@ class Gateway:
         localXBee.open()
         self.panID=localXBee.get_pan_id()   #Set the PanID
         self.localXBee=localXBee
-        return
+        
 
     def discoverZigbeeDevices(self):
         """

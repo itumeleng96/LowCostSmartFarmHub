@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt
 from    gateway import  Gateway
 import time
+from    nodeDevice import NodeDevice
+from    sensor  import Sensor
 
 #The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -19,11 +21,18 @@ def main():
 
     #Initialize Gateway object from gateway
     gateway=Gateway("RPI","farm1",[],[],[],"")
-    #print("Connecting to Local XBee through UART")
-    #gateway.connectNewStreamUART("/dev/ttyUSB0")
+    print("Connecting to Local XBee through UART")
+    gateway.connectNewStreamUART("/dev/ttyUSB0")
+    #Create Node Device
+    sensor=Sensor("Soil Moisture Sensor","XCVD","Capacitive Analog Sensor","This sesnor is used to measure soil mositure on local Node")
+    node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
+    node_device.XbeeObject=gateway.localXBee
+    node_device.read_analog_sensor(0,sensor)
+    
+
     #print("Searching for Remote Zigbee Devices")
     #devices=gateway.discoverZigbeeDevices()
-    gateway.control_actuator_on_gateway(18)
+    #gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)
     #time.sleep(10)
@@ -31,9 +40,9 @@ def main():
     #client = mqtt.Client()
     #client.on_connect = on_connect
     #client.on_message = on_message
-   # Connecting to MQTT Broker
-   # client.connect("192.168.101.148", 1883, 60)
-   # client.loop_forever()
+    #Connecting to MQTT Broker
+    #client.connect("192.168.101.148", 1883, 60)
+    #client.loop_forever()
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
