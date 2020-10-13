@@ -74,6 +74,6 @@ class NodeDevice:
             sensor (Sensor): The sensor object
         """
         sensor_value=sensor.read_analog_xbee_sensor(self.XbeeObject,analog_pin)
-        print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure)
+        print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure+" on "+self.nodeName)
 
      
