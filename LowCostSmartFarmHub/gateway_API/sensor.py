@@ -69,8 +69,8 @@ class Sensor:
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_IN)
         #Set Get 5 data segments from sensor 
         print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
-	time.sleep(0.054)
-	print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
+        time.sleep(0.054)
+        print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
         
         
         
