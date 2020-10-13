@@ -10,8 +10,9 @@ import time
 INFLUXDB_ADDRESS = 'influxdb'
 INFLUXDB_USER = 'root'
 INFLUXDB_PASSWORD = 'root'
-INFLUXDB_DATABASE = 'iothon_db'
+INFLUXDB_DATABASE = 'smartFarmHub'
 
+MQTT_TOPIC = 'data/#' 
 influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, 8086, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
 
 def on_connect(client, userdata, flags, rc):
@@ -23,9 +24,10 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     """The callback for when a PUBLISH message is received from the server."""
     print(msg.topic + ' ' + str(msg.payload))
-    sensor_data = _parse_mqtt_message(msg.topic, msg.payload.decode('utf-8'))
-    if sensor_data is not None:
-        _send_sensor_data_to_influxdb(sensor_data)
+    #sensor_data = _parse_mqtt_message(msg.topic, msg.payload.decode('utf-8'))
+    #if sensor_data is not None:
+    #    _send_sensor_data_to_influxdb(sensor_data)
+
 
 def _init_influxdb_database():
     databases = influxdb_client.get_list_database()
@@ -34,11 +36,11 @@ def _init_influxdb_database():
         influxdb_client.create_database(INFLUXDB_DATABASE)
     influxdb_client.switch_database(INFLUXDB_DATABASE)
 
-def main:
+def main():
     time.sleep(10)
     print('Connecting to the database ' + INFLUXDB_DATABASE)
     _init_influxdb_database()
-        
+
 if __name__ == '__main__':
     print('MQTT to InfluxDB bridge')
     main()
