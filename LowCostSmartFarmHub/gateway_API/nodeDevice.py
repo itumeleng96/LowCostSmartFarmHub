@@ -62,8 +62,8 @@ class NodeDevice:
             io_digital_pin (Integer): The digital pin that sensor is connected to
             sensor (Sensor) : The sensor object
         """
-        sensor_value=sensor.read_digital_xbee_sensor(self.XbeeObject,io_digital_pin)
-        print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure)
+        sensor.read_digital_xbee_sensor(self.XbeeObject,io_digital_pin)
+        #print(sensor.sensorName+" value is:"+sensor_value+" "+sensor.unit_of_measure)
     
     def read_analog_sensor(self,analog_pin,sensor:Sensor):
         """

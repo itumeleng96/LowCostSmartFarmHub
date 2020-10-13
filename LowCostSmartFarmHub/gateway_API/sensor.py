@@ -29,7 +29,7 @@ class Sensor:
             
         
         Returns:
-            Sensor Values
+            Sensor Value
         """
         sensor_value=0
 
@@ -39,11 +39,11 @@ class Sensor:
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
 
         #Convert 10 Bit ADC value to percentage of water content in soil
-        sensor_value=float(sensor_value/1023.0)*100 
+        sensor_value=round(float(sensor_value/1023.0)*100,2) 
 
         #raise Exception('The selected pin does not support Analog');
         
-        return sensor_value
+        return str(sensor_value)
 
     
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
@@ -68,8 +68,10 @@ class Sensor:
         #Set to input and read values
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_IN)
         #Set Get 5 data segments from sensor 
-        value=xbee_device.get_dio_value(IOLine.DIO0_AD0)
-        print(value)
+        print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
+	time.sleep(0.054)
+	print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
+        
         
         
                           
