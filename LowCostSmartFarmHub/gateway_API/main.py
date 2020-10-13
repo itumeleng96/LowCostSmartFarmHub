@@ -24,14 +24,15 @@ def main():
     print("Connecting to Local XBee through UART")
     gateway.connectNewStreamUART("/dev/ttyUSB0")
     #Create Node Device
+    print("Testing analog sensor on Local Node")
     sensor=Sensor("Soil Moisture Sensor","XCVD","Capacitive Analog Sensor","This sesnor is used to measure soil mositure on local Node","%")
     node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
     node_device.XbeeObject=gateway.localXBee
     node_device.read_analog_sensor(0,sensor)
-
-
-    #print("Searching for Remote Zigbee Devices")
-    #devices=gateway.discoverZigbeeDevices()
+    print("Searching for Remote Zigbee Devices")
+    devices=gateway.discoverZigbeeDevices()
+    print(devices)
+    print("Testing digital sensor on Remote Node")
     #gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)
