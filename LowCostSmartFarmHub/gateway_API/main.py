@@ -55,6 +55,7 @@ def main():
     client.loop_forever()
     while True:
          time.sleep(5)
+         
          sensor_value=node_device.read_analog_sensor(0,sensor)
          payload_dict={"sensor_name":sensor.sensorName,"sensor_id":sensor.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor.u$
          payload=json.dumps(payload_dict)
