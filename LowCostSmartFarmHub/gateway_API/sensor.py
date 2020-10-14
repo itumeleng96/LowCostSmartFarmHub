@@ -60,7 +60,7 @@ class Sensor:
         
         #Use the DHT11 Guideline to communicate with sensor
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_HIGH)
-	time.sleep(.5)
+        time.sleep(.5)
         #Send Low Signal To sensor to start reading
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_LOW)
         #Sleep for 18 milliseconds to trigger sensor communicatation
@@ -89,4 +89,4 @@ class Sensor:
                     break
 
         print("This is the Data:",data)
-	print("Length of Data:",len(data))
+        print("Length of Data:",len(data))
