@@ -54,12 +54,11 @@ def main():
     client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
     client.loop_forever()
     while True:
-         time.sleep(5)
-         
-         sensor_value=node_device.read_analog_sensor(0,sensor)
-         payload_dict={"sensor_name":sensor.sensorName,"sensor_id":sensor.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor.u$
-         payload=json.dumps(payload_dict)
-         client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
+        time.sleep(5)
+        sensor_value=node_device.read_analog_sensor(0,sensor)
+        payload_dict={"sensor_name":sensor.sensorName,"sensor_id":sensor.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor.unit_of_measure}}
+        payload=json.dumps(payload_dict)
+        client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
