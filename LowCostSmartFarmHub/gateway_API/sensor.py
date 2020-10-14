@@ -67,11 +67,24 @@ class Sensor:
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_HIGH)
         #Set to input and read values
         xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_IN)
-        #Set Get 5 data segments from sensor 
-        print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
-        time.sleep(0.054)
-        print(xbee_device.get_dio_value(IOLine.DIO0_AD0))
         
-        
-        
-                          
+        #Get 5 data segments from sensor 
+        unchanged_count=0
+        max_unchanged_count=100
+
+        last=-1
+        data=[]
+
+        while True:
+            current=xbee_device.get_dio_value(IOLine.DIO0_AD0)
+            data.append(current)
+
+            if last !=current:
+                unchanged_count=0
+                last=current
+            else:
+                unchanged_count+=1
+                if unchanged_count>max_unchanged_count:
+                    break
+
+        print("This is the Data:",data)
