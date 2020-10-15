@@ -29,8 +29,7 @@ def main():
     node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
     node_device.XbeeObject=gateway.localXBee
     sensor_value=node_device.read_analog_sensor(0,sensor)
-
-    print("Searching for Remote Zigbee Devices")
+    print(sensor_value)
     devices=gateway.discoverZigbeeDevices()
 
     #Remote Node Device
@@ -38,7 +37,7 @@ def main():
     sensor1=Sensor("DHT11","XCVE","Temperature and Humidity","This sensor measures humidity and temperature","Degrees and Humid")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
     node_device_1.XbeeObject=devices[0]
-    print(node_device_1.read_digital_sensor(0,sensor1))
+    node_device_1.read_digital_sensor(0,sensor1)
     
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)
