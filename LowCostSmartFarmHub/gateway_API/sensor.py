@@ -62,7 +62,7 @@ class Sensor:
         
         #Instance for DHT11 
         instance=dht11.DHT11(xbee_device)
-
+        print("Created DHT11 instance nore reading values")
         try:
             while True:
                 result = instance.read()
@@ -73,6 +73,9 @@ class Sensor:
 	                print("Humidity: %-3.1f %%" % result.humidity)
 
 	                time.sleep(6)
+                else:
+                    print("Result is not valid")
+                    break
 
         except KeyboardInterrupt:
             print("Cleanup")
