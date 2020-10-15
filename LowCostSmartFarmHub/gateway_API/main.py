@@ -24,21 +24,20 @@ def main():
     print("Connecting to Local XBee through UART")
     gateway.connectNewStreamUART("/dev/ttyUSB0")
     
-    print("Testing analog sensor on Local Node")
-    sensor=Sensor("soil_moisture_sensor","XCVD","Capacitive Analog Sensor","This sesnor is used to measure soil mositure on local Node","%")
+    #print("Testing Digital sensor on Local Node")
+    sensor=Sensor("DHT11","XCVD","Temperature and Humidity","To measure temperature and humidity"," Degrees and %")
     node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
     node_device.XbeeObject=gateway.localXBee
-    sensor_value=node_device.read_analog_sensor(0,sensor)
-    print(sensor_value)
+    #sensor_value=node_device.read_analog_sensor(0,sensor)
+    #print(sensor_value)
     devices=gateway.discoverZigbeeDevices()
-
     #Remote Node Device
-    print("Testing digital sensor on Remote Node")
-    sensor1=Sensor("DHT11","XCVE","Temperature and Humidity","This sensor measures humidity and temperature","Degrees and Humid")
+    print("Testing Analog sensor on Remote Node")
+    sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
     node_device_1.XbeeObject=devices[0]
-    node_device_1.read_digital_sensor(0,sensor1)
-    
+    sensor_value=node_device_1.read_analog_sensor(0,sensor1)
+    print(sensor_value)
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
