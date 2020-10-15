@@ -1,6 +1,8 @@
 from    digi.xbee.devices   import XBeeDevice
 from    digi.xbee.io    import  IOLine,IOMode
 import time
+import dht11
+import datetime
 
 class Sensor:
     sensorName:str
@@ -58,34 +60,19 @@ class Sensor:
         #temperature_value = 0          #In degrees celcius
         #humidity_value=0               #In relative humidity
         
-        #Use the DHT11 Guideline to communicate with sensor
-        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_HIGH)
-        time.sleep(0.05)
-        #Send Low Signal To sensor to start reading
-        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_OUT_LOW)
-        #Sleep for 18 milliseconds to trigger sensor communicatation
-        time.sleep(0.02)
-        #Set to input and read values
-        xbee_device.set_io_configuration(IOLine.DIO0_AD0, IOMode.DIGITAL_IN)
-        
-        #Get 5 data segments from sensor 
-        unchanged_count=0
-        max_unchanged_count=100
+        #Instance for DHT11 
+        instance=dht11.DHT11(xbee_device)
 
-        last=-1
-        data=[]
+        try:
+            while True:
+                result = instance.read()
+                if result.is_valid():
+	                print("Last valid input: " + str(datetime.datetime.now()))
 
-        while True:
-            current=xbee_device.get_dio_value(IOLine.DIO0_AD0)
-            data.append(current)
+	                print("Temperature: %-3.1f C" % result.temperature)
+	                print("Humidity: %-3.1f %%" % result.humidity)
 
-            if last !=current:
-                unchanged_count=0
-                last=current
-            else:
-                unchanged_count+=1
-                if unchanged_count>max_unchanged_count:
-                    break
+	                time.sleep(6)
 
-        print("This is the Data:",data)
-        print("Length of Data:",len(data))
+        except KeyboardInterrupt:
+            print("Cleanup")
