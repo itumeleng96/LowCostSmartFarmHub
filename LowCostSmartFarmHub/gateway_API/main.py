@@ -32,15 +32,15 @@ def main():
     sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
     node_device_1.XbeeObject=devices[0]
-    sensor_value=node_device_1.read_analog_sensor(0,sensor1)
+    sensor_value=node_device_1.read_analog_soil_sensor(0,sensor1)
     print("Soil Moisture Sensor:",sensor_value)
-    
+    #Local Node Device
     print("Testing Analog sensors on Local Node")
     sensor=Sensor("DHT11","XCVD","Temperature","To measure Temperature"," Degrees")
     node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
     node_device.XbeeObject=gateway.localXBee
-    node_device.read_analog_sensor(0,sensor)
-    print("Temperature Value:",sensor_value)
+    sensor_value2=node_device.read_analog_temp_sensor(0,sensor)
+    print("Temperature Value:",sensor_value2)
 
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)
