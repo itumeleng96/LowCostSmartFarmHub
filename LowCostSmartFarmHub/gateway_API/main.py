@@ -5,6 +5,7 @@ from    nodeDevice import NodeDevice
 from    sensor  import Sensor
 import  json
 #The callback for when the client receives a CONNACK response from the server.
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
 
@@ -22,23 +23,24 @@ def main():
     #Initialize Gateway object from gateway
     gateway=Gateway("RPI","farm1",[],[],[],"")
     print("Connecting to Local XBee through UART")
-    gateway.connectNewStreamUART("/dev/ttyUSB0")
+    gateway.connectNewStreamUART("/dev/ttyS0")
     
     devices=gateway.discoverZigbeeDevices()
+    print(devices)
     #Remote Node Device
     print("Testing Analog sensor on Remote Node")
     sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
     node_device_1.XbeeObject=devices[0]
     sensor_value=node_device_1.read_analog_sensor(0,sensor1)
-    print(sensor_value)
+    print("Soil Moisture Sensor:",sensor_value)
     
-    print("Testing Digital sensor on Local Node")
-    sensor=Sensor("DHT11","XCVD","Temperature and Humidity","To measure temperature and humidity"," Degrees and %")
+    print("Testing Analog sensors on Local Node")
+    sensor=Sensor("DHT11","XCVD","Temperature","To measure Temperature"," Degrees")
     node_device=NodeDevice("Local Xbee module","coordinator-device","XXXX-XXX",sensor)
     node_device.XbeeObject=gateway.localXBee
-    node_device.read_digital_sensor(0,sensor)
-    #print(sensor_value)
+    node_device.read_analog_sensor(0,sensor)
+    print("Temperature Value:",sensor_value)
 
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)

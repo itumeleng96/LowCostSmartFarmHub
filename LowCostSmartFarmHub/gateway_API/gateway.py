@@ -13,7 +13,7 @@ from    actuator    import  Actuator
 from    nodeDevice  import  NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
-
+import  serial
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
     deviceName:str
@@ -78,8 +78,7 @@ class Gateway:
 			com_port (String): The serial port where the Coordinator Device is connected to on the Gateway
 		Returns:
 			None
-		"""
-        	
+	"""
         localXBee=XBeeDevice(comPort,9600)  #With Baudrate:9600
         localXBee.open()
         self.panID=localXBee.get_pan_id()   #Set the PanID
@@ -97,12 +96,12 @@ class Gateway:
         """
         #Get Xbee network object from the Xbee Device
         xnet=self.localXBee.get_network()
-        xnet.clear()  			   #Clear List of of Devices for Clean Discovery
-		#Start the discovery process and wait for it to be over
+        #Clear List of of Devices for Clean Discovery
+        xnet.clear()
+        #Start the discovery process and wait for it to be over
         xnet.start_discovery_process()
         while xnet.is_discovery_running():
             time.sleep(1.5)
-	    
         #Get the List of Devices added to the Network and Add to Node Devices        
         devices = xnet.get_devices()
         xnet.add_remotes(devices)

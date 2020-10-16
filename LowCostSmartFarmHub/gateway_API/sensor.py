@@ -1,8 +1,6 @@
 from    digi.xbee.devices   import XBeeDevice
 from    digi.xbee.io    import  IOLine,IOMode
 import time
-import dht11
-import datetime
 
 class Sensor:
     sensorName:str
@@ -57,25 +55,3 @@ class Sensor:
             xbee_device (XBee Device): The Xbee module object that represents the XBee module 3 in the network
             io_digital_pin (Integer) : The digital IO pin that the sensor is connected to
         """
-        #temperature_value = 0          #In degrees celcius
-        #humidity_value=0               #In relative humidity
-        
-        #Instance for DHT11 
-        instance=dht11.DHT11(xbee_device)
-        print("Created DHT11 instance nore reading values")
-        try:
-            while True:
-                result = instance.read()
-                if result.is_valid():
-	                print("Last valid input: " + str(datetime.datetime.now()))
-
-	                print("Temperature: %-3.1f C" % result.temperature)
-	                print("Humidity: %-3.1f %%" % result.humidity)
-
-	                time.sleep(6)
-                else:
-                    print("Result is not valid")
-                    break
-
-        except KeyboardInterrupt:
-            print("Cleanup")
