@@ -62,7 +62,7 @@ class Sensor:
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
         print("Sensor Value Before conversion:",sensor_value)
         #Convert 10 Bit ADC value
-        sensor_value=round(float(sensor_value/1023.0)*50,2) 
+        sensor_value=round(float(sensor_value/1023.0)*100,2) 
 
         #raise Exception('The selected pin does not support Analog');
         
