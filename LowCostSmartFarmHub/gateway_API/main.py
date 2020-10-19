@@ -52,17 +52,27 @@ def main():
     #print(devices)
     #time.sleep(10)
     
-   # print("Connecting To MQTT Broker")
-   # client = mqtt.Client()
-   # client.on_connect = on_connect
-   # client.on_message = on_message
+    print("Connecting To MQTT Broker")
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
     #Connecting to MQTT Broker
-   # client.connect("localhost", 1883, 60)
-   # print("Publishing to Broker")
-   # payload_dict={"sensor_name":sensor.sensorName,"sensor_id":sensor.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor.unit_of_measure}}
-   # payload=json.dumps(payload_dict)
-   # client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
-   # client.loop_forever()
+    client.connect("localhost", 1883, 60)
+    print("Publishing to Broker")
+    payload_dict={"sensor_name":sensor1.sensorName,"sensor_id":sensor1.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor1.unit_of_measure}}
+    payload=json.dumps(payload_dict)
+    
+    payload_dict1={"sensor_name":sensor2.sensorName,"sensor_id":sensor2.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value2,"units":sensor2.unit_of_measure}}
+    payload1=json.dumps(payload_dict1)
+    payload_dict2={"sensor_name":sensor3.sensorName,"sensor_id":sensor3.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value3,"units":sensor3.unit_of_measure}}
+    payload2=json.dumps(payload_dict2)
+    
+    client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
+    client.publish("data/myfarm/dorm-room/temperature-sensor/temperature",payload1,2)
+    client.publish("data/myfarm/dorm-room/humidity-sensor/humidity",payload2,2)
+    
+    client.loop_forever()
+
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
     main()
