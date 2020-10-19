@@ -52,7 +52,6 @@ def main():
     #print(devices)
     #time.sleep(10)
     
-    
    # print("Connecting To MQTT Broker")
    # client = mqtt.Client()
    # client.on_connect = on_connect
