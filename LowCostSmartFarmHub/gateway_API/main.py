@@ -27,14 +27,24 @@ def main():
     
     devices=gateway.discoverZigbeeDevices()
     print(devices)
+
     #Remote Node Device
-    print("Testing Analog sensor on Remote Node")
     sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
     node_device_1.XbeeObject=devices[0]
     sensor_value=node_device_1.read_analog_sensor(0,sensor1,100)
     print("Soil Moisture Sensor:",sensor_value)
     
+    #Local Node Device 
+    sensor2=Sensor("Temperature Sensor","BFNND","Temperature","Measures Temperature in degrees celcius","degrees")
+    node_device_2=NodeDevice("Local Xbee Module","end-device","GBSJDMMD",sensor2)
+    node_device_2.XbeeObject=gateway.localXBee
+    sensor_value2=node_device_2.read_analog_sensor(0,sensor1,50)
+    print("Temperature Sensor:",sensor_value2)
+
+    sensor3=Sensor("Humidity Sensor","BFNND","Humidity","Measures Humidity in percentage","%")
+    sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
+    print("Humidity Sensor:",sensor_value3)
 
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)

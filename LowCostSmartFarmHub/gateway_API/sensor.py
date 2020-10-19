@@ -32,7 +32,6 @@ class Sensor:
         sensor_value=0
 
         #Configure the  pin to analog (Pin must support Analog signal Pin 0-Pin3)
-        print(IOLine.get(xbee_pin_index))
         XbeeDevice.set_io_configuration(IOLine.get(xbee_pin_index),IOMode.ADC)
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
 
