@@ -65,26 +65,17 @@ class NodeDevice:
         sensor_value=sensor.read_digital_xbee_sensor(self.XbeeObject,io_digital_pin)
         return sensor_value
     
-    def read_analog_temp_sensor(self,analog_pin,sensor:Sensor):
+   
+    def read_analog_sensor(self,analog_pin,sensor:Sensor,analog_conversion:int):
         """
         This provides functionality for getting sensor value from analog Pin on this Node
 
         Args:
             analog_pin (Integer): The analog pin that sensor is connected to
             sensor (Sensor): The sensor object
+            analog_conversion: The conversion value for converting analog value to sensor value  (100,50)
         """
-        sensor_value=sensor.read_analog_temp_xbee_sensor(self.XbeeObject,analog_pin)
-        return sensor_value
-    
-    def read_analog_soil_sensor(self,analog_pin,sensor:Sensor):
-        """
-        This provides functionality for getting sensor value from analog Pin on this Node
-
-        Args:
-            analog_pin (Integer): The analog pin that sensor is connected to
-            sensor (Sensor): The sensor object
-        """
-        sensor_value=sensor.read_analog_soil_xbee_sensor(self.XbeeObject,analog_pin)
+        sensor_value=sensor.read_analog_xbee_sensor(self.XbeeObject,analog_pin,analog_conversion)
         return sensor_value
 
     
