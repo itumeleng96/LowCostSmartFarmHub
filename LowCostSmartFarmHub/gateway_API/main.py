@@ -27,7 +27,7 @@ def main():
     
     devices=gateway.discoverZigbeeDevices()
     print(devices)
-    #Remote Node Device
+
     print("Testing Analog sensor on Remote Node")
     sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%")
     node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
@@ -35,13 +35,11 @@ def main():
     sensor_value=node_device_1.read_analog_sensor(0,sensor1,100)
     print("Soil Moisture Sensor:",sensor_value)
     
-
     #Code for Controlling Light
     #gateway.control_actuator_on_gateway(18)
     #gateway.addNewZigbeeDevice("Xbee3","End-node",)
     #print(devices)
     #time.sleep(10)
-    
     
    # print("Connecting To MQTT Broker")
    # client = mqtt.Client()
