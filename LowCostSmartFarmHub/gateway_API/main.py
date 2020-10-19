@@ -48,19 +48,18 @@ def main():
     #print(devices)
     #time.sleep(10)
     
-    """
+    
     print("Connecting To MQTT Broker")
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
     #Connecting to MQTT Broker
-    client.connect("192.168.101.187", 1883, 60)
+    client.connect("154.114.37.233", 1883, 60)
     print("Publishing to Broker")
     payload_dict={"sensor_name":sensor.sensorName,"sensor_id":sensor.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor.unit_of_measure}}
     payload=json.dumps(payload_dict)
     client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
     client.loop_forever()
-    """
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
     main()

@@ -60,7 +60,7 @@ class Sensor:
        
         XbeeDevice.set_io_configuration(IOLine.DIO0_AD0,IOMode.ADC)
         sensor_value=XbeeDevice.get_adc_value(IOLine.DIO0_AD0)
-
+        print(sensor_value)
         #Convert 10 Bit ADC value to percentage of water content in soil
         sensor_value=round(float(sensor_value/1023.0)*50,2) 
 
