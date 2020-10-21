@@ -7,7 +7,6 @@ class Actuator:
     actuatorType:str
     actuatorValues:[]
     description:str
-
     def __init__(self,actuatorName,actuatorID,actuatorType,description,actuatorValues=None):
         self.actuatorName=actuatorName      #Every Actuator on the network has a name
         self.actuatorID=actuatorID          #Every Actuator on the network has a unique ID
@@ -15,7 +14,7 @@ class Actuator:
         self.actuatorValues=actuatorValues  #[recent actuator commands]
         self.description=description        #More information about actuator ,humidity,Temperature
 
-    def control_ws28x1_light(self,led_pin):
+    def control_ws28x1_light(self,led_pin,state):
         """
         Function to  configure and control the ws28x1 RGB LED Strip
        
@@ -39,14 +38,9 @@ class Actuator:
         strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         # Intialize the library (must be called once before other functions).
         strip.begin()
-        while True:
-            #Order
-            for i in range (0,strip.numPixels()):
-                strip.setPixelColor(i,Color(0,0,255))
-                strip.setPixelColor(i-1,Color(0,0,200))
-                strip.setPixelColor(i-2,Color(0,0,150))
-                strip.setPixelColor(i-3,Color(0,0,100))
-                strip.setPixelColor(i-4,Color(0,0,0))
-                strip.show()
-                time.sleep(2)
-    
+        if(state=="on"):
+          strip.setPixelColor(0,Color(4,255,255))
+
+        elif (state=="off"):
+          strip.setPixelColor(0,Color(0,0,0))
+        strip.show()

@@ -32,7 +32,7 @@ class Gateway:
         self.nodeDevices=nodeDevices
         self.panID=panID
 
-    def control_actuator_on_gateway(self,digital_input_pin,digital_output_pin=None):
+    def control_actuator_on_gateway(self,digital_input_pin,state,digital_output_pin=None):
         """
         To control the actuator/light through digital communication on specified Pins
 		Args:
@@ -43,7 +43,7 @@ class Gateway:
             State of the Controlled Device
         """
         light_actuator=Actuator("RGB LED",1,"light-actuator","LED RGB 8X Hat")
-        light_actuator.control_ws28x1_light(digital_input_pin)
+        light_actuator.control_ws28x1_light(digital_input_pin,state)
 
 
     def addNewZigbeeDevice(self,nodeName,nodeType,xbeeDevice:XBeeDevice):

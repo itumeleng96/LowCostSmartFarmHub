@@ -6,22 +6,31 @@ from    sensor  import Sensor
 import  json
 #The callback for when the client receives a CONNACK response from the server.
 
+gateway=Gateway("RPI","farm1",[],[],[],"")
+state="off"
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("data/#")
+    client.subscribe("cmd/#")
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
+    global state
     print(msg.topic+" "+str(msg.payload))
-
-
+    if(msg.topic =="cmd/myfarm/dorm-room/gateway/switch/"):
+      if(state=="off"):
+        print("Switching light on Gateway")
+        gateway.control_actuator_on_gateway(18,"on")
+        state="on"
+      elif (state=="on"):
+        print("switching light off")
+        gateway.control_actuator_on_gateway(18,"off")
+        state="off"
 def main():
 
     #Initialize Gateway object from gateway
-    gateway=Gateway("RPI","farm1",[],[],[],"")
     print("Connecting to Local XBee through UART")
     gateway.connectNewStreamUART("/dev/serial0")
     
@@ -70,8 +79,8 @@ def main():
     client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
     client.publish("data/myfarm/dorm-room/temperature-sensor/temperature",payload1,2)
     client.publish("data/myfarm/dorm-room/humidity-sensor/humidity",payload2,2)
-    
     client.loop_forever()
+    
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
