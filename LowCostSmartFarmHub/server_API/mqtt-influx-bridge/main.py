@@ -7,13 +7,13 @@ from influxdb import InfluxDBClient
 import json
 import time
 
-INFLUXDB_ADDRESS = '192.168.101.187'
+INFLUXDB_ADDRESS = 'localhost'
 INFLUXDB_USER = 'root'
 INFLUXDB_PASSWORD = 'root'
 INFLUXDB_DATABASE = 'smartFarmHub'
 
-MQTT_TOPIC = "data/#" 
-MQTT_ADDRESS = "192.168.101.187"
+MQTT_TOPIC = "#" 
+MQTT_ADDRESS = "localhost"
 influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, 8086, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
 
 def on_connect(client, userdata, flags, rc):
@@ -29,9 +29,9 @@ def on_message(client, userdata, msg):
     #if sensor_data is not None:
     #    _send_sensor_data_to_influxdb(sensor_data)
 def _send_sensor_data_to_influxdb(sensor_data):
-    print("Sensor Data")
-    print(sensor_data)
-
+    sensor_data['data']['value']=float(sensor_data['data']['value'])
+    print("Sensor Data:",sensor_data)
+    print("Sensor Data:",sensor_data['data']['value'])
     json_body=[
         {
             'measurement':sensor_data['sensor_name'],
@@ -39,7 +39,7 @@ def _send_sensor_data_to_influxdb(sensor_data):
                 'sensor-connection':sensor_data['sensor_connection']
             },
             'fields':{
-                'value':float(sensor_data['data']['value'])
+                'value':sensor_data['data']['value']
             }
 
         }
