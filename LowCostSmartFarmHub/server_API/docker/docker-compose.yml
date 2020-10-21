@@ -23,7 +23,7 @@ services:
     restart: always
 
   grafana:
-    image: grafana/grafana:5.4.3
+    image: grafana/grafana:latest
     container_name: grafana
     depends_on:
       - influxdb

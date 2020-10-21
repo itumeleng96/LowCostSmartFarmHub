@@ -1,0 +1,4 @@
+Flask-HTTPAuth
+Flask-MQTT===1.1.1
+Flask===1.1.2
+flask-cors===3.0.9
