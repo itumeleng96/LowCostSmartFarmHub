@@ -4,10 +4,6 @@ __author__ = """Joseph Malemela"""
 __email__ = 'itukzz96@gmail.com'
 __version__ = '0.1.0'
 
-from LowCostSmartFarmHub.gateway import Gateway
-from LowCostSmartFarmHub.sensor import Sensor
-from LowCostSmartFarmHub.actuator import Actuator
-from LowCostSmartFarmHub.nodeDevice  import NodeDevice
 
 
 
