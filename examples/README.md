@@ -1,6 +1,6 @@
 ### Using the Gateway API with Raspberry PI3B+ and Xbee Devices
 
-#### To run the main program (This starts the MQTT client) 
+#### To run the main program (This starts the MQTT client and Publishes available sensor data to MQTT broker) 
 ```
     python3 main.py
 ````

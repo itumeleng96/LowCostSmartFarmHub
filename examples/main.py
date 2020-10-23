@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
-from    gateway import  Gateway
+from    LowCostSmartFarmHub.gateway import  Gateway
 import time
-from    nodeDevice import NodeDevice
+from    LowCostSmartFarmHub.nodeDevice import NodeDevice
 from    sensor  import Sensor
 import  json
 #The callback for when the client receives a CONNACK response from the server.
@@ -55,32 +55,34 @@ def main():
     sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
     print("Humidity Sensor:",sensor_value3,"%")
 
-    #Code for Controlling Light
-    #gateway.control_actuator_on_gateway(18)
-    #gateway.addNewZigbeeDevice("Xbee3","End-node",)
-    #print(devices)
-    #time.sleep(10)
-    
+
     print("Connecting To MQTT Broker")
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
     #Connecting to MQTT Broker
     client.connect("localhost", 1883, 60)
-    print("Publishing to Broker")
-    payload_dict={"sensor_name":sensor1.sensorName,"sensor_id":sensor1.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor1.unit_of_measure}}
-    payload=json.dumps(payload_dict)
+    print("Publishing to Broker every minute")
+    while True:
+      #Read Sensor Values
+      sensor_value=node_device_1.read_analog_sensor(0,sensor1,100)
+      sensor_value2=node_device_2.read_analog_sensor(0,sensor1,50)
+      sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
+
+      payload_dict={"sensor_name":sensor1.sensorName,"sensor_id":sensor1.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value,"units":sensor1.unit_of_measure}}
+      payload=json.dumps(payload_dict)
     
-    payload_dict1={"sensor_name":sensor2.sensorName,"sensor_id":sensor2.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value2,"units":sensor2.unit_of_measure}}
-    payload1=json.dumps(payload_dict1)
-    payload_dict2={"sensor_name":sensor3.sensorName,"sensor_id":sensor3.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value3,"units":sensor3.unit_of_measure}}
-    payload2=json.dumps(payload_dict2)
+      payload_dict1={"sensor_name":sensor2.sensorName,"sensor_id":sensor2.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value2,"units":sensor2.unit_of_measure}}
+      payload1=json.dumps(payload_dict1)
     
-    client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
-    client.publish("data/myfarm/dorm-room/temperature-sensor/temperature",payload1,2)
-    client.publish("data/myfarm/dorm-room/humidity-sensor/humidity",payload2,2)
-    client.loop_forever()
+      payload_dict2={"sensor_name":sensor3.sensorName,"sensor_id":sensor3.sensorID,"sensor_connection":"ADC","data":{"value":sensor_value3,"units":sensor3.unit_of_measure}}
+      payload2=json.dumps(payload_dict2)
     
+      client.publish("data/myfarm/dorm-room/soil-sensor/moisture",payload,2)
+      client.publish("data/myfarm/dorm-room/temperature-sensor/temperature",payload1,2)
+      client.publish("data/myfarm/dorm-room/humidity-sensor/humidity",payload2,2)
+      
+      time.sleep(60)    #Sleep for a minute
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
