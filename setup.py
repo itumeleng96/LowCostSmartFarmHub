@@ -4,8 +4,6 @@
 
 from setuptools import setup, find_packages
 
-# this grabs the requirements from requirements.txt
-REQUIREMENTS = [i.strip() for i in open("requirements_dev.txt").readlines()]
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
