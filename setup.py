@@ -4,6 +4,9 @@
 
 from setuptools import setup, find_packages
 
+# this grabs the requirements from requirements.txt
+REQUIREMENTS = [i.strip() for i in open("requirements_dev.txt").readlines()]
+
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
@@ -37,7 +40,9 @@ setup(
             'LowCostSmartFarmHub=LowCostSmartFarmHub.cli:main',
         ],
     },
-    install_requires=requirements_dev,
+    install_requires=[
+        'digi-xbee'
+    ],
     license="MIT license",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
