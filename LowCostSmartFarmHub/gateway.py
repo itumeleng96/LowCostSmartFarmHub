@@ -8,9 +8,9 @@
    USB          : USB  <--->UART Xbee 
 '''
 
-import  sensor
-from    actuator    import  Actuator
-from    nodeDevice  import  NodeDevice
+from    LowCostSmartFamHub.sensor import Sensor
+from    LowCostSmartFamHub.actuator    import  Actuator
+from    LowCostSmartFamHub.nodeDevice  import  NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
