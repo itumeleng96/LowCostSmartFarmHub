@@ -3,12 +3,12 @@ from    digi.xbee.io    import  IOLine,IOMode
 import time
 
 class Sensor:
-    sensorName
-    sensorID
-    sensorType
-    sensorValues
-    description
-    unit_of_measure
+    sensorName:str
+    sensorID:int
+    sensorType:str
+    sensorValues:[]
+    description:str
+    unit_of_measure:str
     
     def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=None):
         self.sensorName=sensorName      #Every Sensor on the network has a name
