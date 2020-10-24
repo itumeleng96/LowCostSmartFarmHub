@@ -39,7 +39,8 @@ setup(
         ],
     },
     install_requires=[
-        'digi-xbee'
+        'digi-xbee',
+        'click'
     ],
     license="MIT license",
     long_description=readme + '\n\n' + history,
