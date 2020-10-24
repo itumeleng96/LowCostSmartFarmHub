@@ -40,7 +40,8 @@ setup(
     },
     install_requires=[
         'digi-xbee',
-        'click'
+        'click',
+        'rpi_ws281x'
     ],
     license="MIT license",
     long_description=readme + '\n\n' + history,
