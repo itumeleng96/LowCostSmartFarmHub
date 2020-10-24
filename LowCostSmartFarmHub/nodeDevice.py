@@ -10,7 +10,7 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
-from    sensor  import Sensor
+from    LowCostSmartFarmHub.sensor  import Sensor
 
 class NodeDevice:
     nodeName:str
