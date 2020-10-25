@@ -18,11 +18,13 @@ The RPI gateway can connect to a  local Xbee Device on the UART interface specif
 
   [...]
 
-  # Instantiate a Gateway device object.
+  # Instantiate a Gateway device object
+  
   gateway = Gateway("RPI 3B+","Farm location 1")
 
   
-  # connect to Local XBee device on UART interface.
+  # connect to Local XBee device on UART interface
+  
   gateway.connect_uart_stream("COM1",9600,True)
 
 
