@@ -2,7 +2,7 @@
 
 __author__ = """Joseph Malemela"""
 __email__ = 'itukzz96@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.1.2'
 
 
 from LowCostSmartFarmHub.sensor import Sensor

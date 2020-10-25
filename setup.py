@@ -32,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="Python Boilerplate contains all the boilerplate you need to create a Python package.",
+    description="A gateway API for controlling and monitoring a wireless sensor network Digi-Xbee Modules",
     entry_points={
         'console_scripts': [
             'LowCostSmartFarmHub=LowCostSmartFarmHub.cli:main',
@@ -53,6 +53,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/itumeleng96/LowCostSmartFarmHub',
-    download_url= 'https://github.com/itumeleng96/LowCostSmartFarmHub/archive/v0.1.0.tar.gz',
-    version='0.1.0',
+    download_url= 'https://github.com/itumeleng96/LowCostSmartFarmHub/archive/0.1.2.tar.gz',
+    version='0.1.2',
 )
