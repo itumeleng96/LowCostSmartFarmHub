@@ -26,7 +26,9 @@ Features
 --------
 
 * Add a range of Zigbee Devices or Sensors to a RPI machine interface
+* Publish sensor information to MQTT broker on the cloud
 * Connect to the Web application to monitor and control the wireless sensor network remotely
+* Automatically Detect new devices on the network and sensors
 
 Credits
 -------
