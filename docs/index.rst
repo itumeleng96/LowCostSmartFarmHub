@@ -13,11 +13,13 @@ Welcome to Smart Farm Hub's documentation!
    authors
    history
 
-Indices and tables
-==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Contents
+========
+
+The XBee Python library documentation is split in different sections:
+
+* :ref:`indexUserDoc`
+
 
 
 .. _indexUserDoc:
@@ -48,3 +50,9 @@ developers who are interested in using and extending the library functionality.
 
    user_doc/LowCostSmartFarmHub_terminology
    user_doc/working_with_rpi_gateway
+
+Indices and tables
+==================
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
