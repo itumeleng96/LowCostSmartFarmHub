@@ -71,7 +71,7 @@ class Gateway:
     
         #self.nodeDevices.append(nodeDevice("","",""))
 
-    def connectNewStreamUART(self,comPort):
+    def connect_stream_uart(self,comPort,baud_rate,discover_devices):
         """
 		Function for opening serial communication Port between RPI and  XBee Device
 		Args:
@@ -79,7 +79,7 @@ class Gateway:
 		Returns:
 			None
 	"""
-        localXBee=XBeeDevice(comPort,9600)  #With Baudrate:9600
+        localXBee=XBeeDevice(comPort,baud_rate)  #With Baudrate:9600
         localXBee.open()
         self.panID=localXBee.get_pan_id()   #Set the PanID
         self.localXBee=localXBee
