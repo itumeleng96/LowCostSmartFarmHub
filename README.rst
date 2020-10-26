@@ -30,6 +30,7 @@ Features
 * Connect to the Web application to monitor and control the wireless sensor network remotely
 * Automatically Detect new devices on the network and sensors
 
+![smartfarm](images/smartFarmHub.png)
 Credits
 -------
 
