@@ -10,7 +10,7 @@ class Sensor:
     description:str
     unit_of_measure:str
     
-    def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=None):
+    def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=[]):
         self.sensor_name=sensorName      #Every Sensor on the network has a name
         self.sensor_id=sensorID          #Every Sensor on the network has a unique ID
         self.sensor_type=sensorType      #I2C,ADC,DIO

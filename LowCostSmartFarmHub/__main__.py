@@ -1,9 +1,10 @@
 import paho.mqtt.client as mqtt
-from    LowCostSmartFarmHub.gateway import  Gateway
+from    gateway import  Gateway
 import time
-from    LowCostSmartFarmHub.nodeDevice import NodeDevice
+from    nodeDevice import NodeDevice
 from    sensor  import Sensor
 import  json
+import  random
 #The callback for when the client receives a CONNACK response from the server.
 
 gateway=Gateway("RPI","farm1",[],[],[],"")
@@ -12,9 +13,9 @@ def main():
 
     #Initialize Gateway object from gateway
     print("Connecting to Local XBee through UART")
-    gateway.connectNewStreamUART("/dev/serial0")
+    gateway.connect_stream_uart("/dev/serial0",9600,True)
     
-    devices=gateway.discoverZigbeeDevices()
+    devices=gateway.discover_zigbee_devices()
     print("Remote Xbee Devices: ",devices)
 
     #Initialize all sensors on the network 
@@ -27,23 +28,23 @@ def main():
     node_device_2.XbeeObject=gateway.localXBee
 
     sensor3=Sensor("Humidity Sensor","BFNND","Humidity","Measures Humidity in percentage","%")
-    sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
 
 
     print("Publishing to Broker every minute")
 
     client_id = f'python-mqtt-{random.randint(0, 1000)}'
     mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)
-    
+    mqtt_client.loop_start() 
     while True:
       #Read Sensor Values
-      sensor_value=node_device_1.read_analog_sensor(0,sensor1,100)
+      sensor_value=sensor1.read_analog_xbee_sensor(node_device_1.XbeeObject,0,100)
       gateway.publish_sensor_info(mqtt_client,sensor1)
 
-      sensor_value2=node_device_2.read_analog_sensor(0,sensor1,50)
+      sensor_value2=sensor2.read_analog_xbee_sensor(node_device_2.XbeeObject,0,50)
       gateway.publish_sensor_info(mqtt_client,sensor2)
       
-      sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
+      sensor_value3=sensor3.read_analog_xbee_sensor(node_device_3.XbeeObject,0,100)
+
       gateway.publish_sensor_info(mqtt_client,sensor3)
 
       time.sleep(60)    #Sleep for a minute

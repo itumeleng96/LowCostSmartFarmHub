@@ -128,7 +128,7 @@ class Gateway:
         Publishes the provided sensor infromation to the broker specified
 
         Args:
-            client(mqtt_client):The MQTT client object
+	    client(mqtt_client) : The MQTT client object 
             sensor(Sensor): The sensor object with all the attributes of the sensor
             port(int): The port where the MQTT broker is running
             broker_address: The Address of the MQTT broker e.g (localhost or 192.168.10.1 or www.mqtt-broker.io)
@@ -137,7 +137,7 @@ class Gateway:
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/'+sensor.sensor_name+"/"
+        topic = 'data/myfarm/dorm-room/'+sensor.sensor_name
 
         result = client.publish(topic,payload,2)
 
