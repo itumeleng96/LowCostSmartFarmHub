@@ -40,7 +40,8 @@ services:
     depends_on:
       - mosquitto
       - influxdb
-  
+    restart: always
+
   flaskserver:
     build: ../flask-server
     image: smart-farm-hub/flaskserver

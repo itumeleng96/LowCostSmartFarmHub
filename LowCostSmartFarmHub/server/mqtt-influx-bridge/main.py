@@ -7,13 +7,13 @@ from influxdb import InfluxDBClient
 import json
 import time
 
-INFLUXDB_ADDRESS = 'localhost'
+INFLUXDB_ADDRESS = 'influxdb'
 INFLUXDB_USER = 'root'
 INFLUXDB_PASSWORD = 'root'
 INFLUXDB_DATABASE = 'smartFarmHub'
 
-MQTT_TOPIC = "#" 
-MQTT_ADDRESS = "localhost"
+MQTT_TOPIC = "data/#" 
+MQTT_ADDRESS = "mosquitto"
 influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, 8086, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
 
 def on_connect(client, userdata, flags, rc):
