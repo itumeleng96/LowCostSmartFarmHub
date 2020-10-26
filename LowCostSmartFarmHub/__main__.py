@@ -37,13 +37,13 @@ def main():
     
     while True:
       #Read Sensor Values
-      sensor_value=node_device_1.read_analog_sensor(0,sensor1,100)
+      sensor_value=sensor1.read_analog_xbee_sensor(node_device_1.XbeeObject,0,100)
       gateway.publish_sensor_info(mqtt_client,sensor1)
 
-      sensor_value2=node_device_2.read_analog_sensor(0,sensor1,50)
+      sensor_value2=sensor2.read_analog_xbee_sensor(node_device_2.XbeeObject,0,50)
       gateway.publish_sensor_info(mqtt_client,sensor2)
       
-      sensor_value3=node_device_2.read_analog_sensor(1,sensor3,100)
+      sensor_value3=sensor3.read_analog_xbee_sensor(node_device_3.XbeeObject,0,100)
       gateway.publish_sensor_info(mqtt_client,sensor3)
 
       time.sleep(60)    #Sleep for a minute
