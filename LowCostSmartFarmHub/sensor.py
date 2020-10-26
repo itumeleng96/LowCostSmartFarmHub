@@ -3,18 +3,18 @@ from    digi.xbee.io    import  IOLine,IOMode
 import time
 
 class Sensor:
-    sensorName:str
-    sensorID:int
-    sensorType:str
-    sensorValues:[]
+    sensor_name:str
+    sensor_id:int
+    sensor_type:str
+    sensor_values:[]
     description:str
     unit_of_measure:str
     
     def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=None):
-        self.sensorName=sensorName      #Every Sensor on the network has a name
-        self.sensorID=sensorID          #Every Sensor on the network has a unique ID
-        self.sensorType=sensorType      #I2C,ADC,DIO
-        self.sensorValues=sensorValues  #[recent sensor values]
+        self.sensor_name=sensorName      #Every Sensor on the network has a name
+        self.sensor_id=sensorID          #Every Sensor on the network has a unique ID
+        self.sensor_type=sensorType      #I2C,ADC,DIO
+        self.sensor_values=sensorValues  #[recent sensor values]
         self.description=description    #More information about sensor ,humidity,Temperature
         self.unit_of_measure=unit_of_measure    #The unit of measure (percentage,degrees,grams of water per unit of air)
         
@@ -40,7 +40,9 @@ class Sensor:
 
         #raise Exception('The selected pin does not support Analog');
         
+        self.sensor_values.append(sensor_value)
         return str(sensor_value)
+
     
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
         """
@@ -51,3 +53,11 @@ class Sensor:
             xbee_device (XBee Device): The Xbee module object that represents the XBee module 3 in the network
             io_digital_pin (Integer) : The digital IO pin that the sensor is connected to
         """
+    def get_sensor_value(self):
+        """
+        Gets the most recent sensor value 
+
+        Returns:
+            Sensor value
+        """
+        return self.sensor_values[len(self.sensor_values)-1]

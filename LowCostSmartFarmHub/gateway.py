@@ -14,15 +14,18 @@ from LowCostSmartFarmHub.nodeDevice import NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
+
+
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
-    deviceName:str
-    sensors:[]
-    actuators:[]
-    location:str
+    deviceName:str              #The unique name for the gateway device
+    sensors:[]                  #All the sensors connected directly to sensor
+    actuators:[]                #All the actuators connected directly to gateway
+    location:str                #Locaion of the gateway
     nodeDevices:[]              #All the Node Devices(Xbee) in the Network
     panID:str                   #The Unique Zigbee Network Identifier
     localXBee:XBeeDevice        #The Local Zigbee device used as Coordinator through serial Port
+
 
     def __init__(self,deviceName,location,sensors=None,actuators=None,nodeDevices=None,panID=None):
         self.deviceName=deviceName
@@ -32,21 +35,33 @@ class Gateway:
         self.nodeDevices=nodeDevices
         self.panID=panID
 
-    def control_actuator_on_gateway(self,digital_input_pin,state,digital_output_pin=None):
+
+
+    def add_sensor(self,sensor:Sensor):
         """
-        To control the actuator/light through digital communication on specified Pins
-		Args:
-            digital_input_pin (Integer) : Input Pin number on Gateway Device (RPI)
-            digital_output_pin (Integer): Output Pin Number on Gateway Device
+        Adds a sensor directly to the gateway Device
 
-        Returns:
-            State of the Controlled Device
+            Args:
+                sensor(Sensor): The sensor object with all the sensor attributes
+            
+            Returns: 
+                A list of all the sensors connected directly to the gateway
         """
-        light_actuator=Actuator("RGB LED",1,"light-actuator","LED RGB 8X Hat")
-        light_actuator.control_ws28x1_light(digital_input_pin,state)
+        self.sensors.append(sensor)
 
+    def add_actuator(self,actuator:Actuator):
+        """
+        Adds an Actuator directly to the gateway Device
 
-    def addNewZigbeeDevice(self,nodeName,nodeType,xbeeDevice:XBeeDevice):
+            Args:
+                actuator(Actuator): The actuator object with all the actuator attributes
+            
+            Returns: 
+                A list of all the actuators connected directly to the gateway
+        """
+        self.actuators.append(actuator)
+
+    def add_zigbee_device(self,nodeName,nodeType,xbeeDevice:XBeeDevice):
         """
         Adds the  Zigbee Device to  the Gateway Node Devices
 	        Args:
@@ -62,14 +77,14 @@ class Gateway:
 
         print("Adding Zigbee Device to Network")
         print(xbeeDevice.read_device_info())
-        xnet=self.localXBee.get_network()
-        xnet.add_remote(xbeeDevice)
+        #xnet=self.localXBee.get_network()
+        #xnet.add_remote(xbeeDevice)
         
-        #nodeDevice.macAddress=
-        #nodeDevice.XbeeObject=
-        #nodeDevice=NodeDevice(nodeName,nodeType)
+        nodeDevice.macAddress=
+        nodeDevice.XbeeObject=XBeeDevice
+        nodeDevice=NodeDevice(nodeName,nodeType)
     
-        #self.nodeDevices.append(nodeDevice("","",""))
+        self.nodeDevices.append(nodeDevice("","",""))
 
     def connect_stream_uart(self,comPort,baud_rate,discover_devices):
         """
@@ -78,14 +93,14 @@ class Gateway:
 			com_port (String): The serial port where the Coordinator Device is connected to on the Gateway
 		Returns:
 			None
-	"""
+    	"""
         localXBee=XBeeDevice(comPort,baud_rate)  #With Baudrate:9600
         localXBee.open()
         self.panID=localXBee.get_pan_id()   #Set the PanID
         self.localXBee=localXBee
 	
 
-    def discoverZigbeeDevices(self):
+    def discover_zigbee_devices(self):
         """
         Discovers new zigbee devices on the zigbee network 
 
@@ -107,35 +122,64 @@ class Gateway:
         xnet.add_remotes(devices)
         return  devices
 
-    #def add_sensor_to_gateway(self,sensor:sensor):
-	#def add_sensor_to_node(self,sensor:sensor,nodeName):
-    #Some code for configuring IO pins on sensor
-    #self.sensors.append(sensor)
-    #def removeSensor(self,sensor.sensorID):
-    #def  addActuator(self,actuator:actuator):
-    #    self.actuators.append(actuator)
-    #def   	 removeActuator(self,actuator.actuatorID):
+    def publish_sensor_info(self,mqtt_client,sensor:Sensor):
+        """
+        Publishes the provided sensor infromation to the broker specified
 
-    #RPI Read Function
-    #def readGPIOPin():
-    
-    #def sendCommandGPIOPin():
+        Args:
+            sensor(Sensor): The sensor object with all the attributes of the sensor
+            port(int): The port where the MQTT broker is running
+            broker_address: The Address of the MQTT broker e.g (localhost or 192.168.10.1 or www.mqtt-broker.io)
 
-    #XBee Read and Send Command Functions
-    #def readLocalXbeeAnalogPin(Xbee3Pin,XbeeLocalObject):
-    #def communicateLocalXbeeDigitalPin(Xbee3Pin,XbeeNodeDevice):
-    #def readRemoteXbeeAnalogPin(Xbee3Pin,XbeeNodeDevice):
-    #def communicateRemoteXbeeDigitalPin(Xbee3Pin,XbeeNodeDevice):
-    
-    #Update Xbee Devices  Firmware
-    #def updateFirmware():
+        """
+        payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_value(),"units":sensor.unit_of_measure}}
+        payload=json.dumps(payload_dict)
+
+        topic = 'data/myfarm/dorm-room/'+sensor.sensor_name
+
+        result = client.publish(topic,payload,2)
+
+        # result: [0, 1]
+         status = result[0]
+         if status == 0:
+             print(f"Send `{payload}` to topic `{topic}`")
+         else:
+             print(f"Failed to send message to topic {topic}")
+        
+    def connect_mqtt(client_id,broker,port):
+        """
+        This function connects to the MQTT broker
+
+        Args:
+            client_id(int) : unique identifier of MQTT client
+            broker (string): broker address
+            port (int) : The port where the mqtt broker is running
+        
+        Returns:
+            mqtt client 
+        """
+        def on_connect(client, userdata, flags, rc):
+            if rc == 0:
+                client.subscribe("cmd/#")   #Subscribe to Commands from MQTT broker
+                print("Connected to MQTT Broker!")
+            else:
+                print("Failed to connect, return code %d\n", rc)
+        
+        def on_message(client, userdata, msg):
+             print(msg.topic+" "+str(msg.payload))
+
+        # Set Connecting Client ID
+        client = mqtt_client.Client(client_id)
+        client.on_connect = on_connect
+        client.on_message = on_message
+        client.connect(broker, port)
+        return client
+
+    def update_fiirmware(XBeeDevice:xbee_device):
         #Update Local Xbee Device 
         #Update Remote Xbee Device
+    
 
-    #Initialize Node Device Pin When Sensor is Added and Ping Sensor
-    #def addSensorToXbee()
-
-    #Initialize RPI Device Pin when sensor is added
 
     
     
