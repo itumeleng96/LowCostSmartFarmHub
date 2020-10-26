@@ -45,5 +45,4 @@ def control_cmd():
     return "ok"
 
 if __name__ == "__main__":
-    time.sleep(10)
     app.run(host='0.0.0.0',port=5000)
