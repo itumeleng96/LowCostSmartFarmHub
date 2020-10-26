@@ -34,10 +34,6 @@ def alert():
 #    client.connect("localhost", 1883, 60)
 #    data = json.loads(request.data.decode('utf-8'))
 #    if data['state'] == 'alerting':
-#      client.publish(topic="/alert", payload="1", retain=True)
-#    elif data['state'] == 'ok':
-#       client.publish(topic="/alert", payload="0", retain=True)
-
 #    client.disconnect()
     return "ok"
 
@@ -49,4 +45,4 @@ def control_cmd():
     return "ok"
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0')
+    app.run(host='0.0.0.0',port=5000)

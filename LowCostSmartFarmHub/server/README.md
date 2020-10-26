@@ -6,6 +6,8 @@ Influx DB on Port 8086
 
 Grafana on Port 3000
 
+Flask-server on Port 5000
+
 The work is based on [Gautier Mechling](https://github.com/Nilhcem)'s
 [home-monitoring-grafana](https://github.com/Nilhcem/home-monitoring-grafana)
 repository, described in his blog post
