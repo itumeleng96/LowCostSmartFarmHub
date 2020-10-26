@@ -43,7 +43,8 @@ def main():
       sensor_value2=sensor2.read_analog_xbee_sensor(node_device_2.XbeeObject,0,50)
       gateway.publish_sensor_info(mqtt_client,sensor2)
       
-      sensor_value3=sensor3.read_analog_xbee_sensor(node_device_2.XbeeObject,0,100)
+      sensor_value3=sensor3.read_analog_xbee_sensor(node_device_3.XbeeObject,0,100)
+
       gateway.publish_sensor_info(mqtt_client,sensor3)
 
       time.sleep(60)    #Sleep for a minute

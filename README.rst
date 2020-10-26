@@ -25,11 +25,15 @@ Gateway API for a Zigbee Wireless Network and Cloud Based Docker image for a sma
 Features
 --------
 
-* Add a range of Zigbee Devices or Sensors to a RPI machine interface
+* Add a range of Zigbee Devices or Sensors or Actuators to a RPI machine interface
+* Add sensors or actuators to Xbee3 modules
 * Publish sensor information to MQTT broker on the cloud
 * Connect to the Web application to monitor and control the wireless sensor network remotely
 * Automatically Detect new devices on the network and sensors
+* Send commands from grafana to wireless sensor network
 
+.. image:: https://github.com/itumeleng96/LowCostSmartFarmHub/blob/master/images/smartFarmHub.png
+ 
 Credits
 -------
 
