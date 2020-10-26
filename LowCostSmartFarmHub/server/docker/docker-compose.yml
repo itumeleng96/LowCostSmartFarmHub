@@ -40,10 +40,14 @@ services:
     depends_on:
       - mosquitto
       - influxdb
+  
   flaskserver:
     build: ../flask-server
     image: smart-farm-hub/flaskserver
     container_name: flaskserver
-    depends_on: :
+    ports:
+      - 5000:5000
+    depends_on:
       - grafana
     restart: always
+
