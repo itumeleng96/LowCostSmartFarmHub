@@ -14,6 +14,7 @@ Create A gateway and add devices to it
 The RPI gateway can connect to a  local Xbee Device on the UART interface specified by the user.
 
 ** Instantiate the Gateway and connect to local XBee device on UART ** 
+
 .. code:: python
 
   [...]
@@ -29,6 +30,7 @@ The RPI gateway can connect to a  local Xbee Device on the UART interface specif
 
 
   [...]
+
 
 The previous methods may fail for the following reasons:
 
