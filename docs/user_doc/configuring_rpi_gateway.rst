@@ -45,6 +45,8 @@ The previous methods may fail for the following reasons:
 
 ```````````````````````````````````````````````````````````````````````
 
+Check that the Gateway has internet connection
+-----------------------------------------------
 
 
 
