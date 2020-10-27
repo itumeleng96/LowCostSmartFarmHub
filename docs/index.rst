@@ -20,7 +20,6 @@ User documentation
 
    user_doc/LowCostSmartFarmHub_terminology
    user_doc/configuring_rpi_gateway
-   user_doc/working_with_rpi_gateway
 
 Examples
 ========
