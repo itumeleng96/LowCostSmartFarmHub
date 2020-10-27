@@ -15,6 +15,16 @@ Welcome to Smart Farm Hub's documentation!
 
 User documentation
 ==================
+.. toctree::
+   :maxdepth: 2
+   :caption: user documentation
+
+* :docs:`user_doc/LowCostSmartFarmHub_terminology`
+* :docs:`user_doc/configuring_rpi_gateway`
+* :docs:`user_doc/working_with_rpi_gateway`
+
+Examples
+========
 
 Indices and tables
 ==================
