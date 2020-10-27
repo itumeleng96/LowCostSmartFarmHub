@@ -32,7 +32,7 @@ Features
 * Automatically Detect new devices on the network and sensors
 * Send commands from grafana to wireless sensor network
 
-.. image:: https://github.com/itumeleng96/LowCostSmartFarmHub/blob/master/images/smartFarmHub.png
+.. image:: images/smartFarmHub.png
  
 Credits
 -------
