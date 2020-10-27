@@ -13,6 +13,9 @@ Welcome to Smart Farm Hub's documentation!
    authors
    history
 
+User documentation
+==================
+
 Indices and tables
 ==================
 * :ref:`genindex`
