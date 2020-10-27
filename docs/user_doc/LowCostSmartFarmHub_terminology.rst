@@ -11,7 +11,7 @@ A gateway is a device that acts as the middle-man between the internet and the w
 made up of radio modules.The gateway has to be connected to the internet through WIFI or ethernet to transmit 
 local data to the internet.
 
-.. image:: images/RPI.png
+.. image:: ../images/RPI.png
 
 Actuator
 --------
@@ -35,7 +35,7 @@ A radio frequency (RF) module is a small electronic circuit used to transmit
 and receive radio signals on different frequencies.The RF modules used in this API are 
 from Digi-XBee and they are the XBee3 Through Hole RF Modules.
 
-.. image:: images/RFModules.png
+.. image:: ../images/RFModules.png
 
 
 Radio module operating modes from Digi-XBee
