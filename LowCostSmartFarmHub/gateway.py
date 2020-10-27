@@ -5,7 +5,7 @@
    Pin 2        : 5V   <--->Low Voltage Actuator
    Pin 11,13,15 : GPIO <--->Digital Sensor Inputs
    Pin 9,30     : GND  <--->Sensor and Actuator GND
-   USB          : USB  <--->UART Xbee 
+   Pin 8 and 10 : UART <--->UART Xbee 
 '''
 
 from LowCostSmartFarmHub.sensor import Sensor
@@ -16,6 +16,7 @@ from    digi.xbee.devices   import XBeeDevice
 import  serial
 import  json
 from paho.mqtt import client as mqtt_client
+from pi_hardware_info import ModelType, get_info
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
@@ -28,7 +29,7 @@ class Gateway:
     localXBee:XBeeDevice        #The Local Zigbee device used as Coordinator through serial Port
 
 
-    def __init__(self,deviceName,location,sensors=None,actuators=None,nodeDevices=None,panID=None):
+    def __init__(self,deviceName=None,location=None,sensors=None,actuators=None,nodeDevices=None,panID=None):
         self.deviceName=deviceName
         self.sensors=sensors
         self.actuators=actuators
@@ -37,7 +38,30 @@ class Gateway:
         self.panID=panID
 
 
+    def create_gateway():
+        """
+        This function gets the model information of gateway and the location of the device 
+        from the internet
+        """
+        
+        #Get Device information
+        device_info = get_info()
+        print("The Device Info",device_info)
+        self.deviceName=device_info.ModelType
 
+        #Get Device Location
+        
+
+
+    def read_gateway_info(self):
+        """
+        This function returns the device information in a dictionary format
+
+        Returns:
+            A dictionary with all the device information
+        """
+
+        
     def add_sensor(self,sensor:Sensor):
         """
         Adds a sensor directly to the gateway Device
@@ -123,6 +147,15 @@ class Gateway:
         xnet.add_remotes(devices)
         return  devices
 
+    def publish(self,client):
+        """
+        Publishes all the devices infromation to the broker specified
+        
+        Args:
+            client(mqtt_client):The MQTT client object
+
+        """
+
     def publish_sensor_info(self,client,sensor:Sensor):
         """
         Publishes the provided sensor infromation to the broker specified
@@ -178,5 +211,10 @@ class Gateway:
         return client
 
        #def update_fiirmware(XBeeDevice:xbee_device):
-        #Update Local Xbee Device 
-        #Update Remote Xbee Device
+    def detect_devices(self,add_devices):
+        """
+        This function detects all devices connected to the Gateway Directly
+
+        Args:
+            add_devices(Boolean): if true, it automatically adds the devices to the gateway
+        """

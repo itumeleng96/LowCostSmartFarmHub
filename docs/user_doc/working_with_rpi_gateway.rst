@@ -1,5 +1,5 @@
 
-Working with the Raspberry PI Device
+Work with the Raspberry PI Gateway 
 ====================================
 
 The Gateway Class provides methods to connect to local XBee devices and discover 
@@ -20,7 +20,7 @@ Using the coordinator in API mode, the remote devices can be found using this me
   [...]
 
   # Instantiate a Gateway device object
-  gateway = Gateway("RPI 3B+","Farm location 1")
+  gateway = Gateway()
 
   # connect to Local XBee device on UART interface
   gateway.connect_uart_stream("COM1",9600,True)
@@ -43,7 +43,7 @@ This method detects all the devices connected directly to gateway and adds them 
   [...]
 
   # Instantiate a Gateway device object
-  gateway = Gateway("RPI 3B+","Farm location 1")
+  gateway = Gateway()
 
   #Detect Devices on Gateway
   gateway.detect_devices(add_devices=True)

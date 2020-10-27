@@ -34,6 +34,7 @@ Publish all devices information to MQTT broker
 The gateway can publish all the information from the devices on the sensor network
 
 **Publish All Sensor Data to MQTT broker**
+
 .. code:: python
 
   [...]

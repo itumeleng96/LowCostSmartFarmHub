@@ -45,8 +45,22 @@ The previous methods may fail for the following reasons:
 
 ```````````````````````````````````````````````````````````````````````
 
-Check that the Gateway has internet connection
------------------------------------------------
+Get and Set Gateway Paramaters
+------------------------------
+The Gateway Class has various methods that allow the user to set and get certain attributes of the 
+gateway.
+
+
++---------------------------+--------------------------------------+
+| Class Method              | Description                          |
++===========================+======================================+
+| read_device_info()        | returns information about gateway    |
++---------------------------+--------------------------------------+
+| add_actuator(actuator)    | Adds actuator to the gateway         |
++---------------------------+--------------------------------------+
+| add_sensor(Sensor)        | Adds sensor to the gateway           |
++---------------------------+--------------------------------------+
+
 
 
 
