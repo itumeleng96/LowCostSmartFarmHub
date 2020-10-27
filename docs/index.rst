@@ -17,7 +17,6 @@ User documentation
 ==================
 .. toctree::
    :maxdepth: 2
-   :caption: user documentation
 
    user_doc/LowCostSmartFarmHub_terminology
    user_doc/configuring_rpi_gateway
