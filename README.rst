@@ -31,8 +31,6 @@ Features
 * Connect to the Web application to monitor and control the wireless sensor network remotely
 * Automatically Detect new devices on the network and sensors
 * Send commands from grafana to wireless sensor network
-
-.. image:: https://github.com/itumeleng96/LowCostSmartFarmHub/blob/master/images/smartFarmHub.png
  
 Credits
 -------
