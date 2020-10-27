@@ -15,7 +15,7 @@ import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
 import  json
-
+import requests
 from paho.mqtt import client as mqtt_client
 import RPi.version
 
@@ -37,20 +37,23 @@ class Gateway:
         self.location=location
         self.nodeDevices=nodeDevices
         self.panID=panID
-
         self.create_gateway()
 
     def create_gateway(self):
         """
-        This function gets the model information of gateway and the location of the device 
+        This function gets the model information of gateway and the location of the device
         from the internet
         """
-        
+
         #Get Device information
         device_info = RPi.version.info
         self.deviceName="RPI "+device_info['type']
-        #Get Device Location
-
+        
+        #Get Device Location approximation
+        url = 'https://extreme-ip-lookup.com/json/'
+        r = requests.get(url)
+        data = json.loads(r.content.decode())
+        self.location=data['city']
 
     def read_gateway_info(self):
         """
@@ -59,7 +62,13 @@ class Gateway:
         Returns:
             A dictionary with all the device information
         """
-        gateway_info={device_name:self.deviceName,location:self.location}
+        gateway_info={
+                      'device_name':self.deviceName,
+                      'location':self.location,
+                      'sensors':self.sensors,
+                      'actuators':self.actuators,
+                      'node_devices':self.nodeDevices
+                     }
         
         return gateway_info
 
