@@ -13,10 +13,9 @@ Welcome to Smart Farm Hub's documentation!
    authors
    history
 
-User documentation
-==================
 .. toctree::
    :maxdepth: 2
+   :caption: User Documentation
 
    user_doc/LowCostSmartFarmHub_terminology
    user_doc/configuring_rpi_gateway
