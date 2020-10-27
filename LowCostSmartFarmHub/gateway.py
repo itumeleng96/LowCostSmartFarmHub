@@ -39,6 +39,7 @@ class Gateway:
         self.nodeDevices=nodeDevices
         self.panID=panID
 
+        create_gateway()
 
     def create_gateway():
         """
@@ -64,8 +65,9 @@ class Gateway:
             A dictionary with all the device information
         """
         gateway_info={device_name:self.deviceName,location:self.location}
-
         
+        return gateway_info
+
     def add_sensor(self,sensor:Sensor):
         """
         Adds a sensor directly to the gateway Device
@@ -143,9 +145,11 @@ class Gateway:
         #Clear List of of Devices for Clean Discovery
         xnet.clear()
         #Start the discovery process and wait for it to be over
+        
         xnet.start_discovery_process()
         while xnet.is_discovery_running():
             time.sleep(1.5)
+
         #Get the List of Devices added to the Network and Add to Node Devices        
         devices = xnet.get_devices()
         xnet.add_remotes(devices)
