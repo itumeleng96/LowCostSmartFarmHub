@@ -52,6 +52,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/itumeleng96/LowCostSmartFarmHub',
-    download_url= 'https://github.com/itumeleng96/LowCostSmartFarmHub/archive/v0.1.8.tar.gz',
-    version='v0.1.8',
+    download_url= 'https://github.com/itumeleng96/LowCostSmartFarmHub/archive/0.1.9.tar.gz',
+    version='v0.1.9',
 )
