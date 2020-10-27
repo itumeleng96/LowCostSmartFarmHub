@@ -1,5 +1,5 @@
-XBee terminology
-================
+Low Cost Smart Farm Hub  terminology
+====================================
 
 This section covers basic LowCostSmartFarmHub concepts and terminology.The various modules and classes 
 used in the API will make references to these terms.
