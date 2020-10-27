@@ -41,7 +41,8 @@ setup(
     install_requires=[
         'digi-xbee',
         'click',
-        'rpi_ws281x'
+        'rpi_ws281x',
+        'paho-mqtt',
     ],
     license="MIT license",
     long_description=readme + '\n\n' + history,
