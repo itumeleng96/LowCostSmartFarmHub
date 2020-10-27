@@ -41,7 +41,8 @@ setup(
         'click',
         'rpi_ws281x',
         'paho-mqtt',
-        'PiHardwareInfo'
+        'PiHardwareInfo',
+        'doko'
     ],
     license="MIT license",
     long_description=readme + '\n\n' + history,

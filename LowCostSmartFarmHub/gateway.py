@@ -17,6 +17,8 @@ import  serial
 import  json
 from paho.mqtt import client as mqtt_client
 from pi_hardware_info import ModelType, get_info
+import doko
+
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
@@ -49,8 +51,9 @@ class Gateway:
         print("The Device Info",device_info)
         self.deviceName=device_info.ModelType
 
-        #Get Device Location
-        
+        #Get Device Location using Doko, which uses nearby internet routers
+        print(doko.location('geoip'))
+
 
 
     def read_gateway_info(self):
@@ -60,6 +63,7 @@ class Gateway:
         Returns:
             A dictionary with all the device information
         """
+        gateway_info={device_name:self.deviceName,location:self.location}
 
         
     def add_sensor(self,sensor:Sensor):
