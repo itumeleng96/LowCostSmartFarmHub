@@ -7,7 +7,7 @@ import  json
 import  random
 #The callback for when the client receives a CONNACK response from the server.
 
-gateway=Gateway("RPI","farm1",[],[],[],"")
+gateway=Gateway()
 
 def main():
 
@@ -35,6 +35,7 @@ def main():
     client_id = f'python-mqtt-{random.randint(0, 1000)}'
     mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)
     mqtt_client.loop_start() 
+
     while True:
       #Read Sensor Values
       sensor_value=sensor1.read_analog_xbee_sensor(node_device_1.XbeeObject,0,100)

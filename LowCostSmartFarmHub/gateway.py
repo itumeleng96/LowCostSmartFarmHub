@@ -1,4 +1,4 @@
-#RPI:3B+ Gateway
+#RPI Gateway
 
 '''Pin connection for sensors,actuators and Coordinator Node
    Pin 1        : 3.3V <--->Sensor 1,2,3 (VCC)
@@ -15,10 +15,9 @@ import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
 import  json
-from paho.mqtt import client as mqtt_client
-from pi_hardware_info import ModelType, get_info
-import doko
 
+from paho.mqtt import client as mqtt_client
+import RPi.version
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
@@ -39,22 +38,18 @@ class Gateway:
         self.nodeDevices=nodeDevices
         self.panID=panID
 
-        create_gateway()
+        self.create_gateway()
 
-    def create_gateway():
+    def create_gateway(self):
         """
         This function gets the model information of gateway and the location of the device 
         from the internet
         """
         
         #Get Device information
-        device_info = get_info()
-        print("The Device Info",device_info)
-        self.deviceName=device_info.ModelType
-
-        #Get Device Location using Doko, which uses nearby internet routers
-        print(doko.location('geoip'))
-
+        device_info = RPi.version.info
+        self.deviceName="RPI "+device_info['type']
+        #Get Device Location
 
 
     def read_gateway_info(self):
