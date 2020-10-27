@@ -20,7 +20,7 @@ test_requirements = [ ]
 setup(
     author="Joseph Malemela",
     author_email='itukzz96@gmail.com',
-    python_requires='>=3.6',
+    python_requires='>=3.5.6',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
