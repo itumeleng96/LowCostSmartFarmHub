@@ -14,7 +14,7 @@ services:
     restart: always
 
   influxdb:
-    image: influxdb:1.7
+    image: influxdb:latest
     container_name: influxdb
     ports:
       - 8086:8086
@@ -40,7 +40,8 @@ services:
     depends_on:
       - mosquitto
       - influxdb
-  
+    restart: always
+
   flaskserver:
     build: ../flask-server
     image: smart-farm-hub/flaskserver

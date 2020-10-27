@@ -7,14 +7,14 @@ from influxdb import InfluxDBClient
 import json
 import time
 
-INFLUXDB_ADDRESS = 'localhost'
+INFLUXDB_ADDRESS = 'influxdb'
 INFLUXDB_USER = 'root'
 INFLUXDB_PASSWORD = 'root'
 INFLUXDB_DATABASE = 'smartFarmHub'
 
-MQTT_TOPIC = "#" 
-MQTT_ADDRESS = "localhost"
-influxdb_client = InfluxDBClient(INFLUXDB_ADDRESS, 8086, INFLUXDB_USER, INFLUXDB_PASSWORD, None)
+MQTT_TOPIC = "data/#" 
+MQTT_ADDRESS = "mosquitto"
+influxdb_client = InfluxDBClient(host=INFLUXDB_ADDRESS,port=8086,username=INFLUXDB_USER,password=INFLUXDB_PASSWORD)
 
 def on_connect(client, userdata, flags, rc):
     """ The callback for when the client receives a CONNACK response from the server."""
@@ -60,7 +60,6 @@ def _init_influxdb_database():
     influxdb_client.switch_database(INFLUXDB_DATABASE)
 
 def main():
-
     time.sleep(10)
     print('Connecting to the database ' + INFLUXDB_DATABASE)
     _init_influxdb_database()

@@ -3,6 +3,7 @@ from    digi.xbee.io    import  IOLine,IOMode
 import time
 
 class Sensor:
+    '''This class provides functionality for the Sensor'''
     sensor_name:str
     sensor_id:int
     sensor_type:str
