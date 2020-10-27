@@ -1,2 +1,0 @@
-# MQTT to InfluxDB Bridge
-
