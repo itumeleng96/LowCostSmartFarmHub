@@ -21,11 +21,12 @@ the methods below.
   [...]
 
   # Instantiate a Gateway device object
-  gateway = Gateway("RPI 3B+","Farm location 1")
+  gateway = Gateway()
 
   gateway.mqtt_connect(client_id="xvsvs",broker='www.mosquitto-broker.com',port=1883)
 
   #returns a MQTT client
+
   [...]
 
 
@@ -40,7 +41,7 @@ The gateway can publish all the information from the devices on the sensor netwo
   [...]
 
   # Instantiate a Gateway device object
-  gateway = Gateway("RPI 3B+","Farm location 1")
+  gateway = Gateway()
 
   client=gateway.mqtt_connect(client_id="xvsvs",broker='www.mosquitto-broker.com',port=1883)
   
