@@ -50,7 +50,6 @@ def _parse_mqtt_message(topic,payload):
     #Decode JSON data
     decoded_payload=json.loads(payload)
     _send_sensor_data_to_influxdb(decoded_payload)
-    
 
 def _init_influxdb_database():
     databases = influxdb_client.get_list_database()
