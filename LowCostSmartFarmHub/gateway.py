@@ -178,9 +178,9 @@ class Gateway:
         # result: [0, 1]
         status = result[0]
         if status == 0:
-            print(f"Send `{payload}` to topic `{topic}`")
+            print("Send",payload," to topic ",topic)
         else:
-            print(f"Failed to send message to topic {topic}")
+            print("Failed to send message to topic ",topic)
     
     def parse_mqtt_message(self,msg):
         """
