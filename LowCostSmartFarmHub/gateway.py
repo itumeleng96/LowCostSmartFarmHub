@@ -21,14 +21,6 @@ import RPi.version
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
-    deviceName:str              #The unique name for the gateway device
-    sensors:[]                  #All the sensors connected directly to sensor
-    actuators:[]                #All the actuators connected directly to gateway
-    location:str                #Locaion of the gateway
-    nodeDevices:[]              #All the Node Devices(Xbee) in the Network
-    panID:str                   #The Unique Zigbee Network Identifier
-    localXBee:XBeeDevice        #The Local Zigbee device used as Coordinator through serial Port
-
 
     def __init__(self,deviceName=None,location=None,sensors=None,actuators=None,nodeDevices=None,panID=None):
         self.deviceName=deviceName

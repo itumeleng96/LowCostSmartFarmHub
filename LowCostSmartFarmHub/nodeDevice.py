@@ -14,14 +14,6 @@ from    .sensor  import Sensor
 
 class NodeDevice:
     '''This class represents every node device on the network'''
-    nodeName:str
-    nodeType:str
-    location:str
-    sensors:[]
-    actuators:[]
-    macAddress:str
-    batteryLevel:str
-    XbeeObject:XBeeDevice
 
     # Initialize Node Object	
     def __init__(self,nodeName,nodeType,macAddress,sensors=None,actuators=None,location=None,batteryLevel=None):

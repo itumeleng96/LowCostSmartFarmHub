@@ -4,12 +4,6 @@ import time
 
 class Sensor:
     '''This class provides functionality for the Sensor'''
-    sensor_name:str
-    sensor_id:int
-    sensor_type:str
-    sensor_values:[]
-    description:str
-    unit_of_measure:str
     
     def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,sensorValues=[]):
         self.sensor_name=sensorName      #Every Sensor on the network has a name
