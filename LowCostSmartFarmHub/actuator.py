@@ -23,7 +23,7 @@ class Actuator:
         """
         return self.actuatorValues[len(self.actuatorValues)-1]
         
-    def control_ws28x1_light(self,led_pin,state):
+    def control_ws28x1_light(self):
         """
         Function to  configure and control the ws28x1 RGB LED Strip
        
