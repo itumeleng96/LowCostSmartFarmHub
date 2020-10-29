@@ -26,8 +26,7 @@ def on_message(client, userdata, msg):
     """The callback for when a PUBLISH message is received from the server."""
     print(msg.topic + ' ' + str(msg.payload))
     _parse_mqtt_message(msg.topic, msg.payload.decode('utf-8'))
-    #if sensor_data is not None:
-    #    _send_sensor_data_to_influxdb(sensor_data)
+    
 def _send_sensor_data_to_influxdb(sensor_data):
     sensor_data['data']['value']=float(sensor_data['data']['value'])
     print("Sensor Data:",sensor_data)
@@ -46,8 +45,26 @@ def _send_sensor_data_to_influxdb(sensor_data):
     ]
     influxdb_client.write_points(json_body)
 
+def _send_actuator_data_to_influxdb(actuator_data):
+    actuator_data['data']['value']=float(actuator_data['data']['value'])
+    print("Sensor Data:",actuator_data)
+    print("Sensor Data:",actuator_data['data']['value'])
+    json_body=[
+        {
+            'measurement':actuator_data['actuator_name'],
+            'tags':{
+                'actuator-connection':actuator_data['actuator_connection']
+            },
+            'fields':{
+                'value':actuator_data['data']['value']
+            }
+        }
+    ]
+    influxdb_client.write_points(json_body)
+
 def _parse_mqtt_message(topic,payload):
     #Decode JSON data
+    #check if its sensor or actuator that published messgae 
     decoded_payload=json.loads(payload)
     _send_sensor_data_to_influxdb(decoded_payload)
 

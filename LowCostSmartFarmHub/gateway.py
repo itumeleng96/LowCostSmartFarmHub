@@ -175,9 +175,6 @@ class Gateway:
         Args:
             client(mqtt_client):The MQTT client object
             sensor(Sensor): The sensor object with all the attributes of the sensor
-            port(int): The port where the MQTT broker is running
-            broker_address: The Address of the MQTT broker e.g (localhost or 192.168.10.1 or www.mqtt-broker.io)
-
         """
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
@@ -192,7 +189,30 @@ class Gateway:
             print(f"Send `{payload}` to topic `{topic}`")
         else:
             print(f"Failed to send message to topic {topic}")
-        
+    
+    def publish_actuator_info(self,client,actuator:Actuator):
+        """
+        Publishes the provided sensor infromation to the broker specified
+
+        Args:
+            client(mqtt_client):The MQTT client object
+            sensor(Sensor): The sensor object with all the attributes of the sensor
+        """
+        payload_dict={"sensor_name":actuator.actuatorName,"sensor_id":actuator.actuatorID,"sensor_connection":"DIO","data":{"value":actuator.get_last_value()}}
+        payload=json.dumps(payload_dict)
+
+        topic = 'data/myfarm/dorm-room/'+actuator.actuatorName+"/"
+
+        result = client.publish(topic,payload,2)
+
+        # result: [0, 1]
+        status = result[0]
+        if status == 0:
+            print(f"Send `{payload}` to topic `{topic}`")
+        else:
+            print(f"Failed to send message to topic {topic}")
+    
+
     def connect_mqtt(self,client_id,broker,port):
         """
         This function connects to the MQTT broker
@@ -213,7 +233,8 @@ class Gateway:
                 print("Failed to connect, return code %d\n", rc)
         
         def on_message(client, userdata, msg):
-             print(msg.topic+" "+str(msg.payload))
+            print("recieved message")
+            print(msg.topic+" "+str(msg.payload))
 
         # Set Connecting Client ID
         client = mqtt_client.Client(client_id)
