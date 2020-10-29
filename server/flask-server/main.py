@@ -41,7 +41,7 @@ def alert():
 def control_cmd():
     #Send ON Command to MQTT Broker
  
-    mqtt.publish("cmd/myfarm/dorm-room/gateway/switch/","on",2)
+    mqtt.publish("cmd/myfarm/dorm-room/gateway/switch/","{state:on}")
     return "ok"
 
 if __name__ == "__main__":
