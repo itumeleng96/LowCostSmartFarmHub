@@ -158,7 +158,7 @@ class Gateway:
         if status == 0:
             print("Send",payload," to topic ",topic)
         else:
-            print(f"Failed to send message to topic {topic}")
+            print("Failed to send message to topic ",topic)
     
     def publish_actuator_info(self,client,actuator:Actuator):
         """
