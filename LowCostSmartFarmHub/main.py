@@ -3,6 +3,7 @@ from    gateway import  Gateway
 import time
 from    nodeDevice import NodeDevice
 from    sensor  import Sensor
+from    actuator import Actuator
 import  json
 import  random
 #The callback for when the client receives a CONNACK response from the server.
@@ -28,9 +29,12 @@ def main():
     node_device_2.XbeeObject=gateway.localXBee
 
     sensor3=Sensor("Humidity Sensor","BFNND","Humidity","Measures Humidity in percentage","%")
+    
+    #Initialize all Actuators on the network 
+    actuator1=Actuator("RGB LED","1","DIO","LED for Plant Growth",18,["off"])
+    gateway.add_actuator(actuator1)
 
-
-    print("Publishing to Broker every minute")
+    print("Publishing to Broker every minute and Waiting for cmd messages")
 
     client_id = f'python-mqtt-{random.randint(0, 1000)}'
     mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)

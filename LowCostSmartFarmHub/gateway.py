@@ -55,6 +55,9 @@ class Gateway:
         data = json.loads(r.content.decode())
         self.location=data['city']
 
+        #instantiate Gateway attributes
+        self.actuators=[]
+
     def read_gateway_info(self):
         """
         This function returns the device information in a dictionary format
@@ -95,31 +98,6 @@ class Gateway:
                 A list of all the actuators connected directly to the gateway
         """
         self.actuators.append(actuator)
-
-    def add_zigbee_device(self,nodeName,nodeType,xbeeDevice:XBeeDevice):
-        """
-        Adds the  Zigbee Device to  the Gateway Node Devices
-	        Args:
-             	node_name (String): name of zigbee device
-             	node_type (String): the type of node-device (end-device,router-device,coordinator-device)
-             	xbee_device (XBeeDevice): the xbee device of object if device is a Digi XBee module
-
-        	Returns:
-             	List of Node Devices connected to Gateway wirelessly and through the serial Port
-        	Raises:
-             	XBeeException:if the provided XBee device does not responds to commands
-        	"""
-
-        print("Adding Zigbee Device to Network")
-        print(xbeeDevice.read_device_info())
-        #xnet=self.localXBee.get_network()
-        #xnet.add_remote(xbeeDevice)
-        
-        #nodeDevice.macAddress=
-        #nodeDevice.XbeeObject=XBeeDevice
-        #nodeDevice=NodeDevice(nodeName,nodeType)
-    
-        self.nodeDevices.append(nodeDevice("","",""))
 
     def connect_stream_uart(self,comPort,baud_rate,discover_devices):
         """
@@ -192,7 +170,17 @@ class Gateway:
             print(f"Send `{payload}` to topic `{topic}`")
         else:
             print(f"Failed to send message to topic {topic}")
-        
+    
+    def parse_mqtt_message(self,msg):
+        """
+        This function gets the MQTT cmd message and passes 
+        it on to the relevant node or device
+        Args:
+            msg: The message payload from MQTT broker
+        """
+        print("Parsing message from MQTT broker")
+        self.actuators[0].control_ws28x1_light()
+
     def connect_mqtt(self,client_id,broker,port):
         """
         This function connects to the MQTT broker
@@ -213,7 +201,9 @@ class Gateway:
                 print("Failed to connect, return code %d\n", rc)
         
         def on_message(client, userdata, msg):
-             print(msg.topic+" "+str(msg.payload))
+            print("recieved message")
+            print(msg.topic+" "+str(msg.payload))
+            self.parse_mqtt_message(msg)
 
         # Set Connecting Client ID
         client = mqtt_client.Client(client_id)
@@ -222,7 +212,6 @@ class Gateway:
         client.connect(broker, port)
         return client
 
-       #def update_fiirmware(XBeeDevice:xbee_device):
     def detect_devices(self,add_devices):
         """
         This function detects all devices connected to the Gateway Directly
