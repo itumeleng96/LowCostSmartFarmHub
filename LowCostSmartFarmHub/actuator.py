@@ -50,11 +50,15 @@ class Actuator:
         strip.begin()
         if(self.actuatorValues[len(self.actuatorValues)-1]=="off"):
           print("state of LED :on")
-          strip.setPixelColor(0,Color(4,255,255))
+          for i in range(0, strip.numPixels()):
+                strip.setPixelColor(i,Color(4,255,255))
+
           self.actuatorValues.append("on")
 
         elif (self.actuatorValues[len(self.actuatorValues)-1]=="on"):
           print("state of LED :off")
-          strip.setPixelColor(0,Color(0,0,0))
+          for i in range(0, strip.numPixels()):
+                strip.setPixelColor(i,Color(0,0,0))
+
           self.actuatorValues.append("off")
         strip.show()
