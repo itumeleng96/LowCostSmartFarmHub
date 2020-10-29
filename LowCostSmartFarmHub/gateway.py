@@ -8,9 +8,9 @@
    Pin 8 and 10 : UART <--->UART Xbee 
 '''
 
-from sensor import Sensor
-from actuator import Actuator
-from nodeDevice import NodeDevice
+from .sensor import Sensor
+from .actuator import Actuator
+from .nodeDevice import NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
