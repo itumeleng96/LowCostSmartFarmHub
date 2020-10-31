@@ -149,7 +149,7 @@ class Gateway:
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/'+sensor.sensor_name+"/"
+        topic = 'data/myfarm/dorm-room/sensor/'+sensor.sensor_name+"/"
 
         result = client.publish(topic,payload,2)
 
@@ -160,6 +160,29 @@ class Gateway:
         else:
             print("Failed to send message to topic ",topic)
     
+    def publish_power_info(self,client,node_device:NodeDevice):
+        """
+        Publishes the provided node device's battery infromation to the broker specified
+
+        Args:
+            client(mqtt_client):The MQTT client object
+            nodeDevice(nodeDevice): The node Device object with all the attributes of the node
+        """
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.batteryLevel,"units":"percentage"}}
+        payload=json.dumps(payload_dict)
+
+        topic = 'data/myfarm/dorm-room/power/'+node_device.nodeName+"/"
+
+        result = client.publish(topic,payload,2)
+
+        # result: [0, 1]
+        status = result[0]
+        if status == 0:
+            print("Send",payload," to topic ",topic)
+        else:
+            print("Failed to send message to topic ",topic)
+
+
     def publish_actuator_info(self,client,actuator:Actuator):
         """
         Publishes the provided sensor infromation to the broker specified
@@ -171,7 +194,7 @@ class Gateway:
         payload_dict={"sensor_name":actuator.actuatorName,"sensor_id":actuator.actuatorID,"sensor_connection":"DIO","data":{"value":actuator.get_last_value()}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/'+actuator.actuatorName+"/"
+        topic = 'data/myfarm/dorm-room/actuator/'+actuator.actuatorName+"/"
 
         result = client.publish(topic,payload,2)
 

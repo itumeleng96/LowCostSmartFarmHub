@@ -45,28 +45,35 @@ def _send_sensor_data_to_influxdb(sensor_data):
     ]
     influxdb_client.write_points(json_body)
 
-def _send_actuator_data_to_influxdb(actuator_data):
-    actuator_data['data']['value']=float(actuator_data['data']['value'])
-    print("Sensor Data:",actuator_data)
-    print("Sensor Data:",actuator_data['data']['value'])
+def _send_battery_data_to_influxdb(battery_data):
+    battery_data['data']['value']=float(battery_data['data']['value'])
+    print("Sensor Data:",battery_data)
+    print("Sensor Data:",battery_data['data']['value'])
     json_body=[
         {
-            'measurement':actuator_data['actuator_name'],
+            'measurement':battery_data['node_name'],
             'tags':{
-                'actuator-connection':actuator_data['actuator_connection']
+                'battery-type':battery_data['battery_type']
             },
             'fields':{
-                'value':actuator_data['data']['value']
+                'value':battery_data['data']['value']
             }
         }
     ]
     influxdb_client.write_points(json_body)
 
+
 def _parse_mqtt_message(topic,payload):
     #Decode JSON data
-    #check if its sensor or actuator that published messgae 
     decoded_payload=json.loads(payload)
-    _send_sensor_data_to_influxdb(decoded_payload)
+    
+    print(topic[0:28])
+    if(topic[0:28]=="data/myfarm/dorm-room/power/"):
+        _send_battery_data_to_influxdb(decoded_payload)
+
+    else if (topic[0:28]=="data/myfarm/dorm-room/sensor/")
+        _send_sensor_data_to_influxdb(decoded_payload)
+    
 
 def _init_influxdb_database():
     databases = influxdb_client.get_list_database()
