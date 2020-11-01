@@ -52,7 +52,7 @@ def main():
 
       gateway.publish_sensor_info(mqtt_client,sensor3)
       gateway.publish_actuator_info(mqtt_client,actuator1)
-      time.sleep(60)    #Sleep for a minute
+      time.sleep(600)    #Sleep for a minute
 
 if __name__ == '__main__':
     print('Testing MQTT Client Functions')
