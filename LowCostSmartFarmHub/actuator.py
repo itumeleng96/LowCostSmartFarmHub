@@ -2,12 +2,7 @@ import time
 from rpi_ws281x import Color, PixelStrip, ws
 
 class Actuator:
-    actuatorName:str
-    actuatorID:int
-    actuatorType:str
-    actuatorValues:[]
-    description:str
-    dio_dac_pin:int
+
     def __init__(self,actuatorName,actuatorID,actuatorType,description,DIO_DAC_Pin,actuatorValues):
         self.actuatorName=actuatorName      #Every Actuator on the network has a name
         self.actuatorID=actuatorID          #Every Actuator on the network has a unique ID

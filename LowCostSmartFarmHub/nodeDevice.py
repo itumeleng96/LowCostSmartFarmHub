@@ -10,18 +10,10 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
-from    sensor  import Sensor
+from    .sensor  import Sensor
 
 class NodeDevice:
     '''This class represents every node device on the network'''
-    nodeName:str
-    nodeType:str
-    location:str
-    sensors:[]
-    actuators:[]
-    macAddress:str
-    batteryLevel:str
-    XbeeObject:XBeeDevice
 
     # Initialize Node Object	
     def __init__(self,nodeName,nodeType,macAddress,sensors=None,actuators=None,location=None,batteryLevel=None):
@@ -89,4 +81,15 @@ class NodeDevice:
             if actuator.actuatorID==actuatorID:
                 self.actuators.remove(actuator)
 
+    def detectDevices(self,add_devices):
+        """
+        Detect New Devices on a XBee Node
+
+        Args:
+            add_devices (Boolean): whether to add the sensor or actuator to the list of devices
+
+        Returns:
+            List of Devices
+        """
+           
      

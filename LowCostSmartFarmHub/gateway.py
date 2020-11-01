@@ -8,9 +8,9 @@
    Pin 8 and 10 : UART <--->UART Xbee 
 '''
 
-from sensor import Sensor
-from actuator import Actuator
-from nodeDevice import NodeDevice
+from .sensor import Sensor
+from .actuator import Actuator
+from .nodeDevice import NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
@@ -18,17 +18,12 @@ import  json
 import requests
 from paho.mqtt import client as mqtt_client
 import RPi.version
+import logging
+log = logging.getLogger()
+
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
-    deviceName:str              #The unique name for the gateway device
-    sensors:[]                  #All the sensors connected directly to sensor
-    actuators:[]                #All the actuators connected directly to gateway
-    location:str                #Locaion of the gateway
-    nodeDevices:[]              #All the Node Devices(Xbee) in the Network
-    panID:str                   #The Unique Zigbee Network Identifier
-    localXBee:XBeeDevice        #The Local Zigbee device used as Coordinator through serial Port
-
 
     def __init__(self,deviceName=None,location=None,sensors=None,actuators=None,nodeDevices=None,panID=None):
         self.deviceName=deviceName
@@ -99,7 +94,7 @@ class Gateway:
         """
         self.actuators.append(actuator)
 
-    def connect_stream_uart(self,comPort,baud_rate,discover_devices):
+    def connect_stream_uart(self,comPort,baud_rate):
         """
 		Function for opening serial communication Port between RPI and  XBee Device
 		Args:
@@ -107,11 +102,17 @@ class Gateway:
 		Returns:
 			None
     	"""
-        localXBee=XBeeDevice(comPort,baud_rate)  #With Baudrate:9600
-        localXBee.open()
-        self.panID=localXBee.get_pan_id()   #Set the PanID
-        self.localXBee=localXBee
-	
+        localXBee=XBeeDevice(comPort,baud_rate)  
+
+        try:
+            localXBee.open()
+            self.panID=localXBee.get_pan_id()        #Set the PanID
+            self.localXBee=localXBee
+            return True
+        
+        except:
+            return False
+
 
     def discover_zigbee_devices(self):
         """
@@ -157,17 +158,40 @@ class Gateway:
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/'+sensor.sensor_name+"/"
+        topic = 'data/myfarm/dorm-room/sensor/'+sensor.sensor_name+"/"
 
         result = client.publish(topic,payload,2)
 
         # result: [0, 1]
         status = result[0]
         if status == 0:
-            print(f"Send `{payload}` to topic `{topic}`")
+            print("Send",payload," to topic ",topic)
         else:
-            print(f"Failed to send message to topic {topic}")
+            print("Failed to send message to topic ",topic)
     
+    def publish_power_info(self,client,node_device:NodeDevice):
+        """
+        Publishes the provided node device's battery infromation to the broker specified
+
+        Args:
+            client(mqtt_client):The MQTT client object
+            nodeDevice(nodeDevice): The node Device object with all the attributes of the node
+        """
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.batteryLevel,"units":"percentage"}}
+        payload=json.dumps(payload_dict)
+
+        topic = 'data/myfarm/dorm-room/power/'+node_device.nodeName+"/"
+
+        result = client.publish(topic,payload,2)
+
+        # result: [0, 1]
+        status = result[0]
+        if status == 0:
+            print("Send",payload," to topic ",topic)
+        else:
+            print("Failed to send message to topic ",topic)
+
+
     def publish_actuator_info(self,client,actuator:Actuator):
         """
         Publishes the provided sensor infromation to the broker specified
@@ -179,16 +203,16 @@ class Gateway:
         payload_dict={"sensor_name":actuator.actuatorName,"sensor_id":actuator.actuatorID,"sensor_connection":"DIO","data":{"value":actuator.get_last_value()}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/'+actuator.actuatorName+"/"
+        topic = 'data/myfarm/dorm-room/actuator/'+actuator.actuatorName+"/"
 
         result = client.publish(topic,payload,2)
 
         # result: [0, 1]
         status = result[0]
         if status == 0:
-            print(f"Send `{payload}` to topic `{topic}`")
+            print("Send",payload," to topic ",topic)
         else:
-            print(f"Failed to send message to topic {topic}")
+            print("Failed to send message to topic ",topic)
     
     def parse_mqtt_message(self,msg):
         """
@@ -233,8 +257,30 @@ class Gateway:
 
     def detect_devices(self,add_devices):
         """
-        This function detects all devices connected to the Gateway Directly
+        This function detects all devices connected to the Gateway
 
         Args:
             add_devices(Boolean): if true, it automatically adds the devices to the gateway
+
+        Returns:
+            A list of all devices on gateway (Actuators,Sensors, Local Nodes)
+
         """
+
+        #GPIO Line Detection - I2C and Digital
+        
+
+        #Zigbee Devices Detection - check local and remote
+        connected=self.connect_stream_uart("/dev/serial0",9600)
+        if connected:
+            #Discover Remote Zigbee Devices
+            devices=self.discover_zigbee_devices()
+            #create Nodes and Add them to system
+            log.info("This are the devices:",devices)
+
+            if add_devices:
+                for device in devices:
+                    self.append(device)
+        else:
+            log.critical("No Coordinator Device on Gateway")
+        
