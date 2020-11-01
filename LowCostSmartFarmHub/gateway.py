@@ -252,4 +252,8 @@ class Gateway:
 
         Args:
             add_devices(Boolean): if true, it automatically adds the devices to the gateway
+
+        Returns:
+            A list of all devices on gateway (Actuators,Sensors, Local Nodes)
+            
         """

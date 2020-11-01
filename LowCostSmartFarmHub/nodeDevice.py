@@ -81,4 +81,15 @@ class NodeDevice:
             if actuator.actuatorID==actuatorID:
                 self.actuators.remove(actuator)
 
+    def detectDevices(self,add_devices):
+        """
+        Detect New Devices on a XBee Node
+
+        Args:
+            add_devices (Boolean): whether to add the sensor or actuator to the list of devices
+
+        Returns:
+            List of Devices
+        """
+           
      
