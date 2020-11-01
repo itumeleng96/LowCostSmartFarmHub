@@ -13,8 +13,9 @@ gateway=Gateway()
 def main():
 
     #Initialize Gateway object from gateway
+    gateway.detect_devices(True)
     print("Connecting to Local XBee through UART")
-    gateway.connect_stream_uart("/dev/serial0",9600,True)
+    gateway.connect_stream_uart("/dev/serial0",9600)
     
     devices=gateway.discover_zigbee_devices()
     print("Remote Xbee Devices: ",devices)

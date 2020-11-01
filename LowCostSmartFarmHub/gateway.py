@@ -18,6 +18,9 @@ import  json
 import requests
 from paho.mqtt import client as mqtt_client
 import RPi.version
+import logging
+log = logging.getLogger()
+
 
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
@@ -91,7 +94,7 @@ class Gateway:
         """
         self.actuators.append(actuator)
 
-    def connect_stream_uart(self,comPort,baud_rate,discover_devices):
+    def connect_stream_uart(self,comPort,baud_rate):
         """
 		Function for opening serial communication Port between RPI and  XBee Device
 		Args:
@@ -99,11 +102,17 @@ class Gateway:
 		Returns:
 			None
     	"""
-        localXBee=XBeeDevice(comPort,baud_rate)  #With Baudrate:9600
-        localXBee.open()
-        self.panID=localXBee.get_pan_id()   #Set the PanID
-        self.localXBee=localXBee
-	
+        localXBee=XBeeDevice(comPort,baud_rate)  
+
+        try:
+            localXBee.open()
+            self.panID=localXBee.get_pan_id()        #Set the PanID
+            self.localXBee=localXBee
+            return True
+        
+        except:
+            return False
+
 
     def discover_zigbee_devices(self):
         """
@@ -248,12 +257,30 @@ class Gateway:
 
     def detect_devices(self,add_devices):
         """
-        This function detects all devices connected to the Gateway Directly
+        This function detects all devices connected to the Gateway
 
         Args:
             add_devices(Boolean): if true, it automatically adds the devices to the gateway
 
         Returns:
             A list of all devices on gateway (Actuators,Sensors, Local Nodes)
-            
+
         """
+
+        #GPIO Line Detection - I2C and Digital
+        
+
+        #Zigbee Devices Detection - check local and remote
+        connected=self.connect_stream_uart("/dev/serial0",9600)
+        if connected:
+            #Discover Remote Zigbee Devices
+            devices=self.discover_zigbee_devices()
+            #create Nodes and Add them to system
+            log.info("This are the devices:",devices)
+
+            if add_devices:
+                for device in devices:
+                    self.append(device)
+        else:
+            log.critical("No Coordinator Device on Gateway")
+        
