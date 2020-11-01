@@ -15,7 +15,7 @@ Smart Farm Hub
 
 
 
-Gateway API for a Zigbee Wireless Network and Cloud Based Docker image for a smart farm hub written in Python 
+A Python Library for a Smart Farm Gateway used for implementing a Zigbee Wireless Network.The Repository also contains Cloud Based Docker images for server applications for the  smart farm hub. 
 
 
 * Free software: MIT license
