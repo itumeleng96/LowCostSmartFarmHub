@@ -10,7 +10,7 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
-from    .sensor  import Sensor
+from    sensor  import Sensor
 
 class NodeDevice:
     '''This class represents every node device on the network'''

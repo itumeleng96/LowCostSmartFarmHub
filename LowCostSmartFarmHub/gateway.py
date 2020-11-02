@@ -8,9 +8,9 @@
    Pin 8 and 10 : UART <--->UART Xbee 
 '''
 
-from .sensor import Sensor
-from .actuator import Actuator
-from .nodeDevice import NodeDevice
+from  sensor import Sensor
+from  actuator import Actuator
+from  nodeDevice import NodeDevice
 import  time
 from    digi.xbee.devices   import XBeeDevice
 import  serial
@@ -94,7 +94,45 @@ class Gateway:
                 A list of all the actuators connected directly to the gateway
         """
         self.actuators.append(actuator)
+    def get_node_device(self,mac_address,node_devices):
+        """
+        Looks for node device with the specified mac address on the network
+        
+           Args:
+              mac_address: unique 64 Bit address of XBee3 modules
+           Returns:
+              The node device
+        """
+        for node in node_devices:
+          if(node.get_64bit_addr()==mac_address):
+            return node
+    def add_node_device(self,node,sensor,actuator):
+        """
+        Adds the node device and its devices to network
+        
+        Args: 
+               node(NodeDevice)
+               sensor(Sensor)
+               actuator(Actuator)
+        """
+        #First Check if the Node is already in the list
+        check=False
+        for node_devices in self.nodeDevices:
+          if (node_devices.XBeeObject.get_64bit_addr()==node.XBeeObject.get_64bit_addr()):
+             check=True
+             if (sensor!=""):
+                node_devices.add(sensor)
+             elif (actuator!=""):
+                node_devices.add(actuator)
 
+        #Doesn't exist therefore create one
+        if (check==False): 
+          if (sensor!=""):
+             node.add(sensor)
+          elif (actuator!=""):
+             node.add(actuator)
+          self.nodeDevices.append(node)
+       
     def connect_stream_uart(self,comPort,baud_rate):
         """
 		Function for opening serial communication Port between RPI and  XBee Device
@@ -106,13 +144,13 @@ class Gateway:
         localXBee=XBeeDevice(comPort,baud_rate)  
 
         try:
-            localXBee.open()
-            self.panID=localXBee.get_pan_id()        #Set the PanID
-            self.localXBee=localXBee
-            return True
-        
+          localXBee.open()
+          self.panID=localXBee.get_pan_id()        #Set the PanID
+          self.localXBee=localXBee
+          return True
+
         except:
-            return False
+          return False
 
 
     def discover_zigbee_devices(self):
@@ -266,11 +304,9 @@ class Gateway:
 
         Returns:
             A list of all devices on gateway (Actuators,Sensors, Local Nodes)
-
         """
 
-        #GPIO Line Detection - I2C and Digital
-        
+        #GPIO Line Detection - I2C and Digital 
         hub_devices=[]
 
         #Add Local XBee to list of Devices
@@ -278,11 +314,11 @@ class Gateway:
         #Discover Remote Zigbee Devices
         devices=self.discover_zigbee_devices()
         #create Nodes and Add them to system
-        log.info("This are the devices:",devices)
 
         for device in devices:
+            #print(self.localXBee.get_64bit_addr())
             hub_devices.append(device)
-              
+
         #Read CSV File and assign information to devices
         with open(csv_path) as csv_file:
             csv_reader=csv.reader(csv_file,delimiter=',')
@@ -290,12 +326,34 @@ class Gateway:
 
             for line  in csv_reader:
                 if line_count==0:
-                    log.info("Reading CSV file")
+                    print("Reading CSV file")
                     line_count+=1
                 else:
-                    #Get The device values
-                    log.info(line[0])
+                    #Get The device  attributes
+                    #Create sensors
+                    if(line[0]=="gateway"): #Add sensor or actuator to gateway
+                      if(line[2]=="sensor"):
+                        sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                        self.add_sensor(sensor)
+                      elif (line[2]=="actuator")
+                        actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
+                        self.add_actuator(actuator)
+                    #Create Node Devices
+                    elif (line[0]=="coordinator" or line[0]=="router")
+                      #check if the mac addresses are the same
+                      xbee_object=self.get_node_device(line[7],hub_devices)
+                      #Create Node Device for Hub
+                      node=NodeDevice(line[1],line[0],line_count)
+                      node.XBeeObject=xbee_object
+
+                      actuator=""
+                      sensor="" 
+
+                      if(line[2]=="sensor"):
+                        sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                      elif (line[2]=="actuator")
+                        actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
+                        self.add_node(node,sensor,actuator)
                     line_count+=1
 
         return hub_devices
-    

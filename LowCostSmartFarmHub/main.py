@@ -11,50 +11,20 @@ import  random
 gateway=Gateway()
 
 def main():
-
     #Initialize Gateway object from gateway
-    gateway.detect_devices(True)
-    print("Connecting to Local XBee through UART")
-    gateway.connect_stream_uart("/dev/serial0",9600)
-    
-    devices=gateway.discover_zigbee_devices()
-    print("Remote Xbee Devices: ",devices)
+    print("Checking for Coordinator device and initializing network")
+    connected=gateway.connect_stream_uart("/dev/serial0",9600)
+    if (connected):
+      gateway.detect_devices(gateway.localXBee,True,"devices.csv")
+    else:
+      print("Failed to connect to Coordinator")
 
-    #Initialize all sensors on the network 
-    sensor1=Sensor("Soil Moisture Sensor","XCVE","Soil Moisture","Measures soil moisture in percentage","%",0)
-    node_device_1=NodeDevice("Remote Xbee Module","end-device","GBSJDMMD",sensor1)
-    node_device_1.XbeeObject=devices[0]
+    #print("Publishing to Broker every minute and Waiting for cmd messages")
 
-    sensor2=Sensor("Temperature Sensor","BFNND","Temperature","Measures Temperature in degrees celcius","degrees",0)
-    node_device_2=NodeDevice("Local Xbee Module","end-device","GBSJDMMD",sensor2)
-    node_device_2.XbeeObject=gateway.localXBee
-
-    sensor3=Sensor("Humidity Sensor","BFNND","Humidity","Measures Humidity in percentage","%",0)
-    
-    #Initialize all Actuators on the network 
-    actuator1=Actuator("RGB LED","1","DIO","LED for Plant Growth",18,["off"])
-    gateway.add_actuator(actuator1)
-
-    print("Publishing to Broker every minute and Waiting for cmd messages")
-
-    client_id = f'python-mqtt-{random.randint(0, 1000)}'
-    mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)
-    mqtt_client.loop_start() 
-
-    while True:
-      #Read Sensor Values
-      sensor_value=sensor1.read_analog_xbee_sensor(node_device_1.XbeeObject,100)
-      gateway.publish_sensor_info(mqtt_client,sensor1)
-
-      sensor_value2=sensor2.read_analog_xbee_sensor(node_device_2.XbeeObject,50)
-      gateway.publish_sensor_info(mqtt_client,sensor2)
-      
-      sensor_value3=sensor3.read_analog_xbee_sensor(node_device_2.XbeeObject,100)
-
-      gateway.publish_sensor_info(mqtt_client,sensor3)
-      gateway.publish_actuator_info(mqtt_client,actuator1)
-      time.sleep(600)    #Sleep for a minute
+    #client_id = f'python-mqtt-{random.randint(0, 1000)}'
+    #mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)
+    #mqtt_client.loop_start()
 
 if __name__ == '__main__':
-    print('Testing MQTT Client Functions')
+    print('Running smart Farm Hub')
     main()
