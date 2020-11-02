@@ -177,14 +177,26 @@ class Gateway:
         xnet.add_remotes(devices)
         return  devices
 
-    def publish(self,client):
+    def publish(self,client,interval):
         """
         Publishes all the devices infromation to the broker specified
         
         Args:
             client(mqtt_client):The MQTT client object
-
         """
+        while True:
+            for sensor in self.Sensors:
+                self.publish_sensor_info(client,sensor)
+            for actuator in self.actuators:
+                self.publish_actuator_info(client,actuator)
+            
+            for node_device in self.nodeDevices:
+                for sensor_in_node in node_device.sensors:
+                    self.publish_sensor_info(client,sensor_in_node)
+                for actuator_in_node in node_device.actuators:
+                    self.publish_actuator_info(client,actuator)
+            
+            time.sleep(interval)
 
     def publish_sensor_info(self,client,sensor:Sensor):
         """
@@ -332,28 +344,29 @@ class Gateway:
                     #Get The device  attributes
                     #Create sensors
                     if(line[0]=="gateway"): #Add sensor or actuator to gateway
-                      if(line[2]=="sensor"):
-                        sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
-                        self.add_sensor(sensor)
-                      elif (line[2]=="actuator")
-                        actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
-                        self.add_actuator(actuator)
+                        if(line[2]=="sensor"):
+                            sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                            self.add_sensor(sensor)
+                        elif (line[2]=="actuator")
+                            actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
+                            self.add_actuator(actuator)
+                    
                     #Create Node Devices
                     elif (line[0]=="coordinator" or line[0]=="router")
-                      #check if the mac addresses are the same
-                      xbee_object=self.get_node_device(line[7],hub_devices)
-                      #Create Node Device for Hub
-                      node=NodeDevice(line[1],line[0],line_count)
-                      node.XBeeObject=xbee_object
+                        #check if the mac addresses are the same
+                        xbee_object=self.get_node_device(line[7],hub_devices)
+                        #Create Node Device for Hub
+                        node=NodeDevice(line[1],line[0],line_count)
+                        node.XBeeObject=xbee_object
 
-                      actuator=""
-                      sensor="" 
+                        actuator=""
+                        sensor="" 
 
-                      if(line[2]=="sensor"):
-                        sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
-                      elif (line[2]=="actuator")
-                        actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
-                        self.add_node(node,sensor,actuator)
+                        if(line[2]=="sensor"):
+                            sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                        elif (line[2]=="actuator")
+                            actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
+                            self.add_node(node,sensor,actuator)
                     line_count+=1
 
         return hub_devices
