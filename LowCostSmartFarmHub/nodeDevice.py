@@ -54,7 +54,14 @@ class NodeDevice:
         for sensor in self.sensors:
             if sensor.sensorID==sensorID:
                 self.sensors.remove(sensor)
+    
+    def get_battery_level():
+        """
+        This function reads the ADC and gets the battery Level and updates the value
 
+        Returns: Battery Level Float
+        """
+        return 0.0
     def add_actuator(self,actuator):
         """
         To add actuators to the node

@@ -5,7 +5,7 @@ import time
 class Sensor:
     '''This class provides functionality for the Sensor'''
     
-    def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,connection_pin,sensorValues=[]):
+    def __init__(self,sensorName,sensorID,sensorType,description,unit_of_measure,connection_pin,conversion,sensorValues=[]):
         self.sensor_name=sensorName      #Every Sensor on the network has a name
         self.sensor_id=sensorID          #Every Sensor on the network has a unique ID
         self.sensor_type=sensorType      #I2C,ADC,DIO
@@ -13,8 +13,9 @@ class Sensor:
         self.description=description    #More information about sensor ,humidity,Temperature
         self.unit_of_measure=unit_of_measure    #The unit of measure (percentage,degrees,grams of water per unit of air)
         self.connection_pin=connection_pin
+        self.conversion=conversion
         
-    def read_analog_xbee_sensor(self,XbeeDevice:XBeeDevice,analog_conversion):
+    def read_analog_xbee_sensor(self,XbeeDevice:XBeeDevice):
         """
         This provides functionality for getting the sensor value on a Xbee Node
 
@@ -27,12 +28,12 @@ class Sensor:
         """
         sensor_value=0
 
-        #Configure the  pin to analog (Pin must support Analog signal Pin 0-Pin3)
+        #Configure the  pin to analog (Pin must support Analog signal Pin0-Pin3)
         XbeeDevice.set_io_configuration(IOLine.get(self.connection_pin),IOMode.ADC)
         sensor_value=XbeeDevice.get_adc_value(IOLine.get(self.connection_pin))
 
         #Convert 10 Bit ADC value to relevant value
-        sensor_value=round(float(sensor_value/1023.0)*analog_conversion,2) 
+        sensor_value=round(float(sensor_value/1023.0)*self.conversion,2) 
 
         #raise Exception('The selected pin does not support Analog');
         

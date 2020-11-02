@@ -184,6 +184,9 @@ class Gateway:
         Args:
             client(mqtt_client):The MQTT client object
         """
+        count_sensors=0
+        count_actuators=0
+        count_nodes=0
         while True:
             for sensor in self.Sensors:
                 self.publish_sensor_info(client,sensor)
@@ -192,13 +195,16 @@ class Gateway:
             
             for node_device in self.nodeDevices:
                 for sensor_in_node in node_device.sensors:
+                    sensor_in_node.read_analog_xbee_sensor(node_device.XBeeObject)
                     self.publish_sensor_info(client,sensor_in_node)
                 for actuator_in_node in node_device.actuators:
                     self.publish_actuator_info(client,actuator)
             
+                publish_power_info(client,node_device)
             time.sleep(interval)
 
-    def publish_sensor_info(self,client,sensor:Sensor):
+
+    def publish_sensor_info(self,client,sensor:Sensor,node:NodeDevice):
         """
         Publishes the provided sensor infromation to the broker specified
 
@@ -206,6 +212,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             sensor(Sensor): The sensor object with all the attributes of the sensor
         """
+        sensor.read_analog_xbee_sensor(node.XBeeObject)
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"ADC","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 
@@ -228,7 +235,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             nodeDevice(nodeDevice): The node Device object with all the attributes of the node
         """
-        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.batteryLevel,"units":"percentage"}}
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_batteryLevel(),"units":"percentage"}}
         payload=json.dumps(payload_dict)
 
         topic = 'data/myfarm/dorm-room/power/'+node_device.nodeName+"/"
@@ -345,7 +352,7 @@ class Gateway:
                     #Create sensors
                     if(line[0]=="gateway"): #Add sensor or actuator to gateway
                         if(line[2]=="sensor"):
-                            sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                            sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
                             self.add_sensor(sensor)
                         elif (line[2]=="actuator")
                             actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
@@ -363,7 +370,7 @@ class Gateway:
                         sensor="" 
 
                         if(line[2]=="sensor"):
-                            sensor=Sensor(line[3],line_count,line[8],line[9],line[7],line[5])
+                            sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
                         elif (line[2]=="actuator")
                             actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
                             self.add_node(node,sensor,actuator)
