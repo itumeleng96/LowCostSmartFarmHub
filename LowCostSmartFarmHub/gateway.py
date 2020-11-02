@@ -371,7 +371,7 @@ class Gateway:
 
                         if(line[2]=="sensor"):
                             sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
-                        elif (line[2]=="actuator")
+                        elif(line[2]=="actuator")
                             actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
                             self.add_node(node,sensor,actuator)
                     line_count+=1
