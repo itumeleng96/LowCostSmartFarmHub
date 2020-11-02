@@ -18,6 +18,7 @@ import  json
 import requests
 from paho.mqtt import client as mqtt_client
 import RPi.version
+import csv
 import logging
 log = logging.getLogger()
 
@@ -255,12 +256,13 @@ class Gateway:
         client.connect(broker, port)
         return client
 
-    def detect_devices(self,add_devices):
+    def detect_devices(self,coordinator,add_devices,csv_path='/'):
         """
         This function detects all devices connected to the Gateway
 
         Args:
             add_devices(Boolean): if true, it automatically adds the devices to the gateway
+            csv_path(String) : path to a CSV file that defines the devices on network
 
         Returns:
             A list of all devices on gateway (Actuators,Sensors, Local Nodes)
@@ -269,18 +271,31 @@ class Gateway:
 
         #GPIO Line Detection - I2C and Digital
         
+        hub_devices=[]
 
-        #Zigbee Devices Detection - check local and remote
-        connected=self.connect_stream_uart("/dev/serial0",9600)
-        if connected:
-            #Discover Remote Zigbee Devices
-            devices=self.discover_zigbee_devices()
-            #create Nodes and Add them to system
-            log.info("This are the devices:",devices)
+        #Add Local XBee to list of Devices
+        hub_devices.append(self.localXBee)
+        #Discover Remote Zigbee Devices
+        devices=self.discover_zigbee_devices()
+        #create Nodes and Add them to system
+        log.info("This are the devices:",devices)
 
-            if add_devices:
-                for device in devices:
-                    self.append(device)
-        else:
-            log.critical("No Coordinator Device on Gateway")
-        
+        for device in devices:
+            hub_devices.append(device)
+              
+        #Read CSV File and assign information to devices
+        with open(csv_path) as csv_file:
+            csv_reader=csv.reader(csv_file,delimiter=',')
+            line_count=0
+
+            for line  in csv_reader:
+                if line_count==0:
+                    log.info("Reading CSV file")
+                    line_count+=1
+                else:
+                    #Get The device values
+                    log.info(line[0])
+                    line_count+=1
+
+        return hub_devices
+    
