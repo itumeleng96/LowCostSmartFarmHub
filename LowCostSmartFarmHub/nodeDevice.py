@@ -14,17 +14,9 @@ from    sensor  import Sensor
 
 class NodeDevice:
     '''This class represents every node device on the network'''
-    nodeName:str
-    nodeType:str
-    location:str
-    sensors:[]
-    actuators:[]
-    macAddress:str
-    batteryLevel:str
-    XbeeObject:XBeeDevice
 
     # Initialize Node Object	
-    def __init__(self,nodeName,nodeType,macAddress,sensors=None,actuators=None,location=None,batteryLevel=None):
+    def __init__(self,nodeName,nodeType,macAddress,sensors=[],actuators=[],location=None,batteryLevel=None):
         self.nodeName=nodeName              #Xbee3 node,zigbee device
         self.nodeType=nodeType              #Coordinator,End-Device,Router
         self.location=location              #Location of node device,e.g Farm1 lat:28298383 lng:937373
@@ -62,6 +54,17 @@ class NodeDevice:
         for sensor in self.sensors:
             if sensor.sensorID==sensorID:
                 self.sensors.remove(sensor)
+    
+    def get_battery_level(self):
+        """
+        This function reads the ADC and gets the battery Level and updates the value
+
+        Returns: Battery Level Float
+        """
+        self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
+        value=XbeeDevice.get_adc_value(IOLine.get(1))
+        
+        return round(float(sensor_value/1023.0),2)
 
     def add_actuator(self,actuator):
         """

@@ -2,12 +2,7 @@ import time
 from rpi_ws281x import Color, PixelStrip, ws
 
 class Actuator:
-    actuatorName:str
-    actuatorID:int
-    actuatorType:str
-    actuatorValues:[]
-    description:str
-    dio_dac_pin:int
+
     def __init__(self,actuatorName,actuatorID,actuatorType,description,DIO_DAC_Pin,actuatorValues):
         self.actuatorName=actuatorName      #Every Actuator on the network has a name
         self.actuatorID=actuatorID          #Every Actuator on the network has a unique ID
@@ -23,7 +18,7 @@ class Actuator:
         """
         return self.actuatorValues[len(self.actuatorValues)-1]
         
-    def control_ws28x1_light(self,led_pin,state):
+    def control_ws28x1_light(self):
         """
         Function to  configure and control the ws28x1 RGB LED Strip
        
@@ -48,13 +43,17 @@ class Actuator:
         strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         # Intialize the library (must be called once before other functions).
         strip.begin()
-        if(self.actuatorValues[len(self.actuatorValues)-1]=="off"):
+        if(self.actuatorValues[len(self.actuatorValues)-1]==0):
           print("state of LED :on")
-          strip.setPixelColor(0,Color(4,255,255))
-          self.actuatorValues.append("on")
+          for i in range(0, strip.numPixels()):
+                strip.setPixelColor(i,Color(4,255,255))
 
-        elif (self.actuatorValues[len(self.actuatorValues)-1]=="on"):
+          self.actuatorValues.append(1)
+
+        elif (self.actuatorValues[len(self.actuatorValues)-1]==1):
           print("state of LED :off")
-          strip.setPixelColor(0,Color(0,0,0))
-          self.actuatorValues.append("off")
+          for i in range(0, strip.numPixels()):
+                strip.setPixelColor(i,Color(0,0,0))
+
+          self.actuatorValues.append(1)
         strip.show()

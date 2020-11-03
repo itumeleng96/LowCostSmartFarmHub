@@ -1,0 +1,5 @@
+node_type,node_name,device_type,sensor_actuator,connection,conversion,mac_address,unit_of_measurement,parameter,sensor_description,pin_connection
+coordinator,xbee3_module_1,sensor,DHT11-temperature,analog,50,0013A20041C18F6B,degrees,temperature,measures temperature,0
+coordinator,xbee3_module_1,sensor,DHT11-humidity,analog,100,0013A20041C18F6B,percentage,humidity,measures humidity,1
+router,xbee3_module_2,sensor,Soil-moisture-sensor,analog,100,0013A20041C164C4,percentage,soil-moisture,measures soil moisture,0
+gateway,rpi3b+,actuator,RGB-Light ,digital,na,na,na,light,RGB lighting for the indoor plants,18
