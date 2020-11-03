@@ -48,6 +48,10 @@ class Sensor:
         Returns:
              The sensor value
         """
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.cleanup()
+        
         instance = dht11.DHT11(pin = self.connection_pin)
         result = instance.read()
 
