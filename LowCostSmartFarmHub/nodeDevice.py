@@ -62,7 +62,7 @@ class NodeDevice:
         Returns: Battery Level Float
         """
         self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
-        value=XbeeDevice.get_adc_value(IOLine.DIO0_AD1)
+        value=XbeeDevice.get_adc_value(IOLine.get(1))
         
         return round(float(sensor_value/1023.0),2)
 

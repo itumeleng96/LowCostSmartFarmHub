@@ -213,6 +213,7 @@ class Gateway:
                 count_actuators+=1
             for node_device in self.nodeDevices:
                 count_nodes+=1
+                self.publish_power_info(client,node_device)
                 for sensor_in_node in node_device.sensors:
                     sensor_in_node.read_analog_xbee_sensor(node_device.XBeeObject)
                     self.publish_sensor_info(client,sensor_in_node,node_device)
@@ -224,7 +225,6 @@ class Gateway:
             self.publish_device_list(client,"Actuators",count_actuators)
             self.publish_device_list(client,"Sensors",count_sensors)
             self.publish_device_list(client,"Node-devices",count_nodes)
-
             print("Devices on the Wireless Sensor Network......")
             print("actuators",count_actuators)
             print("sensors",count_sensors)
