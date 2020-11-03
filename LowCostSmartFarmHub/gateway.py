@@ -26,7 +26,7 @@ log = logging.getLogger()
 class Gateway:
     '''This class provides functionality for the Gateway Device'''
 
-    def __init__(self,deviceName=None,location=None,sensors=None,actuators=None,nodeDevices=None,panID=None):
+    def __init__(self,deviceName=None,location=None,sensors=[],actuators=[],nodeDevices=[],panID=None):
         self.deviceName=deviceName
         self.sensors=sensors
         self.actuators=actuators
@@ -94,7 +94,7 @@ class Gateway:
                 A list of all the actuators connected directly to the gateway
         """
         self.actuators.append(actuator)
-    def get_node_device(self,mac_address,node_devices):
+    def get_node_device(self,mac_address,discovered_devices):
         """
         Looks for node device with the specified mac address on the network
         
@@ -103,10 +103,17 @@ class Gateway:
            Returns:
               The node device
         """
-        for node in node_devices:
-          if(node.get_64bit_addr()==mac_address):
-            return node
-    def add_node_device(self,node,sensor,actuator):
+        for i in range(len(discovered_devices)):
+          if(str(discovered_devices[i].get_64bit_addr())==str(mac_address)):
+            return discovered_devices[i]
+   
+    def check_node_device(self,xbee_object):
+        for nodes in self.nodeDevices:
+           if(str(nodes.XBeeObject.get_64bit_addr())==str(xbee_object.get_64bit_addr())):
+              return True
+        return False
+    
+    def add_node_device(self,xbee_object,node_name,node_type,sensor,actuator):
         """
         Adds the node device and its devices to network
         
@@ -116,23 +123,29 @@ class Gateway:
                actuator(Actuator)
         """
         #First Check if the Node is already in the list
-        check=False
-        for node_devices in self.nodeDevices:
-          if (node_devices.XBeeObject.get_64bit_addr()==node.XBeeObject.get_64bit_addr()):
-             check=True
-             if (sensor!=""):
-                node_devices.add(sensor)
-             elif (actuator!=""):
-                node_devices.add(actuator)
+        if(self.check_node_device(xbee_object)==False) :
+          if(sensor!=""):
+            node=NodeDevice(node_name,node_type,xbee_object.get_64bit_addr())
+            node.XBeeObject=xbee_object
+            node.sensors=[sensor]
+            self.nodeDevices.append(node)
+          elif(actuator!=""):
+            node=NodeDevice(node_name,node_type,xbee_object.get_64bit_addr()) 
+            node.XBeeObject=xbee_object 
+            node.add_sensor(actuator)
+            self.nodeDevices.append(node)
 
-        #Doesn't exist therefore create one
-        if (check==False): 
-          if (sensor!=""):
-             node.add(sensor)
-          elif (actuator!=""):
-             node.add(actuator)
-          self.nodeDevices.append(node)
-       
+          return 0
+
+        if(self.check_node_device(xbee_object)):
+          for node_dev in self.nodeDevices:
+            if(str(node_dev.XBeeObject.get_64bit_addr())==str(xbee_object.get_64bit_addr())):
+              if(sensor!=""):
+                node_dev.add_sensor(sensor)
+              elif(actuator!=""):
+                node_dev.add_actuator(actuator)
+          return 1
+
     def connect_stream_uart(self,comPort,baud_rate):
         """
 		Function for opening serial communication Port between RPI and  XBee Device
@@ -184,25 +197,35 @@ class Gateway:
         Args:
             client(mqtt_client):The MQTT client object
         """
-        count_sensors=0
-        count_actuators=0
-        count_nodes=0
+       
         while True:
-            for sensor in self.Sensors:
+            count_sensors=0
+            count_actuators=0
+            count_nodes=0
+
+            #self.detect_devices(self.localXBee,True,"devices.csv")
+
+            for sensor in self.sensors:
                 self.publish_sensor_info(client,sensor)
+                count_sensors+=1
             for actuator in self.actuators:
                 self.publish_actuator_info(client,actuator)
-            
+                count_actuators+=1
             for node_device in self.nodeDevices:
+                count_nodes+=1
                 for sensor_in_node in node_device.sensors:
                     sensor_in_node.read_analog_xbee_sensor(node_device.XBeeObject)
-                    self.publish_sensor_info(client,sensor_in_node)
+                    self.publish_sensor_info(client,sensor_in_node,node_device)
+                    count_sensors+=1
                 for actuator_in_node in node_device.actuators:
                     self.publish_actuator_info(client,actuator)
+                    count_actuators+=1
             
-                publish_power_info(client,node_device)
+            print("Devices on the Wireless Sensor Network......")
+            print("actuators",count_actuators)
+            print("sensors",count_sensors)
+            print("nodes",count_nodes)
             time.sleep(interval)
-
 
     def publish_sensor_info(self,client,sensor:Sensor,node:NodeDevice):
         """
@@ -235,7 +258,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             nodeDevice(nodeDevice): The node Device object with all the attributes of the node
         """
-        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_batteryLevel(),"units":"percentage"}}
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
         payload=json.dumps(payload_dict)
 
         topic = 'data/myfarm/dorm-room/power/'+node_device.nodeName+"/"
@@ -258,7 +281,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             sensor(Sensor): The sensor object with all the attributes of the sensor
         """
-        payload_dict={"sensor_name":actuator.actuatorName,"sensor_id":actuator.actuatorID,"sensor_connection":"DIO","data":{"value":actuator.get_last_value()}}
+        payload_dict={"sensor_name":actuator.actuatorName,"sensor_id":actuator.actuatorID,"sensor_connection":"digital","data":{"value":actuator.get_last_value()}}
         payload=json.dumps(payload_dict)
 
         topic = 'data/myfarm/dorm-room/actuator/'+actuator.actuatorName+"/"
@@ -335,7 +358,6 @@ class Gateway:
         #create Nodes and Add them to system
 
         for device in devices:
-            #print(self.localXBee.get_64bit_addr())
             hub_devices.append(device)
 
         #Read CSV File and assign information to devices
@@ -354,26 +376,23 @@ class Gateway:
                         if(line[2]=="sensor"):
                             sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
                             self.add_sensor(sensor)
-                        elif (line[2]=="actuator")
+                        elif(line[2]=="actuator"):
                             actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
                             self.add_actuator(actuator)
                     
                     #Create Node Devices
-                    elif (line[0]=="coordinator" or line[0]=="router")
+                    elif(line[0]=="coordinator" or line[0]=="router"):
                         #check if the mac addresses are the same
-                        xbee_object=self.get_node_device(line[7],hub_devices)
-                        #Create Node Device for Hub
-                        node=NodeDevice(line[1],line[0],line_count)
-                        node.XBeeObject=xbee_object
-
-                        actuator=""
-                        sensor="" 
+                        xbee_object=self.get_node_device(line[6],hub_devices) 
 
                         if(line[2]=="sensor"):
                             sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
-                        elif(line[2]=="actuator")
+                            self.add_node_device(xbee_object,line[1],line[0],sensor,"")
+
+                        elif(line[2]=="actuator"):
                             actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
-                            self.add_node(node,sensor,actuator)
+                            self.add_node_device(xbee_object,line[1],line[0],"",actuator)
+ 
                     line_count+=1
 
         return hub_devices

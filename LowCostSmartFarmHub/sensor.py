@@ -27,13 +27,12 @@ class Sensor:
             Sensor Value
         """
         sensor_value=0
-
         #Configure the  pin to analog (Pin must support Analog signal Pin0-Pin3)
-        XbeeDevice.set_io_configuration(IOLine.get(self.connection_pin),IOMode.ADC)
-        sensor_value=XbeeDevice.get_adc_value(IOLine.get(self.connection_pin))
+        XbeeDevice.set_io_configuration(IOLine.get(int(self.connection_pin)),IOMode.ADC)
+        sensor_value=XbeeDevice.get_adc_value(IOLine.get(int(self.connection_pin)))
 
         #Convert 10 Bit ADC value to relevant value
-        sensor_value=round(float(sensor_value/1023.0)*self.conversion,2) 
+        sensor_value=round(float(sensor_value/1023.0)*int(self.conversion),2) 
 
         #raise Exception('The selected pin does not support Analog');
         
