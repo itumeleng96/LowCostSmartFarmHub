@@ -209,7 +209,7 @@ class Gateway:
             #self.detect_devices(self.localXBee,True,"devices.csv")
 
             for sensor in self.sensors:
-                self.publish_sensor_info_gateway(client,sensor)
+                self.publish_digital_sensor_info(client,sensor)
                 count_sensors+=1
             for actuator in self.actuators:
                 self.publish_actuator_info(client,actuator)
@@ -242,7 +242,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             sensor(Sensor): The sensor object with all the attributes of the sensor
         """
-        sensor.read_digital_sensor()
+        sensor.read_digital_sensor_dht11()
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"digital","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 

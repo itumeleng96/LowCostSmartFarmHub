@@ -48,7 +48,7 @@ class Sensor:
         Returns:
              The sensor value
         """
-        instance = dht11.DHT11(pin = self.connection_pin)
+        instance = dht11.DHT11(pin = int(self.connection_pin))
         result = instance.read()
 
         if(self.sensor_name=='DHT11-temperature'):
