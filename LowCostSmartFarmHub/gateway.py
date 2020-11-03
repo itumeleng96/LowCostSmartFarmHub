@@ -262,7 +262,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             nodeDevice(nodeDevice): The node Device object with all the attributes of the node
         """
-        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":str(node_device.macAddress),"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
         payload=json.dumps(payload_dict)
 
         topic = 'data/myfarm/dorm-room/power/'

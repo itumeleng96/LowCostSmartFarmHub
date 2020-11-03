@@ -10,6 +10,7 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
+from    digi.xbee.io    import  IOLine,IOMode
 from    sensor  import Sensor
 
 class NodeDevice:
@@ -62,9 +63,9 @@ class NodeDevice:
         Returns: Battery Level Float
         """
         self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
-        value=XbeeDevice.get_adc_value(IOLine.get(1))
+        value=self.XBeeObject.get_adc_value(IOLine.get(1))
         
-        return round(float(sensor_value/1023.0),2)
+        return str(round(float(value/1023.0),2))
 
     def add_actuator(self,actuator):
         """
