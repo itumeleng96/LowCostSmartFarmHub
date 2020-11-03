@@ -61,7 +61,11 @@ class NodeDevice:
 
         Returns: Battery Level Float
         """
-        return 0.0
+        self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
+        value=XbeeDevice.get_adc_value(IOLine.DIO0_AD1)
+        
+        return round(float(sensor_value/1023.0),2)
+
     def add_actuator(self,actuator):
         """
         To add actuators to the node

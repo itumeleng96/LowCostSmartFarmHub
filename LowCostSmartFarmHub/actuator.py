@@ -43,17 +43,17 @@ class Actuator:
         strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         # Intialize the library (must be called once before other functions).
         strip.begin()
-        if(self.actuatorValues[len(self.actuatorValues)-1]=="off"):
+        if(self.actuatorValues[len(self.actuatorValues)-1]==0):
           print("state of LED :on")
           for i in range(0, strip.numPixels()):
                 strip.setPixelColor(i,Color(4,255,255))
 
-          self.actuatorValues.append("on")
+          self.actuatorValues.append(1)
 
-        elif (self.actuatorValues[len(self.actuatorValues)-1]=="on"):
+        elif (self.actuatorValues[len(self.actuatorValues)-1]==1):
           print("state of LED :off")
           for i in range(0, strip.numPixels()):
                 strip.setPixelColor(i,Color(0,0,0))
 
-          self.actuatorValues.append("off")
+          self.actuatorValues.append(1)
         strip.show()

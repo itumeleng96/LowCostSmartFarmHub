@@ -220,7 +220,11 @@ class Gateway:
                 for actuator_in_node in node_device.actuators:
                     self.publish_actuator_info(client,actuator)
                     count_actuators+=1
-            
+
+            self.publish_device_list(client,"Actuators",count_actuators)
+            self.publish_device_list(client,"Sensors",count_sensors)
+            self.publish_device_list(client,"Node-devices",count_nodes)
+
             print("Devices on the Wireless Sensor Network......")
             print("actuators",count_actuators)
             print("sensors",count_sensors)
@@ -261,8 +265,7 @@ class Gateway:
         payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
         payload=json.dumps(payload_dict)
 
-        topic = 'data/myfarm/dorm-room/power/'+node_device.nodeName+"/"
-
+        topic = 'data/myfarm/dorm-room/power/'
         result = client.publish(topic,payload,2)
 
         # result: [0, 1]
@@ -272,6 +275,25 @@ class Gateway:
         else:
             print("Failed to send message to topic ",topic)
 
+    def publish_device_list(self,client,device,number_of_devices):
+        """
+        Publishes the number of the specified devices
+     
+        Args:
+        """
+        payload_dict={"device_name":device,"data":{"value":number_of_devices}}
+        payload=json.dumps(payload_dict)
+
+        topic = 'data/myfarm/dorm-room/devices/'
+
+        result = client.publish(topic,payload,2)
+
+        # result: [0, 1]
+        status = result[0]
+        if status == 0:
+            print("Send",payload," to topic ",topic)
+        else:
+            print("Failed to send message to topic ",topic)
 
     def publish_actuator_info(self,client,actuator:Actuator):
         """
@@ -377,7 +399,7 @@ class Gateway:
                             sensor=Sensor(line[3],line_count,line[4],line[9],line[7],line[10],line[5])
                             self.add_sensor(sensor)
                         elif(line[2]=="actuator"):
-                            actuator=Actuator(line[3],line_count,line[4],line[9],line[10],[0])
+                            actuator=Actuator(line[3],line_count,line[4],line[9],int(line[10]),[0])
                             self.add_actuator(actuator)
                     
                     #Create Node Devices
