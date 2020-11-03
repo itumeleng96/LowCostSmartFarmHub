@@ -61,20 +61,33 @@ def _send_battery_data_to_influxdb(battery_data):
         }
     ]
     influxdb_client.write_points(json_body)
+def _send_device_list_to_influxdb(device_data):
+    device_data['data']['value']=float(device_data['data']['value'])
+    
+    json_body=[
+        {
+            'measurement':device_data['device_name'],
+            'tags':{
+                'device-connection':'devices'
+            },
+            'fields':{
+                'value':device_data['data']['value']
+            }
+        }
+    ]
+    influxdb_client.write_points(json_body)
 
 
 def _parse_mqtt_message(topic,payload):
     #Decode JSON data
+    #check what  published message 
     decoded_payload=json.loads(payload)
-    
-    print(topic[0:28])
-    if(topic[0:28]=="data/myfarm/dorm-room/power/"):
-        _send_battery_data_to_influxdb(decoded_payload)
-
-    else if (topic[0:28]=="data/myfarm/dorm-room/sensor/")
-        _send_sensor_data_to_influxdb(decoded_payload)
-    
-
+    if(topic=='data/myfarm/dorm-room/devices/'):
+      _send_device_list_to_influxdb(decoded_payload)
+    elif (topic=='data/myfarm/dorm-room/power/'):
+      _send_battery_data_to_influxdb(decoded_payload)
+    else:
+      _send_sensor_data_to_influxdb(decoded_payload)
 def _init_influxdb_database():
     databases = influxdb_client.get_list_database()
     if len(list(filter(lambda x: x['name'] == INFLUXDB_DATABASE, databases))) == 0:
