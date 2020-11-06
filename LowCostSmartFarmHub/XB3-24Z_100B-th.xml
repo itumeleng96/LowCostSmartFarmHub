@@ -1,0 +1,1513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<firmwares>
+  <firmware fw_version= "100B" >
+    <family>XBee3</family>
+    <product_name>XB3-24</product_name>
+    <hw_version>0x42</hw_version>
+    <compatibility_number>1</compatibility_number>
+    <bootloader_version>1.8.1</bootloader_version>
+    <min_xctu_version>6.4.3</min_xctu_version>
+    <region>99</region>
+    <config_buffer_loc>0</config_buffer_loc>
+    <flash_page_size>0x80</flash_page_size>
+    <crc_buffer_len>0</crc_buffer_len>
+    <function>Digi XBee3 Zigbee 3.0 TH</function>
+    <categories>
+      <category name="Networking">
+        <description>Parameters which affect the Zigbee network</description>
+        <settings>
+          <setting command="CE">
+            <name>Device Role</name>
+            <description>Determine if the device should form or join a network. Sleep must be disabled before CE can be set. Changing CE after association will cause a network leave.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Join Network</item>
+              <item>Form Network</item>
+            </items>
+          </setting>
+          <setting command="ID">
+            <name>Extended PAN ID</name>
+            <description>The preconfigured Extended PAN ID used when forming or joining a network.
+ID restricts joining to only networks with a matching OP value. If ID is set to 0, the device will attempt to join any open network.
+When forming a network (CE=1), ID preconfigures the Extended PAN ID used to form the network. When set to 0, a random Extended PAN ID is generated.
+Changing ID after association will cause a network leave.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFFFFFFFFFFFFFF</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="ZS">
+            <name>Zigbee Stack Profile</name>
+            <description>Set/read the Zigbee stack profile setting. ZS must be written to flash; changing ZS and applying the change will automatically execute a WR command and reset the device. 0=Network Specific, 1=ZigBee-2006, 2=Zigbee-PRO</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x2</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="CR">
+            <name>PAN Conflict Threshold</name>
+            <description>Set/read threshold for the number of PAN ID conflict reports that must be received by the network manager within one minute to trigger a PAN ID change. If set to zero, detected PAN ID conflicts will not cause a PAN ID change.</description>
+            <default_value>0x3</default_value>
+            <control_type>number</control_type>
+            <range_max>0x3F</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="NJ">
+            <name>Node Join Time</name>
+            <description>Set/read the Node Join time. The value of NJ determines the time (in seconds) that the device will allow other devices to join to it.</description>
+            <default_value>0xFE</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>x 1 sec</units>
+          </setting>
+          <setting command="NW">
+            <name>Network Watchdog Timeout</name>
+            <description>Set/read the network watchdog timeout. If set to a non-zero value, the network watchdog timer is enabled on a router. The router will leave the network if is does not receive valid communication within (3 * NW) minutes. The timer is reset each time data is received from or sent to a coordinator, or if a many-to-one broadcast is received.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x64FF</range_max>
+            <range_min>0x0</range_min>
+            <units>x 1 minute</units>
+          </setting>
+          <setting command="JV">
+            <name>Coordinator Verification</name>
+            <description>If enabled, a joining router will verify a coordinator exists on the same channel after joining or power cycling to ensure it is operating on a valid channel, and will leave if a coordinator cannot be found. If disabled, the router will remain on the same channel through power cycles.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Enabled</item>
+            </items>
+          </setting>
+          <setting command="JN">
+            <name>Join Notification</name>
+            <description>Set/read the join notification setting. If enabled, the module will transmit a broadcast node identification frame on power up and when joining. This action blinks the Assoc LED rapidly on all devices that receive the data, and sends an API frame out the UART of API devices. This function should be disabled for large networks.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Enabled</item>
+            </items>
+          </setting>
+          <setting command="DO">
+            <name>Device Options</name>
+            <description>Bitfield of advanced Device Options:
+Bitfield options:
+     Bit 0 - Reserved
+     Bit 1 - Reserved
+     Bit 2 - Reserved
+     Bit 3 - Reserved
+     Bit 4 - Disable extended timeout
+     Bit 5 - Enable non-acknowledged IO Sampling
+     Bit 6 - Enable High RAM Concentrator
+     Bit 7 - Enable NW to find new network before leaving the network</description>
+            <default_value>0x40</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="DC">
+            <name>Joining Device Controls</name>
+            <description>Bitfield of options which affect joining devices
+Bitfield options:
+     Bit 0 - Join using a link key derived from the install code (KY value will be ignored)
+     Bit 1 - Ignore NWK leave requests after joining
+     Bit 2 - Enable Verbose Joining
+     Bit 3 - Join network with best response
+     Bit 4 - Reserved
+     Bit 5 - Allow router or end device to follow the coordinator if a PAN ID change occurs. The Network Watchdog needs to be enabled by setting NW > 0 for this to take effect.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="C8">
+            <name>Compatibility Options</name>
+            <description>Bitfield of compatibility options. These bits should only be set in networks containing a mixture of XBee 3 and older generation XBee Zigbee modules. Changing C8 after association will cause a network leave.
+Bitfield options:
+    Bits 0-3 - Reserved
+    Bit 4 - Configure LQI calculations for compatibility with S2C modules.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x0</range_max>
+            <range_min>0x0</range_min>
+            <additional_values>
+                <value>0x10</value>
+            </additional_values>
+            <units>Bitfield</units>
+          </setting>
+        </settings>
+        <categories>
+          <category name="Discovery Options">
+            <description>Configuration of network discovery options</description>
+            <settings>
+              <setting command="NI">
+                <name>Node Identifier</name>
+                <description>A human-friendly node identifier string for this module. This can be up to 20 ASCII characters.
+This value is returned in a ND query and can be used to easily identify modules.</description>
+                <default_value>0x20</default_value>
+                <control_type>text</control_type>
+                <max_chars>20</max_chars>
+                <min_chars>1</min_chars>
+                <format>ASCII</format>
+                <exception></exception>
+              </setting>
+              <setting command="DD">
+                <name>Device Type Identifier</name>
+                <description>The Digi device type identifier value. Can be optionally included in network discoveries and is used to differentiate multiple XBee-based products.</description>
+                <default_value>0x120000</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFFFFFFFF</range_max>
+                <range_min>0x0</range_min>
+              </setting>
+              <setting command="NT">
+                <name>Node Discovery Backoff</name>
+                <description>Sets the backoff delay used to stagger network discovery responses. ND and DN responses occur with a random delay between 0 and NT*100 milliseconds.</description>
+                <default_value>0x3C</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x20</range_min>
+                <units>x 100 ms</units>
+              </setting>
+              <setting command="NO">
+                <name>Node Discovery Options</name>
+                <description>Sets the node discovery options register.
+Bitfield options:
+    Bit 0 - Append DD value to end of node discovery
+    Bit 1 - Return devices own ND response first</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0x3</range_max>
+                <range_min>0x0</range_min>
+                <units>Bitfield</units>
+              </setting>
+            </settings>
+          </category>
+          <category name="Operating Network Parameters">
+            <description>The operational parameters for the attached network</description>
+            <settings>
+              <setting command="AI">
+                <name>Association Indication</name>
+                <description>Read the association status code corresponding to the last join attempt.
+Common status codes:
+    0x00 - Success
+    0x21 - Scan found no PANs
+    0x22 - Scan found no valid PANs based on SC and ID settings
+    0x23 - Valid PAN found, but joining is currently disabled
+    0x24 - No joinable beacons were found
+    0x44 - Secure join - failed to receive new link key
+    0xAD - Secure Join - A network key was not received from the trust center
+    0xAF - Secure Join - A preconfigured key is required to join the network
+    0xFF - Initializing; no status has been determined yet</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+              <setting command="OP">
+                <name>Operating PAN ID</name>
+                <description>Read the operating PAN ID (Zigbee extended PAN ID).</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+              <setting command="OI">
+                <name>Operating 16-bit PAN ID</name>
+                <description>Read the 16-bit operating PAN ID.</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+              <setting command="CH">
+                <name>Operating Channel</name>
+                <description>Read the operating channel number (Uses 802.15.4 channel numbers).</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+              <setting command="NC">
+                <name>Number of Remaining Children</name>
+                <description>Read the number of remaining end device children that can join this device. If NC=0, the device cannot allow any more end device children to join.</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+            </settings>
+          </category>
+      </categories>
+      </category>
+      <category name="Addressing">
+        <description>Source and destination addressing settings</description>
+        <settings>
+          <setting command="SH">
+            <name>Serial Number High</name>
+            <description>The upper 32 bits of the unique IEEE 64-bit Extended Address assigned to this module</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="SL">
+            <name>Serial Number Low</name>
+            <description>The lower 32 bits of the unique IEEE 64-bit Extended Address assigned to this module</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="MY">
+            <name>16-bit Network Address</name>
+            <description>Read the 16 bit Network Address for the device. 0xFFFE means the device has not joined a PAN.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="MP">
+            <name>16-bit Parent Address</name>
+            <description>Read the 16 bit Network Address of the modem's parent. Coordinators and Routers will always show 0xFFFE. An End Device will show its parent's address, or 0xFFFE if it has not yet joined a PAN.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="DH">
+            <name>Destination Address High</name>
+            <description>Set/read the upper 32 bits of the 64 bit destination extended address. 0x000000000000FFFF is the broadcast address for the PAN. 0x0000000000000000 can be used to address the coordinator/network manager.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFFFFFF</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="DL">
+            <name>Destination Address Low</name>
+            <description>Set/read the lower 32 bits of the 64 bit destination extended address. 0x000000000000FFFF is the broadcast address for the PAN. 0x0000000000000000 can be used to address the coordinator/network manager.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFFFFFF</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="TO">
+            <name>Transmit Options</name>
+            <description>Set/read Zigbee application layer source transmit options for transparent mode or when the Transmit Options field in an outgoing API transmission is 0:
+Bitfield options:
+    Bit 0 - Disable retries and route repair
+    Bit 1 - Reserved
+    Bit 2 - Reserved
+    Bit 3 - Reserved
+    Bit 4 - Send packet securely (requires secure session)
+    Bit 5 - Enable APS Encryption (if EE=1) - note this decreases the maximum RF payload by 4 bytes
+    Bit 6 - Use the extended timeout for this destination</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x00</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="NP">
+            <name>Maximum Number of Transmission Bytes</name>
+            <description>Read the maximum number of bytes that can be sent in a single unicast transmission. Broadcast RF packets can support 8 more bytes than unicast packets (84 bytes). Fragmentation is utilized on unicast transmissions, increasing payload size to 255 bytes. Refer to the user guide for information regarding payload size limitations.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+        </settings>
+        <categories>
+          <category name="Zigbee Configuration">
+            <description>Parameters which affect outgoing transmissions in a Zigbee network</description>
+            <settings>
+              <setting command="NH">
+                <name>Maximum Hops</name>
+                <description>Set/read the maximum hops limit. This limit sets the maximum number of broadcast hops (BH) and determines the unicast timeout (unicast timeout = (50 * NH) + 100). A unicast timeout of 1.6 seconds (NH=30) is enough time for the data and acknowledgment to traverse about 8 hops.</description>
+                <default_value>0x1E</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x0</range_min>
+              </setting>
+              <setting command="BH">
+                <name>Broadcast Radius</name>
+                <description>Set/Read the transmission radius for broadcast data transmissions. Set to 0 for maximum radius.</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0x1E</range_max>
+                <range_min>0x0</range_min>
+              </setting>
+              <setting command="AR">
+                <name>Many-to-One Route Broadcast Time</name>
+                <description>Set/read the time between aggregation route broadcast times. An aggregation route broadcast creates a route on all devices in the network back to the device that sends the aggregation broadcast. Setting AR to 0xFF disables aggregation route broadcasting. Setting AR to 0 sends one broadcast.</description>
+                <default_value>0xFF</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x0</range_min>
+                <units>x 10 sec</units>
+              </setting>
+              <setting command="SE">
+                <name>Zigbee Source Endpoint</name>
+                <description>Set/read the source endpoint used for transparent data transmissions. This should only be changed if multiple endpoints must be supported.</description>
+                <default_value>0xE8</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x00</range_min>
+              </setting>
+              <setting command="DE">
+                <name>Zigbee Destination Endpoint</name>
+                <description>Set/read the destination endpoint used for transparent data transmissions. This should only be changed if multiple endpoints must be supported.</description>
+                <default_value>0xE8</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x00</range_min>
+              </setting>
+              <setting command="CI">
+                <name>Zigbee Cluster ID</name>
+                <description>Set/read the cluster identifier value used for transparent data transmissions. This should only be changed if multiple cluster IDs must be supported.</description>
+                <default_value>0x11</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFFFF</range_max>
+                <range_min>0x00</range_min>
+              </setting>
+            </settings>
+          </category>
+        </categories>
+      </category>
+      <category name="Security">
+        <description>Set initial security parameters used during form/join. Changing these parameters after association may cause the device to leave the network.</description>
+        <settings>
+          <setting command="EE">
+            <name>Encryption Enable</name>
+            <description>Enable or disable network encryption.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Enabled</item>
+            </items>
+          </setting>
+          <setting command="EO">
+            <name>Encryption Options</name>
+            <description>Bitfield of encryption options:
+Bitfield options:
+     Bit 0 - Send/receive NWK keys in the clear (unsecure)
+     Bit 1 - Use Centralized Trust Center
+     Bit 2 - Use EUI64-hashed link keys (centralized TC only)
+     Bit 3 - Emit join notification frames (centralized TC only)
+     Bit 4 - Allow joining using default link keys (unsecure)</description>
+            <default_value>0x02</default_value>
+            <control_type>number</control_type>
+            <range_max>0xff</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="KY">
+            <name>Link Key</name>
+            <description>Preconfigured Link Key - When queried, KY will return zero if the value of the key is zero; otherwise, for all other values it will give an OK response to indicate a key is present.
+     Trust Center: The global link key of the trust center. If set to 0, registration via 0x24 frame or allowing a default key (EO Bit 4) is required for devices to join.
+     Joining Node: Pre-configured link key. If set to 0, an unsecure default key will be assigned (EO bit 4 must be set on the trust center)</description>
+            <default_value>0x</default_value>
+            <control_type>text</control_type>
+            <max_chars>32</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+            <exception></exception>
+          </setting>
+          <setting command="NK">
+            <name>Trust Center Network Key</name>
+            <description>Sets network key used for encryption and decryption of network traffic. If set to 0, a random network encryption key will be used(recommended). When queried, NK will return zero if the value of the key is zero; otherwise, for all other values it will give an OK response to indicate a key is present.</description>
+            <default_value>0x</default_value>
+            <control_type>text</control_type>
+            <max_chars>32</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+            <exception></exception>
+          </setting>
+          <setting command="RK">
+            <name>Trust Center Network Key Rotation Interval</name>
+            <description>Used by a centralized trust center to automatically rotate the network key. This command determines in the interval, in days, in which a new random network key is generated and distributed to the network.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x16</range_max>
+            <range_min>0x0</range_min>
+            <units>x days</units>
+          </setting>
+          <setting command="KT">
+            <name>Trust Center Link Key Registration Timeout</name>
+            <description>When registering devices to a trust center using a 0x24 API frame, this value determines how long the device will be registered to join.</description>
+            <default_value>0x12C</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <range_min>0x1E</range_min>
+            <units>x 1 sec</units>
+          </setting>
+          <setting command="I?">
+            <name>Install Code</name>
+            <description>The install code of the device, used during trust center registration to generate a link key. The Install Code consists of a 128-bit number and 16-bit CCITT CRC (in little endian format).</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+            <exception></exception>
+          </setting>
+          <setting command="DM">
+            <name>Disable Device Functionality</name>
+            <description>Bitfield of features which can be disabled.
+Bitfield options:
+    Bit 0 - Reserved
+    Bit 1 - Reserved
+    Bit 2 - Disable OTA Firmware Updates; when set, the device cannot receive an OTA update
+    Bit 3 - Disable SRP authentication on the client side of the connection
+    Bit 4 - Disable SRP authentication on the server side of the connection
+All reserved and unused option bits must be set to 0</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x1C</range_max>
+            <range_min>0x4</range_min>
+            <additional_values>
+                <value>0x0</value>
+            </additional_values>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="US">
+            <name>OTA Update Server</name>
+            <description>Specifies the 64-bit address of the server the device should use for OTA upgrades.
+0: Accept OTA upgrades from any device
+0x1-0xFFFFFFFFFFFFFFFE: Only accept OTA upgrades from a server with the given 64-bit address
+0xFFFFFFFFFFFFFFFF: Reserved
+            </description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFFFFFFFFFFFFFE</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="SA">
+            <name>Secure Access Options</name>
+            <description>Bitfield of features that are secured against unauthorized access
+Bitfield options:
+    Bit 0 - Reserved
+    Bit 1 - Remote AT Commands
+    Bit 2 - Serial Data
+All reserved and unused option bits must be set to 0</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x1F</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting>
+            <name>Secure Session Authentication</name>
+            <description>Configure Secure Session authentication with a password or an SRP salt/verifier.</description>
+            <control_type>button</control_type>
+            <function_number>3</function_number>
+          </setting>
+        </settings>
+      </category>
+      <category name="SRP Authentication">
+        <description>Parameters for authenticating RF communication between two modules</description>
+        <visible>false</visible>
+        <settings>
+          <setting command="*S">
+            <name>SRP Salt</name>
+            <description>32-bit random value to make attempts to brute force passwords more difficult.</description>
+            <default_value>00000000</default_value>
+            <control_type>text</control_type>
+            <max_chars>8</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+          </setting>
+          <setting command="*V">
+            <name>Secure Session SRP Verifier (part 1)</name>
+            <description>Most significant 32 bytes of the 128 byte verifier</description>
+            <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+            <control_type>text</control_type>
+            <max_chars>64</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+          </setting>
+          <setting command="*W">
+            <name>Secure Session SRP Verifier (part 2)</name>
+            <description>Second most significant 32 bytes of the 128 byte verifier</description>
+            <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+            <control_type>text</control_type>
+            <max_chars>64</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+          </setting>
+          <setting command="*X">
+            <name>Secure Session SRP Verifier (part 3)</name>
+            <description>Third most significant 32 bytes of the 128 byte verifier</description>
+            <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+            <control_type>text</control_type>
+            <max_chars>64</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+          </setting>
+          <setting command="*Y">
+            <name>Secure Session SRP Verifier (part 4)</name>
+            <description>Least significant 32 bytes of the 128 byte verifier</description>
+            <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+            <control_type>text</control_type>
+            <max_chars>64</max_chars>
+            <min_chars>1</min_chars>
+            <format>HEX</format>
+          </setting>
+        </settings>
+      </category>
+      <category name="RF Interfacing">
+        <description>Change RF interface options for 2.4 GHz Zigbee traffic</description>
+        <settings>
+          <setting command="PL">
+            <name>TX Power Level</name>
+            <description>Set the output power level that will be used for outgoing Zigbee transmissions.
+Query the PP command to determine actual output power.</description>
+            <default_value>0x4</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Lowest</item>
+              <item>Low</item>
+              <item>Medium</item>
+              <item>High</item>
+              <item>Highest</item>
+            </items>
+          </setting>
+          <setting command="PP">
+            <name>Output power in dBm</name>
+            <description>Read the output power in dBm (as a hex number) that will be used for outgoing transmissions. Negative values will be represented in two's compliment.
+Example: 0xFB = -5 dBm; 0x13 = +19 dBm</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="SC">
+            <name>Scan Channels</name>
+            <description>Defines the list of channels used during an Active Scan or Energy Detect as a bitfield. Scans are initiated by the AS or ED commands and during Router or End Device Association and Coordinator startup. Changing SC after association may cause a network leave if the operating channel is not included in the mask.
+Each bit in the mask corresponds to an IEEE 802.15.4 channel:
+    Bit 0 - Channel 11 (0x0B)
+    Bit 2 - Channel 12 (0x0C)
+     ...
+    Bit 15 - Channel 26 (0x1A)</description>
+            <default_value>0x7FFF</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <range_min>0x1</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="SD">
+            <name>Scan Duration</name>
+            <description>Set/read the Scan Duration exponent. The exponent configures the duration of the active scan (PAN scan) on each channel in the SC channel mask when attempting to join a PAN. Scan Time = (SC * (2 ^ SD) * 15.36ms) + (38ms * SC) + 20ms. (SC=# channels)</description>
+            <default_value>0x3</default_value>
+            <control_type>number</control_type>
+            <range_max>0x07</range_max>
+            <range_min>0x0</range_min>
+            <units>exponent</units>
+          </setting>
+        </settings>
+        <categories>
+         <category name="MAC Diagnostics">
+            <description>Media Access Control diagnostic information</description>
+            <settings>
+              <setting command="DB">
+                <name>RSSI of Last Packet</name>
+                <description>Read the magnitude of the RSSI of the last received packet or APS acknowledgment.</description>
+                <default_value>0x</default_value>
+                <control_type>none</control_type>
+              </setting>
+              <setting command="EA">
+                <name>MAC ACK Failure Count</name>
+                <description>The number of unicast transmissions that timed out awaiting a MAC ACK.</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFFFF</range_max>
+                <range_min>0x0</range_min>
+              </setting>
+            </settings>
+          </category>
+        </categories>
+      </category>
+      <category name="Sleep Settings">
+        <description>Configure low power options and enable end device support</description>
+        <settings>
+          <setting command="SM">
+            <name>Sleep Mode</name>
+            <description>Set/read sleep mode: Pin Hibernate is lowest power, Cyclic Sleep wakes on timer expiration, Cyclic Sleep Pin-Wake wakes on timer expiration or when Sleep_Rq (module pin 9) transitions from a high to a low state. If SM is set to 0, the XBee is a router, otherwise it is an end device.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>No Sleep (Router)</item>
+              <item>Pin Hibernate</item>
+              <item>Reserved</item>
+              <item>Reserved</item>
+              <item>Cyclic Sleep</item>
+              <item>Cyclic Sleep Pin-Wake</item>
+              <item>MicroPython Sleep</item>
+            </items>
+          </setting>
+          <setting command="SP">
+            <name>Sleep Time</name>
+            <description>Cyclic sleep period for cyclic sleeping remotes. Set SP on all devices to match SP on End Device children. On routers and coordinators, SP determines the transmission and buffering timeouts when sending a message to a sleeping end device.</description>
+            <default_value>0x20</default_value>
+            <control_type>number</control_type>
+            <range_max>0xAF0</range_max>
+            <range_min>0x20</range_min>
+            <units>x 10 ms</units>
+          </setting>
+          <setting command="ST">
+            <name>Wake Time</name>
+            <description>Time period of inactivity (no serial or RF data is sent or received) before activating Sleep Mode. The ST parameter is used only with Cyclic Sleep settings (SM=4-5).</description>
+            <default_value>0x1388</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFE</range_max>
+            <range_min>0x1</range_min>
+            <units>x 1 ms</units>
+          </setting>
+          <setting command="SN">
+            <name>Number of Cyclic Sleep Periods</name>
+            <description>Number of sleep cycles to elapse before asserting the on/nSleep pin and poll for data on an end device. Parent nodes use SN to define the number of cyclic sleep periods used to calculate end device poll timeout. The poll timeout is calculated in milliseconds as (3 * SN * (SP * 10ms)), minimum of 5 seconds. i.e. if SN=15, SP=0x64, the timeout is 45 seconds.</description>
+            <default_value>0x1</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <range_min>0x1</range_min>
+          </setting>
+          <setting command="SO">
+            <name>Sleep Options</name>
+            <description>Set/read sleep options
+Bitfield options:
+    Bit 1 - Wake for ST time on each cyclic wake after sleeping for SN sleep periods
+    Bit 2 - Enable extended cyclic sleep (sleep for entire SN*SP time - possible data loss)
+All other option bits should be set to 0.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="WH">
+            <name>Wake Host</name>
+            <description>Set/read the end device wake host timer value. A non-zero value specifies the time the device should allow after waking from sleep before sending data out the UART (like an IO sample). If serial characters are received, the WH timer is stopped immediately.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <range_min>0x0</range_min>
+            <units>x 1 ms</units>
+          </setting>
+          <setting command="PO">
+            <name>Poll Rate</name>
+            <description>Set/read the end device poll rate. Setting this to 0 (default) enables polling at 100ms (default rate). Adaptive polling may allow the end device to poll more rapidly for a short time when receiving RF data.</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x3E8</range_max>
+            <range_min>0x0</range_min>
+            <units>x 100 ms</units>
+          </setting>
+          <setting command="ET">
+            <name>Child Table Timeout</name>
+            <description>Sets the Child Table Parent Timeout. This command only set on the SED. The SED sends the timeout to the parent when joining the network.</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Reserved</item>
+              <item>2 minutes</item>
+              <item>4 minutes</item>
+              <item>8 minutes</item>
+              <item>16 minutes</item>
+              <item>32 minutes</item>
+              <item>64 minutes</item>
+              <item>128 minutes</item>
+              <item>256 minutes</item>
+              <item>512 minutes</item>
+              <item>1024 minutes</item>
+              <item>2048 minutes</item>
+              <item>4096 minutes</item>
+              <item>8192 minutes</item>
+              <item>16384 minutes</item>
+            </items>
+          </setting>
+        </settings>
+      </category>
+      <category name="MicroPython Options">
+        <description>Change MicroPython behavior</description>
+        <settings>
+          <setting command="PS">
+            <name>MicroPython Auto Start</name>
+            <description>Configure the module to automatically run compiled MicroPython bytecode stored in flash.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Enabled</item>
+            </items>
+          </setting>
+        </settings>
+      </category>
+      <category name="File System Options">
+        <description>Configure the device's File System options</description>
+        <settings>
+          <setting>
+            <name>File System Public Key</name>
+            <description>Configure the device's File System Public Key</description>
+            <control_type>button</control_type>
+            <function_number>2</function_number>
+          </setting>
+          <setting command="FK">
+            <name>File System Public Key</name>
+            <description>Configure the device's File System Public Key</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</range_max>
+            <range_min>0x0</range_min>
+            <visible>false</visible>
+          </setting>
+        </settings>
+      </category>
+      <category name="Bluetooth Options">
+        <description>Change Bluetooth behavior</description>
+        <settings>
+          <setting command="BT">
+            <name>Bluetooth Enable</name>
+            <description>Configure the module to enable Bluetooth.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Enabled</item>
+            </items>
+          </setting>
+          <setting command="BL">
+            <name>Bluetooth MAC Address</name>
+            <description>Read the module's EUI-48 Bluetooth MAC address</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="BI">
+            <name>Bluetooth Identifier</name>
+            <description>Configure the name that appears in BLE advertisements, up to 22 characters. If set to default (0x20 - ASCII space character), the default name of 'XBee3 Zigbee' will be used.
+Advanced customization of the BLE advertisement data can be done through the `digi.ble` module in MicroPython.</description>
+            <default_value>0x20</default_value>
+            <control_type>text</control_type>
+            <max_chars>22</max_chars>
+            <min_chars>1</min_chars>
+            <format>ASCII</format>
+            <exception></exception>
+          </setting>
+          <setting command="BP">
+            <name>BLE Advertisements Power Level</name>
+            <description>Set the output power level that will be used for Bluetooth Advertisements.</description>
+            <default_value>0x3</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>-20 dBm</item>
+              <item>-10 dBm</item>
+              <item>0 dBm</item>
+              <item>8 dBm</item>
+            </items>
+          </setting>
+          <setting>
+            <name>Bluetooth Authentication</name>
+            <description>Configure Bluetooth authentication with a password or an SRP salt/verifier.</description>
+            <control_type>button</control_type>
+            <function_number>1</function_number>
+          </setting>
+        </settings>
+        <categories>
+          <category name="Authentication">
+            <description>Parameters for authenticating Bluetooth API access</description>
+            <visible>false</visible>
+            <settings>
+              <setting command="$S">
+                <name>SRP Salt</name>
+                <description>32-bit random value to make attempts to brute force passwords more difficult.</description>
+                <default_value>00000000</default_value>
+                <control_type>text</control_type>
+                <max_chars>8</max_chars>
+                <min_chars>1</min_chars>
+                <format>HEX</format>
+              </setting>
+              <setting command="$V">
+                <name>SRP Verifier (part 1)</name>
+                <description>Most significant 32 bytes of the 128 byte verifier</description>
+                <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+                <control_type>text</control_type>
+                <max_chars>64</max_chars>
+                <min_chars>1</min_chars>
+                <format>HEX</format>
+              </setting>
+              <setting command="$W">
+                <name>SRP Verifier (part 2)</name>
+                <description>Second most significant 32 bytes of the 128 byte verifier</description>
+                <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+                <control_type>text</control_type>
+                <max_chars>64</max_chars>
+                <min_chars>1</min_chars>
+                <format>HEX</format>
+              </setting>
+              <setting command="$X">
+                <name>SRP Verifier (part 3)</name>
+                <description>Third most significant 32 bytes of the 128 byte verifier</description>
+                <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+                <control_type>text</control_type>
+                <max_chars>64</max_chars>
+                <min_chars>1</min_chars>
+                <format>HEX</format>
+              </setting>
+              <setting command="$Y">
+                <name>SRP Verifier (part 4)</name>
+                <description>Least significant 32 bytes of the 128 byte verifier</description>
+                <default_value>0000000000000000000000000000000000000000000000000000000000000000</default_value>
+                <control_type>text</control_type>
+                <max_chars>64</max_chars>
+                <min_chars>1</min_chars>
+                <format>HEX</format>
+              </setting>
+            </settings>
+          </category>
+        </categories>
+      </category>
+      <category name="API Configuration">
+        <description>Change API mode configuration</description>
+        <settings>
+          <setting command="AP">
+            <name>API Enable</name>
+            <description>The API mode setting. RF Packets received can be formatted into API frames to be sent out the serial port. When API is enabled the serial data must be formatted as API frames as transparent mode is disabled.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Transparent Mode</item>
+              <item>API Mode Without Escapes</item>
+              <item>API Mode With Escapes</item>
+              <item>NA</item>
+              <item>MicroPython REPL</item>
+            </items>
+          </setting>
+          <setting command="AO">
+            <name>API Output Mode</name>
+            <description>Set the API output mode for received API frames. If AO > 0, the output frame format will be 0x91 when operating in API mode:
+Bitfield options:
+    Bit 0 - Output in Native/Explicit API format
+    Bit 1 - Supported ZDO request pass-through
+    Bit 2 - Unsupported ZDO request pass-through
+    Bit 3 - Binding request pass-through
+    Bit 4 - Echo received supported ZDO requests out the serial port
+    Bit 5 - Suppress all ZDO messages from being sent out the serial port and disable pass-through</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="AZ">
+            <name>Extended API Options</name>
+            <description>Optionally output additional messages that would normally be masked by the XBee application. The bits in this parameter are used to enable different kinds of normally-suppressed output:
+Bitfield options:
+    Bit 0 - Reserved
+    Bit 1 - Output receive frames for client-side OTA update commands
+    Bit 2 - Reserved
+    Bit 3 - Output Extended Modem Status (0x98) frames instead of Modem Status (0x8A) frames when a Secure Session status change occurs</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x0A</range_max>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+        </settings>
+      </category>
+      <category name="UART Interface">
+        <description>Configuration options for UART</description>
+        <settings>
+          <setting command="BD">
+            <name>UART Baud Rate</name>
+            <description>The serial interface baud rate for communication between the serial port of the module and the host. Request non-standard baud rates with values above 0x80 using a terminal window.</description>
+            <default_value>0x3</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>1200</item>
+              <item>2400</item>
+              <item>4800</item>
+              <item>9600</item>
+              <item>19200</item>
+              <item>38400</item>
+              <item>57600</item>
+              <item>115200</item>
+              <item>230400</item>
+              <item>460800</item>
+              <item>921600</item>
+            </items>
+          </setting>
+          <setting command="NB">
+            <name>UART Parity</name>
+            <description>The parity for the UART.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>No Parity</item>
+              <item>Even Parity</item>
+              <item>Odd Parity</item>
+            </items>
+          </setting>
+          <setting command="SB">
+            <name>UART Stop Bits</name>
+            <description>Configure the number of stop bits that the UART will output.</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>One stop bit</item>
+              <item>Two stop bits</item>
+            </items>
+          </setting>
+          <setting command="RO">
+            <name>Transparent Packetization Timeout</name>
+            <description>The number of character times of inter-character delay required before transmission begins when operating in transparent mode (AP=0). Set to zero to transmit characters as they arrive instead of buffering them into one RF packet.</description>
+            <default_value>0x3</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>x character times</units>
+          </setting>
+        </settings>
+        <categories>
+          <category name="AT Command Options">
+            <description>Change AT Command Mode Behavior. Command mode is only accessible via the UART.</description>
+            <settings>
+              <setting command="CC">
+                <name>Command Sequence Character</name>
+                <description>The character value used to enter command mode. The default value (0x2B) is the ASCII code for the plus ('+') character. It must be entered three times within the guard time to enter command mode.</description>
+                <default_value>0x2B</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFF</range_max>
+                <range_min>0x0</range_min>
+                <units>Recommended: 0x20-0x7F (ASCII)</units>
+              </setting>
+              <setting command="CT">
+                <name>Command Mode Timeout</name>
+                <description>The command mode timeout parameter. If no valid commands have been received within this time period, module returns to Idle Mode from AT Command Mode.</description>
+                <default_value>0x64</default_value>
+                <control_type>number</control_type>
+                <range_max>0x28F</range_max>
+                <range_min>0x2</range_min>
+                <units>x 100 ms</units>
+              </setting>
+              <setting command="GT">
+                <name>Guard Times</name>
+                <description>The required period of silence before, after, and between the Command Mode Characters of the Command Mode Sequence (GT + CC + GT). The period of silence is used to prevent inadvertent entrance into AT Command Mode.</description>
+                <default_value>0x3E8</default_value>
+                <control_type>number</control_type>
+                <range_max>0xCE4</range_max>
+                <range_min>0x01</range_min>
+                <units>x 1 ms</units>
+              </setting>
+            </settings>
+          </category>
+          <category name="UART Pin Configuration">
+            <description>Pin configuration for the UART interface</description>
+            <settings>
+              <setting command="D6">
+                <name>DIO6/RTS Configuration</name>
+                <description>Configure options for the DIO6/RTS line of the module.
+TH pin 16
+Options include:
+    RTS flow control
+    Digital input
+    Digital output</description>
+                <default_value>0x0</default_value>
+                <control_type>combo</control_type>
+                <items>
+                  <item>Disabled</item>
+                  <item>RTS flow control</item>
+                  <item>NA</item>
+                  <item>Digital Input</item>
+                  <item>Digital Out, Low</item>
+                  <item>Digital Out, High</item>
+                </items>
+              </setting>
+              <setting command="D7">
+                <name>DIO7/CTS Configuration</name>
+                <description>Configure options for the DIO7/CTS line of the module.
+TH pin 12
+Options include:
+    CTS flow control
+    Digital input
+    Digital output
+    RS-485 control</description>
+                <default_value>0x1</default_value>
+                <control_type>combo</control_type>
+                <items>
+                  <item>Disabled</item>
+                  <item>CTS flow control</item>
+                  <item>NA</item>
+                  <item>Digital Input</item>
+                  <item>Digital Out, Low</item>
+                  <item>Digital Out, High</item>
+                  <item>RS-485 Enable, Low</item>
+                  <item>RS-485 Enable, High</item>
+                </items>
+              </setting>
+              <setting command="P3">
+                <name>DIO13/UART_DOUT Configuration</name>
+                <description>Configure options for the DIO13 line of the module.
+TH pin 2
+Options include:
+    UART DOUT
+    Digital input
+    Digital output</description>
+                <default_value>0x1</default_value>
+                <control_type>combo</control_type>
+                <items>
+                  <item>Disabled</item>
+                  <item>UART_DOUT</item>
+                  <item>NA</item>
+                  <item>Digital Input</item>
+                  <item>Digital Out, Low</item>
+                  <item>Digital Out, High</item>
+                </items>
+              </setting>
+              <setting command="P4">
+                <name>DIO14/UART_DIN Configuration</name>
+                <description>Configure options for the DIO14/UART_DIN line of the module.
+TH pin 3
+Options include:
+    UART DIN
+    Digital input
+    Digital output</description>
+                <default_value>0x1</default_value>
+                <control_type>combo</control_type>
+                <items>
+                  <item>Disabled</item>
+                  <item>UART_DIN</item>
+                  <item>NA</item>
+                  <item>Digital Input</item>
+                  <item>Digital Out, Low</item>
+                  <item>Digital Out, High</item>
+                </items>
+              </setting>
+            </settings>
+          </category>
+        </categories>
+      </category>
+      <category name="I/O Settings">
+        <description>Modify DIO and ADC options</description>
+        <settings>
+          <setting command="D0">
+            <name>DIO0/AD0/Commissioning Button Configuration</name>
+            <description>Configure options for the AD0/DIO0/Commissioning line of the module.
+TH Pin 20
+Options include:
+    Commissioning button
+    ADC input
+    Digital input
+    Digital output</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Commissioning Button</item>
+              <item>ADC</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D1">
+            <name>DIO1/AD1/SPI_nATTN Configuration</name>
+            <description>Configure options for the AD1/DIO1/SPI_nATTN line of the module.
+TH pin 19
+Options include:
+    SPI_nATTN on TH variant
+    ADC input
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>SPI_nATTN</item>
+              <item>ADC</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+              <item>I2C SCL</item>
+            </items>
+          </setting>
+          <setting command="D2">
+            <name>DIO2/AD2/SPI_CLK Configuration</name>
+            <description>Configure options for the AD2/DIO2/SPI_CLK line of the module.
+TH pin 18
+Options include:
+    SPI_CLK on TH variant
+    ADC input
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>SPI_SCLK</item>
+              <item>ADC</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D3">
+            <name>DIO3/AD3/SPI_nSSEL Configuration</name>
+            <description>Configure options for the AD3/DIO3 line of the module.
+TH pin 17
+Options include:
+    SPI_nSSEL on TH variant
+    ADC input
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>SPI_nSSEL</item>
+              <item>ADC</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D4">
+            <name>DIO4/SPI_MOSI Configuration</name>
+            <description>Configure options for the DIO4/SPI_MOSI line of the module.
+TH pin 11
+Options include:
+    SPI_MOSI on TH variant
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>SPI_MOSI</item>
+              <item>NA</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D5">
+            <name>DIO5/Association LED Configuration</name>
+            <description>Configure options for the DIO5/Assoc line of the module.
+TH pin 15
+Options include:
+    Associated LED indicator (blinks when associated)
+    Digital input
+    Digital output</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Associated indicator</item>
+              <item>NA</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D8">
+            <name>DIO8/DTR/Sleep_Rq Configuration</name>
+            <description>Configure options for the DIO8 line of the module.
+TH pin 9
+Options include:
+    Sleep Request/DTR (used with pin hibernate and pin wake)
+    Digital input
+    Digital output</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>DTR/Sleep_Rq</item>
+              <item>NA</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="D9">
+            <name>DIO9/Sleep Indicator Configuration</name>
+            <description>Configure options for the DIO9 line of the module.
+TH pin 13
+Options include:
+    Awake/nSleep indicator (pin is LOW when module is asleep)
+    Digital input
+    Digital output</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>Awake/Asleep indicator</item>
+              <item>NA</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="P0">
+            <name>DIO10/PWM0 Configuration</name>
+            <description>Configure options for the DIO10/PWM0 line of the module. M0 controls the PWM duty cycle when configured as a PWM output.
+TH pin 6
+Options include:
+    RSSI PWM output
+    PWM output
+    Digital Input and Output</description>
+            <default_value>0x1</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>RSSI PWM Output</item>
+              <item>PWM Output</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="P1">
+            <name>DIO11 Configuration</name>
+            <description>Configure options for the DIO11/PWM1 line of the module. M1 controls the PWM duty cycle when configured as a PWM output.
+TH pin 7
+Options include:
+    PWM output
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>NA</item>
+              <item>PWM Output</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+              <item>I2C SDA</item>
+            </items>
+          </setting>
+          <setting command="P2">
+            <name>DIO12/SPI_MISO Configuration</name>
+            <description>Configure options for the DIO12/SPI_MISO line of the module.
+TH pin 4
+Options include:
+    SPI_MISO on TH variant
+    Digital input
+    Digital output</description>
+            <default_value>0x0</default_value>
+            <control_type>combo</control_type>
+            <items>
+              <item>Disabled</item>
+              <item>SPI_MISO</item>
+              <item>NA</item>
+              <item>Digital Input</item>
+              <item>Digital Out, Low</item>
+              <item>Digital Out, High</item>
+            </items>
+          </setting>
+          <setting command="PR">
+            <name>Pull-up Resistor Enable</name>
+            <description>Set/read bitfield to configure internal pullup resistors status for I/O lines. 1=internal pullup enabled, 0=no internal pullup.
+Bitfield options:
+    Bit 0  - DIO4  | TH Pin 11
+    Bit 1  - DIO3  | TH Pin 17
+    Bit 2  - DIO2  | TH Pin 18
+    Bit 3  - DIO1  | TH Pin 19
+    Bit 4  - DIO0  | TH Pin 20
+    Bit 5  - DIO6  | TH Pin 16
+    Bit 6  - DIO8  | TH Pin 9
+    Bit 7  - DIO14 | TH Pin 3
+    Bit 8  - DIO5  | TH Pin 15
+    Bit 9  - DIO9  | TH Pin 13
+    Bit 10 - DIO12 | TH Pin 4
+    Bit 11 - DIO10 | TH Pin 6
+    Bit 12 - DIO11 | TH Pin 7
+    Bit 13 - DIO7  | TH Pin 12
+    Bit 14 - DIO13 | TH Pin 2</description>
+    <range_max>0xFFFF</range_max>
+            <control_type>number</control_type>
+            <range_min>0x0</range_min>
+            <default_value>0xFFFF</default_value>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="PD">
+            <name>Pull-up/down Direction</name>
+            <description>Set/read bitfield for resistor direction (1=pullup, 0=pull-down) for corresponding I/O lines that are set in PR command.</description>
+            <control_type>number</control_type>
+            <range_max>0xFFFF</range_max>
+            <default_value>0xFFFF</default_value>
+            <range_min>0x0</range_min>
+            <units>Bitfield</units>
+          </setting>
+          <setting command="M0">
+            <name>PWM0 Duty Cycle</name>
+            <description>Set PWM0 Duty cycle. The PWM period is 64 us theres are 0x3FF (1023 decimal) steps within this period.
+Example M0=0 (0% PWM), 0x1FF (50% PWM), 0x3FF (100% PWM)</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x3FF</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="M1">
+            <name>PWM1 Duty Cycle</name>
+            <description>Set PWM1 Duty cycle. The PWM period is 64 us theres are 0x3FF (1023 decimal) steps within this period.
+Example M1=0 (0% PWM), 0x1FF (50% PWM), 0x3FF (100% PWM)</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0x3FF</range_max>
+            <range_min>0x0</range_min>
+          </setting>
+          <setting command="LT">
+            <name>Associate LED Blink Time</name>
+            <description>Set/read the Associate LED blink rate. This value determines the blink rate of the Associate/DIO5 pin. Setting LT to 0 will use the default blink time (250ms).</description>
+            <default_value>0x0</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0A</range_min>
+            <units>x 10 ms</units>
+          </setting>
+          <setting command="RP">
+            <name>RSSI PWM Timer</name>
+            <description>Set/read PWM timer register. Set duration of PWM (pulse width modulation) signal output on the RSSI pin (P6). The signal duty cycle is updated with each received packet or APS acknowledgment and is shut off when the timer expires.</description>
+            <default_value>0x28</default_value>
+            <control_type>number</control_type>
+            <range_max>0xFF</range_max>
+            <range_min>0x0</range_min>
+            <units>x 100 ms</units>
+          </setting>
+        </settings>
+        <categories>
+          <category name="I/O Sampling">
+            <description>Configure IO sampling parameters</description>
+            <settings>
+              <setting command="IR">
+                <name>IO Sampling Rate</name>
+                <description>Set the IO sampling rate to enable periodic sampling. If set &gt;0, all enabled digital IO and analog inputs will be sampled and transmitted every IR milliseconds. IO Samples are transmitted to the address specified by DH+DL.</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFFFF</range_max>
+                <range_min>0x32</range_min>
+                <units>x 1 ms</units>
+                <additional_values>
+                  <value>0x0</value>
+                </additional_values>
+              </setting>
+              <setting command="IC">
+                <name>Digital IO Change Detection</name>
+                <description>Bitfield that configures which digital input pins should be monitored for change detection. If a change is detected on an enabled digital input pin, a digital IO sample is immediately transmitted to the address specified by DH+DL.
+Bitfield options:
+    Bit 0  - DIO0
+    Bit 1  - DIO1
+    Bit 2  - DIO2
+    Bit 3  - DIO3
+    Bit 4  - DIO4
+    Bit 5  - DIO5
+    Bit 6  - DIO6
+    Bit 7  - DIO7
+    Bit 8  - DIO8
+    Bit 9  - DIO9
+    Bit 10 - DIO10
+    Bit 11 - DIO11
+    Bit 12 - DIO12
+    Bit 13 - DIO13
+    Bit 14 - DIO14</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0x7FFF</range_max>
+                <range_min>0x0</range_min>
+                <units>Bitfield</units>
+              </setting>
+              <setting command="AV">
+                <name>Analog Voltage Reference</name>
+                <description>The analog voltage reference used for A/D sampling.</description>
+                <default_value>0x0</default_value>
+                <control_type>combo</control_type>
+                <items>
+                  <item>1.25v reference</item>
+                  <item>2.5v reference</item>
+                  <item>VDD reference</item>
+                  </items>
+              </setting>
+              <setting command="V+">
+                <name>Supply Voltage High Threshold</name>
+                <description>Configure the supply voltage high threshold. If the supply voltage measurement equals or drops below this threshold, the supply voltage will be appended to an IO sample transmission.</description>
+                <default_value>0x0</default_value>
+                <control_type>number</control_type>
+                <range_max>0xFFFF</range_max>
+                <range_min>0x0</range_min>
+              </setting>
+            </settings>
+          </category>
+        </categories>
+      </category>
+      <category name="Location">
+        <description>User-defined parameters used to store the physical location of the deployed device.</description>
+        <settings>
+          <setting command="LX">
+          <name>Location X - Latitude</name>
+          <description>User-defined GPS latitude coordinates of the node that is displayed on Digi Remote Manager and Network Assistant.</description>
+          <default_value> </default_value>
+          <control_type>text</control_type>
+          <max_chars>15</max_chars>
+          <min_chars>1</min_chars>
+          <format>ASCII</format>
+          <exception></exception>
+        </setting>
+          <setting command="LY">
+          <name>Location Y - Longitude</name>
+          <description>User-defined GPS longitude coordinates of the node that is displayed on Digi Remote Manager and Network Assistant.</description>
+          <default_value> </default_value>
+          <control_type>text</control_type>
+          <max_chars>15</max_chars>
+          <min_chars>1</min_chars>
+          <format>ASCII</format>
+          <exception></exception>
+        </setting>
+          <setting command="LZ">
+          <name>Location Z - Elevation</name>
+          <description>User-defined GPS elevation of the node that is displayed on Digi Remote Manager and Network Assistant.</description>
+          <default_value> </default_value>
+          <control_type>text</control_type>
+          <max_chars>15</max_chars>
+          <min_chars>1</min_chars>
+          <format>ASCII</format>
+          <exception></exception>
+          </setting>
+        </settings>
+      </category>
+      <category name="Diagnostics - Firmware/Hardware Information">
+        <description>Information about the XBee hardware and firmware</description>
+        <settings>
+          <setting command="VR">
+            <name>Firmware Version</name>
+            <description>Read modem firmware version number.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="VH">
+            <name>Bootloader Version</name>
+            <description>Display the Bootloader version</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="HV">
+            <name>Hardware Version</name>
+            <description>Read modem hardware version number.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="%C">
+            <name>Hardware/Firmware Compatibility</name>
+            <description>Specifies what firmware is compatible with this radio. Firmware with a compatibility value lower than the value returned by %C cannot be loaded onto the board.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="R?">
+            <name>Power Variant</name>
+            <description>Specifies if the radio is a PRO or Non-PRO variant.
+    0 = PRO, 1 = Non-PRO</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="%V">
+            <name>Supply Voltage</name>
+            <description>Read the supply voltage of the module in mV units.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="TP">
+            <name>Temperature</name>
+            <description>Read power compensation temperature sensor in units of Celsius degrees.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+          <setting command="CK">
+            <name>Configuration Checksum</name>
+            <description>The CRC of the current settings. The purpose of this command is to allow the detection of an unexpected configuration change on a device. After a firmware update this command may return a different value.</description>
+            <default_value>0x</default_value>
+            <control_type>none</control_type>
+          </setting>
+        </settings>
+      </category>
+    </categories>
+  </firmware>
+</firmwares>

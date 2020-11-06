@@ -352,8 +352,16 @@ class Gateway:
             msg: The message payload from MQTT broker
         """
         print(msg)
+        #Check Which MQTT message is it and call relevant function
+
+        if(msg.topic=="cmd/myfarm/dorm-room/gateway/update/"):
+            self.update_xbee_firmware('XB3-24Z_100B-th.xml')
+
+        else if (msg.topic=="cmd/myfarm/dorm-room/gateway/switch/"):
+            self.actuators[0].control_ws28x1_light()       
+        
         print("Parsing message from MQTT broker")
-        self.actuators[0].control_ws28x1_light()
+
     
     def update_xbee_firmware(self,xml_file_path):
         """
