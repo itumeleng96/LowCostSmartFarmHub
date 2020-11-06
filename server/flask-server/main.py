@@ -38,6 +38,14 @@ def alert():
     return "ok"
 
 @app.route('/control_cmd',methods=['POST','OPTIONS'])
+def update_firmware():
+    #Send update firmware command to MQTT Broker
+ 
+    mqtt.publish("cmd/myfarm/dorm-room/gateway/update/","{update:xbee}")
+    return "ok"
+
+
+@app.route('/control_cmd',methods=['POST','OPTIONS'])
 def control_cmd():
     #Send ON Command to MQTT Broker
  

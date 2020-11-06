@@ -351,8 +351,24 @@ class Gateway:
         Args:
             msg: The message payload from MQTT broker
         """
+        print(msg)
         print("Parsing message from MQTT broker")
         self.actuators[0].control_ws28x1_light()
+    
+    def update_xbee_firmware(self,xml_file_path):
+        """
+        Update the Xbee Devices firmware
+
+        Args:
+            path to XML file
+        """
+
+        for node in self.nodeDevices:
+            node.update_xbee_firmware(xml_file_path)
+            time.sleep(2)
+        
+
+
 
     def connect_mqtt(self,client_id,broker,port):
         """

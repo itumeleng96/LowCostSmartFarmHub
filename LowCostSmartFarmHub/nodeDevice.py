@@ -11,6 +11,7 @@
 
 from    digi.xbee.devices   import XBeeDevice
 from    sensor  import Sensor
+from    digi.xbee.exception import FirmwareUpdateException, OperationNotSupportedException, XBeeException
 
 class NodeDevice:
     '''This class represents every node device on the network'''
@@ -92,4 +93,34 @@ class NodeDevice:
             if actuator.actuatorID==actuatorID:
                 self.actuators.remove(actuator)
 
-     
+    def update_xbee_firmware(self,path_to_file):
+        """
+        To update the specified node's firmware
+
+        Args:
+            self(Node Device)
+
+        Returns:
+            Boolean for successful Update
+        """
+        #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdateSample.py
+
+        XML_FIRMWARE_FILE = path_to_file
+        BOOTLOADER_FIRMWARE_FILE = None  # Optional
+        XBEE_FIRMWARE_FILE = None        # Optional
+        
+        def progress_callback(task, percent):
+            print("%s: %d%%" % (task, percent))
+        
+        try:
+            self.XBeeObject.update_firmware(XML_FIRMWARE_FILE,
+                                            xbee_firmware_file=XBEE_FIRMWARE_FILE,
+                                            bootloader_firmware_file=BOOTLOADER_FIRMWARE_FILE,
+                                            progress_callback=progress_callback,)
+
+            print("Firmware updated successfully")
+
+        except (XBeeException, FirmwareUpdateException, OperationNotSupportedException) as e:
+                print("ERROR: %s" % str(e))
+                exit(1)
+
