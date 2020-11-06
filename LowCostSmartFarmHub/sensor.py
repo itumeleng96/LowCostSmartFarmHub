@@ -1,6 +1,8 @@
 from    digi.xbee.devices   import XBeeDevice
 from    digi.xbee.io    import  IOLine,IOMode
 import time
+import RPi.GPIO as GPIO
+import dht11
 
 class Sensor:
     '''This class provides functionality for the Sensor'''
@@ -39,7 +41,28 @@ class Sensor:
         self.sensor_values.append(sensor_value)
         return str(sensor_value)
 
-    
+    def read_digital_sensor_dht11(self):
+        """
+        This function reads the values from the DHT11 sensor
+        
+        Returns:
+             The sensor value
+        """
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.cleanup()
+        
+        instance = dht11.DHT11(pin = self.connection_pin)
+        result = instance.read()
+
+        if(self.sensor_name=='DHT11-temperature'):
+            self.sensor_values.append(result.temperature)
+            return str(result.temperature)
+
+        elif(self.sensor_name=='DHT11-humidity'):
+            self.sensor_values.append(result.humidity)
+            return str(result.humidity)
+
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
         """
         This function provides functionality for interfacing with the DHT11 Humidity and Temperature sensor 
