@@ -65,7 +65,9 @@ class NodeDevice:
         self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
         value=self.XBeeObject.get_adc_value(IOLine.get(1))
         
-        return str(round(float(value/1023.0),2))
+        #Reference Voltage
+        
+        return str((2.5-round(float(value/1023.0),2))*2)
 
     def add_actuator(self,actuator):
         """

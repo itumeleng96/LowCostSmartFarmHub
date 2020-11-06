@@ -48,16 +48,25 @@ class Sensor:
         Returns:
              The sensor value
         """
+        time.sleep(5) #This ensures that sampling frequency is less than 1 Hz
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        
         instance = dht11.DHT11(pin = int(self.connection_pin))
         result = instance.read()
 
-        if(self.sensor_name=='DHT11-temperature'):
-            self.sensor_values.append(result.temperature)
-            return str(result.temperature)
+        if result.is_valid():
+          if(str(self.sensor_name)=='DHT11-temperature'):
+              self.sensor_values.append(result.temperature)
+              return str(result.temperature)
 
-        elif(self.sensor_name=='DHT11-humidity'):
-            self.sensor_values.append(result.humidity)
-            return str(result.humidity)
+          elif(str(self.sensor_name)=='DHT11-humidity'):
+              self.sensor_values.append(result.humidity)
+              return str(result.humidity)
+
+        self.sensor_values.append(0)
+        GPIO.cleanup()
+        return 0 
 
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
         """
