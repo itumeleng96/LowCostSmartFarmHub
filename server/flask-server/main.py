@@ -38,9 +38,10 @@ def alert():
     return "ok"
 
 @app.route('/control_cmd',methods=['POST','OPTIONS'])
+@auth.login_required
 def control_cmd():
     #Send ON Command to MQTT Broker
- 
+    
     mqtt.publish("cmd/myfarm/dorm-room/gateway/switch/","{state:on}")
     return "ok"
 
