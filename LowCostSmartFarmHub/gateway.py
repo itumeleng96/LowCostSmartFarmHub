@@ -224,14 +224,10 @@ class Gateway:
                 for actuator_in_node in node_device.actuators:
                     self.publish_actuator_info(client,actuator)
                     count_actuators+=1
-
+            print("Devices on the Wireless Sensor Network......")
             self.publish_device_list(client,"Actuators",count_actuators)
             self.publish_device_list(client,"Sensors",count_sensors)
             self.publish_device_list(client,"Node-devices",count_nodes)
-            print("Devices on the Wireless Sensor Network......")
-            print("actuators",count_actuators)
-            print("sensors",count_sensors)
-            print("nodes",count_nodes)
             time.sleep(interval)
 
     def publish_digital_sensor_info(self,client,sensor:Sensor):
@@ -357,7 +353,7 @@ class Gateway:
         if(msg.topic=="cmd/myfarm/dorm-room/gateway/update/"):
             self.update_xbee_firmware('XB3-24Z_100B-th.xml')
 
-        else if (msg.topic=="cmd/myfarm/dorm-room/gateway/switch/"):
+        elif (msg.topic=="cmd/myfarm/dorm-room/gateway/switch/"):
             self.actuators[0].control_ws28x1_light()       
         
         print("Parsing message from MQTT broker")
