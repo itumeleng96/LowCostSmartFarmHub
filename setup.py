@@ -42,6 +42,7 @@ setup(
         'rpi_ws281x',
         'paho-mqtt',
         'RPI.version',
+        'RPi.GPIO'
         'requests',
     ],
     license="MIT license",
