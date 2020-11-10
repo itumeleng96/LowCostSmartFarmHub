@@ -24,12 +24,11 @@ def main():
       client_id = f'python-mqtt-{random.randint(0, 1000)}'
       mqtt_client=gateway.connect_mqtt(client_id,'localhost',1883)
       mqtt_client.loop_start()
-      gateway.publish(mqtt_client,60)
+      gateway.publish(mqtt_client,180)
+      print("Publishing to Broker every minute and Waiting for cmd messages")
 
     else:
       print("Failed to connect to Coordinator")
-
-    print("Publishing to Broker every minute and Waiting for cmd messages")
 
 if __name__ == '__main__':
     print('Running smart Farm Hub')

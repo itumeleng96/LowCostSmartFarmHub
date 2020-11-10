@@ -366,10 +366,10 @@ class Gateway:
         Args:
             path to XML file
         """
-
-        for node in self.nodeDevices:
-            node.update_xbee_firmware(xml_file_path)
-            time.sleep(2)
+        print("Updating Device Firmware")
+       # for node in self.nodeDevices:
+       #     node.update_xbee_firmware(xml_file_path)
+       #     time.sleep(2)
         
 
 
