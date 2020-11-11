@@ -110,7 +110,8 @@ class NodeDevice:
         XML_FIRMWARE_FILE = path_to_xml
         BOOTLOADER_FIRMWARE_FILE = path_to_bootloader_gbl  # Optional
         XBEE_FIRMWARE_FILE = path_to_gbl        # Optional
-        
+        #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdate
+        print("Updating XBee Firmware")        
         def progress_callback(task, percent):
             print("%s: %d%%" % (task, percent))
         

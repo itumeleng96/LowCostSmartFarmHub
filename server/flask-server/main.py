@@ -20,7 +20,6 @@ users = {
 }
 
 
-
 @auth.get_password
 def get_pw(username):
     if username in users:
@@ -37,15 +36,16 @@ def alert():
 #    client.disconnect()
     return "ok"
 
-@auth.login_required
 @app.route('/update_firmware',methods=['POST','OPTIONS'])
+@auth.login_required
 def update_firmware():
     #Send update firmware command to MQTT Broker 
     mqtt.publish("cmd/myfarm/dorm-room/gateway/update/","{update:xbee}")
     return "ok"
 
-@auth.login_required
+
 @app.route('/control_cmd',methods=['POST','OPTIONS'])
+@auth.login_required
 def control_cmd():
     #Send ON Command to MQTT Broker
     mqtt.publish("cmd/myfarm/dorm-room/gateway/switch/","{state:on}")
