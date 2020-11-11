@@ -37,8 +37,6 @@ def alert():
 #    client.disconnect()
     return "ok"
 
-@app.route('/control_cmd',methods=['POST','OPTIONS'])
-
 @auth.login_required
 @app.route('/update_firmware',methods=['POST','OPTIONS'])
 def update_firmware():

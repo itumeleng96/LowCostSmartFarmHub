@@ -68,7 +68,7 @@ class NodeDevice:
         
         #Reference Voltage
         
-        return str((2.5-round(float(value/1023.0),2))*2)
+        return str(2.5-(round(float(value/1023.0),2))*2)
 
     def add_actuator(self,actuator):
         """
