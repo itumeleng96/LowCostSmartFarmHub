@@ -104,7 +104,7 @@ class NodeDevice:
             Boolean for successful Update
         """
         #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdateSample.py
-
+        print("Updating XBee Firmware")
         XML_FIRMWARE_FILE = path_to_file
         BOOTLOADER_FIRMWARE_FILE = None  # Optional
         XBEE_FIRMWARE_FILE = None        # Optional
