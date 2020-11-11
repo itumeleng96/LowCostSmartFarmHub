@@ -96,7 +96,7 @@ class NodeDevice:
             if actuator.actuatorID==actuatorID:
                 self.actuators.remove(actuator)
 
-    def update_xbee_firmware(self,path_to_file):
+    def update_xbee_firmware(self,path_to_xml,path_to_gbl,path_to_bootloader_gbl):
         """
         To update the specified node's firmware
 
@@ -107,9 +107,9 @@ class NodeDevice:
             Boolean for successful Update
         """
         #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdateSample.py
-        XML_FIRMWARE_FILE = path_to_file
-        BOOTLOADER_FIRMWARE_FILE = None  # Optional
-        XBEE_FIRMWARE_FILE = None        # Optional
+        XML_FIRMWARE_FILE = path_to_xml
+        BOOTLOADER_FIRMWARE_FILE = path_to_bootloader_gbl  # Optional
+        XBEE_FIRMWARE_FILE = path_to_gbl        # Optional
         
         def progress_callback(task, percent):
             print("%s: %d%%" % (task, percent))
