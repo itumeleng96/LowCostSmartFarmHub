@@ -34,7 +34,7 @@ class Sensor:
         sensor_value=XbeeDevice.get_adc_value(IOLine.get(int(self.connection_pin)))
 
         #Convert 10 Bit ADC value to relevant value
-        sensor_value=round(float(sensor_value/1023.0)*int(self.conversion),2) 
+        sensor_value=100-round(float(sensor_value/1023.0)*int(self.conversion),2) 
 
         #raise Exception('The selected pin does not support Analog');
         
@@ -48,20 +48,22 @@ class Sensor:
         Returns:
              The sensor value
         """
-        GPIO.setwarnings(False)
+        time.sleep(20) #This ensures that sampling frequency is less than 1 Hz
         GPIO.setmode(GPIO.BCM)
-        GPIO.cleanup()
         
-        instance = dht11.DHT11(pin = self.connection_pin)
-        result = instance.read()
+        instance = dht11.DHT11(pin = int(self.connection_pin))
+        valid=True
 
-        if(self.sensor_name=='DHT11-temperature'):
-            self.sensor_values.append(result.temperature)
-            return str(result.temperature)
+        while valid:
+          result = instance.read()
+          if(str(self.sensor_name)=='DHT11-temperature') and result.is_valid():
+              self.sensor_values.append(result.temperature)
+              valid=False
+          elif(str(self.sensor_name)=='DHT11-humidity') and result.is_valid():
+              self.sensor_values.append(result.humidity)
+              valid=False
 
-        elif(self.sensor_name=='DHT11-humidity'):
-            self.sensor_values.append(result.humidity)
-            return str(result.humidity)
+        return 0 
 
     def read_digital_xbee_sensor(self,xbee_device:XBeeDevice,io_digital_pin):
         """

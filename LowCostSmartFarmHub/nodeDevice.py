@@ -10,6 +10,7 @@
 #This Class defines the Node Devices on the Network
 
 from    digi.xbee.devices   import XBeeDevice
+from    digi.xbee.io    import  IOLine,IOMode
 from    sensor  import Sensor
 from    digi.xbee.exception import FirmwareUpdateException, OperationNotSupportedException, XBeeException
 
@@ -63,9 +64,11 @@ class NodeDevice:
         Returns: Battery Level Float
         """
         self.XBeeObject.set_io_configuration(IOLine.get(1),IOMode.ADC)
-        value=XbeeDevice.get_adc_value(IOLine.get(1))
+        value=self.XBeeObject.get_adc_value(IOLine.get(1))
         
-        return round(float(sensor_value/1023.0),2)
+        #Reference Voltage
+        
+        return str(2.5-(round(float(value/1023.0),2))*2)
 
     def add_actuator(self,actuator):
         """
@@ -103,8 +106,8 @@ class NodeDevice:
         Returns:
             Boolean for successful Update
         """
-        #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdateSample.py
-
+        #Using Example from  https://github.com/digidotcom/xbee-python/blob/master/examples/firmware/LocalFirmwareUpdateSample/LocalFirmwareUpdate
+        print("Updating XBee Firmware")
         XML_FIRMWARE_FILE = path_to_file
         BOOTLOADER_FIRMWARE_FILE = None  # Optional
         XBEE_FIRMWARE_FILE = None        # Optional
@@ -113,6 +116,7 @@ class NodeDevice:
             print("%s: %d%%" % (task, percent))
         
         try:
+            print("Updating XBee Firmware")
             self.XBeeObject.update_firmware(XML_FIRMWARE_FILE,
                                             xbee_firmware_file=XBEE_FIRMWARE_FILE,
                                             bootloader_firmware_file=BOOTLOADER_FIRMWARE_FILE,

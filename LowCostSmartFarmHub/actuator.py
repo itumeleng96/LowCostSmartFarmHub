@@ -55,5 +55,5 @@ class Actuator:
           for i in range(0, strip.numPixels()):
                 strip.setPixelColor(i,Color(0,0,0))
 
-          self.actuatorValues.append(1)
+          self.actuatorValues.append(0)
         strip.show()
