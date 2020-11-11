@@ -36,7 +36,6 @@ def alert():
 #    client.disconnect()
     return "ok"
 
-
 @app.route('/update_firmware',methods=['POST','OPTIONS'])
 @auth.login_required
 def update_firmware():

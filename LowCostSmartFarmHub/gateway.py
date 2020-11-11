@@ -209,7 +209,7 @@ class Gateway:
             #self.detect_devices(self.localXBee,True,"devices.csv")
 
             for sensor in self.sensors:
-                self.publish_sensor_info_gateway(client,sensor)
+                self.publish_digital_sensor_info(client,sensor)
                 count_sensors+=1
             for actuator in self.actuators:
                 self.publish_actuator_info(client,actuator)
@@ -224,14 +224,10 @@ class Gateway:
                 for actuator_in_node in node_device.actuators:
                     self.publish_actuator_info(client,actuator)
                     count_actuators+=1
-
+            print("Devices on the Wireless Sensor Network......")
             self.publish_device_list(client,"Actuators",count_actuators)
             self.publish_device_list(client,"Sensors",count_sensors)
             self.publish_device_list(client,"Node-devices",count_nodes)
-            print("Devices on the Wireless Sensor Network......")
-            print("actuators",count_actuators)
-            print("sensors",count_sensors)
-            print("nodes",count_nodes)
             time.sleep(interval)
 
     def publish_digital_sensor_info(self,client,sensor:Sensor):
@@ -242,7 +238,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             sensor(Sensor): The sensor object with all the attributes of the sensor
         """
-        sensor.read_digital_sensor()
+        sensor.read_digital_sensor_dht11()
         payload_dict={"sensor_name":sensor.sensor_name,"sensor_id":sensor.sensor_id,"sensor_connection":"digital","data":{"value":sensor.get_sensor_value(),"units":sensor.unit_of_measure}}
         payload=json.dumps(payload_dict)
 
@@ -289,7 +285,7 @@ class Gateway:
             client(mqtt_client):The MQTT client object
             nodeDevice(nodeDevice): The node Device object with all the attributes of the node
         """
-        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":node_device.macAddress,"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
+        payload_dict={"node_name":node_device.nodeName,"battery_type":"Lithium-ion","node_id":str(node_device.macAddress),"data":{"value":node_device.get_battery_level(),"units":"percentage"}}
         payload=json.dumps(payload_dict)
 
         topic = 'data/myfarm/dorm-room/power/'
@@ -357,7 +353,7 @@ class Gateway:
         if(msg.topic=="cmd/myfarm/dorm-room/gateway/update/"):
             self.update_xbee_firmware('XB3-24Z_100B-th.xml')
 
-        else if (msg.topic=="cmd/myfarm/dorm-room/gateway/switch/"):
+        elif (msg.topic=="cmd/myfarm/dorm-room/gateway/switch/"):
             self.actuators[0].control_ws28x1_light()       
         
         print("Parsing message from MQTT broker")
@@ -370,10 +366,10 @@ class Gateway:
         Args:
             path to XML file
         """
-
-        for node in self.nodeDevices:
-            node.update_xbee_firmware(xml_file_path)
-            time.sleep(2)
+        print("Updating Device Firmware")
+       # for node in self.nodeDevices:
+       #     node.update_xbee_firmware(xml_file_path)
+       #     time.sleep(2)
         
 
 
