@@ -26,7 +26,7 @@ keyring==21.4.0
 LowCostSmartFarmHub
 MarkupSafe==1.1.1
 mccabe==0.6.1
-packaging==20.4
+packaging==20.5
 paho-mqtt==1.5.1
 pathtools==0.1.2
 pkg-resources==0.0.0
