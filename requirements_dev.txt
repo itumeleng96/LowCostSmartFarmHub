@@ -47,7 +47,7 @@ requests-toolbelt==0.9.1
 rfc3986==1.4.0
 RPi.version===2.0
 RPi.GPIO===0.7.0
-SecretStorage==3.1.2
+SecretStorage==3.3.1
 six==1.15.0
 snowballstemmer==2.0.0
 Sphinx==1.8.5
