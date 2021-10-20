@@ -27,7 +27,7 @@ LowCostSmartFarmHub
 MarkupSafe==1.1.1
 mccabe==0.6.1
 packaging==20.4
-paho-mqtt==1.5.1
+paho-mqtt==1.6.0
 pathtools==0.1.2
 pkg-resources==0.0.0
 pkginfo==1.5.0.1
