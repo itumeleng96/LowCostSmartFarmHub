@@ -43,7 +43,7 @@ pytz==2020.1
 PyYAML==5.3.1
 readme-renderer==26.0
 requests==2.24.0
-requests-toolbelt==0.9.1
+requests-toolbelt==0.10.1
 rfc3986==1.4.0
 RPi.version===2.0
 RPi.GPIO===0.7.0
