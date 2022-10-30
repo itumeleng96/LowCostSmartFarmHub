@@ -54,7 +54,7 @@ Sphinx==1.8.5
 sphinxcontrib-serializinghtml==1.1.4
 sphinxcontrib-websupport==1.2.4
 sphinxcontrib-napoleon===0.7
-srp==1.0.16
+srp==1.0.20
 toml==0.10.1
 tox==3.14.0
 tqdm==4.50.0
