@@ -56,7 +56,7 @@ sphinxcontrib-websupport==1.2.4
 sphinxcontrib-napoleon===0.7
 srp==1.0.16
 toml==0.10.1
-tox==3.14.0
+tox==4.0.12
 tqdm==4.50.0
 twine==3.2.0
 urllib3==1.25.10
