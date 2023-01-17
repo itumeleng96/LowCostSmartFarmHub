@@ -24,7 +24,7 @@ jeepney==0.4.3
 Jinja2==2.11.2
 keyring==21.4.0
 LowCostSmartFarmHub
-MarkupSafe==1.1.1
+MarkupSafe==2.1.2
 mccabe==0.6.1
 packaging==20.4
 paho-mqtt==1.5.1
