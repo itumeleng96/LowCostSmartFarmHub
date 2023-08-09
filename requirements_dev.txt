@@ -52,7 +52,7 @@ six==1.15.0
 snowballstemmer==2.0.0
 Sphinx==1.8.5
 sphinxcontrib-serializinghtml==1.1.4
-sphinxcontrib-websupport==1.2.4
+sphinxcontrib-websupport==1.2.6
 sphinxcontrib-napoleon===0.7
 srp==1.0.16
 toml==0.10.1
